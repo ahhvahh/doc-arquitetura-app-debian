@@ -13,7 +13,7 @@
 - [ ] Auditoria exaustiva: PCH/ACT, OBJ/NOBJ, CON/ASM, OPEN e DSC, badges, links, IDs e estados.
 - [ ] Recuperação seletiva por documento/ID para economizar contexto sem truncar evidencias.
 - [ ] Catalogo de modelos, quantizações, tamanhos em disco/RAM e verificacao do download.
-- [ ] Perguntas iterativas, diffs e aprovacao antes de qualquer alteração documental.
-- [ ] Interface local TUI/GUI e testes com repositório cliente real.
+- [x] MVP de chat no terminal, diff de propostas e aprovações distintas para aplicação local, commit e push.\n- [ ] Completar validações semânticas, gates e recuperação seletiva por documento para toda a árvore.
+- [x] Menu e chat CLI local sem interface Web.\n- [ ] Teste integrado com GitHub real e llama-server; concluir testes por etapa e sessão.
 
 **Gate:** READY_FOR_SCOPE so pode ser reportado apos revisar *toda a baseline normativa* pela regra charter-review.md e comprovar ausência de bloqueadores. Parecer isolado do modelo equivale a REVIEW_REQUIRED, nunca aprovação.

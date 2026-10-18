@@ -18,7 +18,7 @@ O modo `sync` baixa a referência `doc-arquitetura/main` e a branch `develop` do
 
 `package.yaml` é o contrato de build consumido pelo `build-package.sh` externo. O modo `package` valida os testes Go e publica o CLI em `/usr/bin/doc-arquitetura`, junto da DSL Charter em `/usr/share/doc-arquitetura-app/dsl/charter.pcdsl`.
 
-`routes`, `check`, `analyze`, `clone`, `serve`, `sync`, `convert`, `model` e `review-bundle` são comandos do MVP. `check` aplica as regras Charter locais; `review-bundle` ainda é preliminar. Modelos GGUF e `llama-server` não integram o pacote.
+`routes`, `check`, `analyze`, `clone`, `sync`, `convert`, `model` e `review-bundle` são comandos do MVP. `check` aplica as regras Charter locais; `review-bundle` ainda é preliminar. Modelos GGUF e `llama-server` não integram o pacote.
 
 Consulte [arquitetura](docs/ARCHITECTURE.md) e [plano de implementação](docs/IMPLEMENTATION-PLAN.md).
 
@@ -32,3 +32,13 @@ go run . reference update
 go run . dsl update
 go run . dsl status
 ```
+
+## Sessões documentais pelo terminal
+
+Execute `doc-arquitetura` para iniciar um menu local ou `doc-arquitetura terminal --repo https://github.com/OWNER/REPO --branch develop --area charter` para pular a seleção. O aplicativo consulta branches do GitHub, escolhe Charter, Scope ou Implementation, atualiza a referência normativa em `main` e abre um chat com o `llama-server` local. O servidor de interface Web anterior foi removido.
+
+Comandos internos do chat: `/status`, `/files`, `/diff`, `/apply`, `/validate`, `/commit`, `/push`, `/help` e `/exit`.
+
+**Publicação:** alterações do modelo são propostas; `/apply` exige autorização e edita somente o clone local. `/commit` exige validação estrutural inicial e confirmação; `/push` exige outra confirmação, uma única revisão local e que `develop` remoto não tenha sido modificado desde a clonagem. Outras branches são consultáveis, mas não permitem escrita. Não execute comandos Git diretamente a partir de respostas do modelo.
+
+As sessões ficam em `DOC_ARQUITETURA_STATE_DIR` (ou `~/.local/state/doc-arquitetura`), com clones em `workspaces/`; os históricos são preservados para retomada. O modelo deve estar em execução em `http://127.0.0.1:8080` ou na API informada por `--api`. A validação implementada é apenas estrutural; ainda é necessário completar a auditoria semântica e o gate normativo antes de declarar a documentação refinada ou implementada.

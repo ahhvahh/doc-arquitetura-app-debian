@@ -6,7 +6,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"html/template"
 	"io"
 	"io/fs"
 	"net/http"
@@ -467,38 +466,6 @@ func llmReview(r Report, d DSL, api, normativePrompt string) (string, error) {
 	}
 	return out.Choices[0].Message.Content, nil
 }
-func appWeb(addr string, d DSL) error {
-	t := template.Must(template.New("page").Parse(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>BIOMA · Charter Check</title><style>body{font-family:system-ui,sans-serif;background:#111b23;color:#edf5ef;max-width:860px;margin:24px auto;padding:0 20px}input{padding:12px;width:100%;box-sizing:border-box;border-radius:8px;border:1px solid #456;background:#eef;color:#123}button{background:#81dba9;color:#073b29;border:0;padding:12px 25px;border-radius:8px;margin-top:12px;cursor:pointer}code,pre{white-space:pre-wrap;overflow-wrap:anywhere}pre{background:#202e36;padding:16px;border-radius:8px}.muted{color:#a9c0b7}</style></head><body><h1>BIOMA · Charter Check</h1><p class="muted">Avaliação local, somente leitura. Não substitui auditoria do Charter.</p><form method="POST"><label>Diretório do repositório cliente (já clonado)<input name="repo" required value="{{.Repo}}" placeholder="/home/usuario/projetos/cliente"></label><button>Analisar</button></form>{{if .Output}}<h2>Resultado preliminar</h2><pre>{{.Output}}</pre>{{end}}</body></html>`))
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/" {
-			http.NotFound(w, r)
-			return
-		}
-		if r.Method != http.MethodGet && r.Method != http.MethodPost {
-			w.WriteHeader(405)
-			return
-		}
-		v := struct{ Repo, Output string }{}
-		if r.Method == http.MethodPost {
-			r.Body = http.MaxBytesReader(w, r.Body, 16*1024)
-			if e := r.ParseForm(); e != nil {
-				http.Error(w, "formulario invalido", 400)
-				return
-			}
-			v.Repo = r.FormValue("repo")
-			abs, e := filepath.Abs(v.Repo)
-			if e != nil {
-				v.Output = e.Error()
-			} else {
-				v.Output = asPretty(runChecks(abs, d))
-			}
-		}
-		_ = t.Execute(w, v)
-	})
-	fmt.Println("Interface local: http://" + addr)
-	return http.ListenAndServe(addr, mux)
-}
 func asPretty(r Report) string { b, _ := json.MarshalIndent(r, "", "  "); return string(b) }
 // defaultDSLPath selects the CLI rules installed by the Debian package.
 // DOC_ARQUITETURA_DSL and the explicit -dsl option allow overriding them.
@@ -513,6 +480,12 @@ func defaultDSLPath() string {
  return "dsl/charter.pcdsl"
 }
 func main() {
+ if len(os.Args)==1 || os.Args[1]=="terminal" {
+  var args []string
+  if len(os.Args)>1 { args=os.Args[2:] }
+  if err:=runTerminal(args);err!=nil {fmt.Fprintln(os.Stderr,err);os.Exit(1)}
+  return
+ }
  if len(os.Args)>1 && (os.Args[1]=="models" || os.Args[1]=="reference" || os.Args[1]=="dsl") {
   if err:=managedCommand(os.Args[1:]);err!=nil {fmt.Fprintln(os.Stderr,err);os.Exit(1)}
   return
@@ -523,7 +496,7 @@ func main() {
  }
 
 	if len(os.Args) < 2 {
-		fmt.Fprintln(os.Stderr, "Uso: bioma-charter-check <check|analyze|clone|serve|routes> [opcoes]")
+		fmt.Fprintln(os.Stderr, "Uso: doc-arquitetura [terminal] | <check|analyze|clone|routes|models|reference|dsl> [opcoes]")
 		os.Exit(2)
 	}
 	command := os.Args[1]
@@ -536,7 +509,6 @@ func main() {
 	route := fs.String("route", "fechamento", "rota a executar: routes lista as opcoes")
 	gitURL := fs.String("url", "", "URL GitHub do cliente")
 	destination := fs.String("dest", "", "destino de clonagem")
-	addr := fs.String("listen", "127.0.0.1:8092", "endereco da interface local")
 	_ = fs.Parse(os.Args[2:])
 	if command == "clone" {
 		if *destination == "" || *gitURL == "" {
@@ -584,11 +556,6 @@ func main() {
 				os.Exit(3)
 			}
 			fmt.Println("\nAnalise semantica do modelo (nao autoritativa):\n" + s)
-		}
-	case "serve":
-		if e := appWeb(*addr, d); e != nil {
-			fmt.Fprintln(os.Stderr, e)
-			os.Exit(1)
 		}
 	default:
 		fmt.Fprintln(os.Stderr, "Comando desconhecido:", command)

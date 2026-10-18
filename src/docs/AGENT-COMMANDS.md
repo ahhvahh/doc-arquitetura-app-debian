@@ -53,3 +53,15 @@ Aceita `DOC_ARQUITETURA_DATA_DIR`, `DOC_ARQUITETURA_CACHE_DIR`, `DOC_ARQUITETURA
 - O comando `review-bundle` ainda usa a limitação de contexto do MVP.
 - Testes locais não dependem de rede; downloads reais e inferência devem ser validados no host de instalação.
 - Não editar a branch `main` do repositório normativo.
+## Chat documental no terminal (MVP)
+
+```sh
+doc-arquitetura
+doc-arquitetura terminal --repo https://github.com/OWNER/REPO --branch develop --area scope --api http://127.0.0.1:8080
+```
+
+O menu descobre branches remotas e permite escolher Charter, Scope ou Implementation. Os prompts são carregados da referência normativa `main` versionada pelo SHA da sessão. O agente envia propostas JSON para documentos Markdown na etapa escolhida; respostas da LLM jamais são comandos shell/Git executáveis.
+
+Comandos no chat: `/help`, `/files`, `/status`, `/diff`, `/apply`, `/validate`, `/commit`, `/push`, `/exit`. Edições locais exigem confirmação via `/apply`. Commit e push possuem confirmações independentes. O push depende de confirmação de que `origin/develop` continua no SHA original e não usa force. Se a branch selecionada não for `develop`, a sessão é somente leitura e os comandos de escrita retornam erro.
+
+**Limitações:** a validação antes do commit cobre alterações restritas a Markdown na etapa escolhida, H1, badges e checagem `git diff --check`; não substitui revisão normativa completa de Charter, Scope e Implementation. Arquivos maiores que o contexto admitido não são enviados integralmente e não podem ser substituídos pelo agente. Testes de integração com GitHub remoto e modelos reais não realizados nesta entrega.
