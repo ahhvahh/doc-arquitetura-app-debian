@@ -59,13 +59,20 @@ func convertCharter(source,destination,origin string)(int,error){
 
 func findCharter(repo string,reference bool)(string,error){
  choices:=[]string{"docs/ProjectCharter/1.0","docs/01-Project_Charter","ProjectCharter/1.0"}
+  if !reference {
+    docs:=filepath.Join(repo,"docs")
+    for _, area:=range []string{"charter","scope","implementation"} {
+      st,e:=os.Lstat(filepath.Join(docs,area))
+      if e==nil && st.IsDir() {return docs,nil}
+    }
+  }
  if reference {choices=[]string{"ProjectCharter/1.0"}}
  for _,s:=range choices{p:=filepath.Join(repo,filepath.FromSlash(s));if x,e:=os.Stat(p);e==nil&&x.IsDir(){return p,nil}}
- return "",errors.New("Documentacao ProjectCharter/1.0 nao encontrada")
+ return "",errors.New("documentação não encontrada: esperado /docs/{charter,scope,implementation} no projeto-alvo ou ProjectCharter/1.0 na referência normativa")
 }
 
 func cloneReference(ref,dest string)error{
- if ref!="main"&&ref!="develop"{return errors.New("referencia somente main ou develop")}
+ if ref!="main"{return errors.New("referencia normativa permitida somente na branch main")}
  if _,e:=os.Stat(dest);e==nil{return errors.New("destino ja existe: "+dest)}
  if e:=os.MkdirAll(filepath.Dir(dest),0755);e!=nil{return e}
  ctx,cancel:=context.WithTimeout(context.Background(),4*time.Minute);defer cancel()
@@ -91,7 +98,7 @@ func runExtra(args []string)error{
  f:=flag.NewFlagSet(args[0],flag.ContinueOnError)
  target:=f.String("target","","URL GitHub do cliente")
  work:=f.String("workspace","./workspace","workspace local")
- ref:=f.String("norm-ref","main","main normativa ou develop experimental")
+ ref:=f.String("norm-ref","main","referencia normativa: somente main")
  src:=f.String("source","","pasta Charter a converter")
  out:=f.String("output","","arquivo .pcdsl")
  origin:=f.String("origin","local","origem dos arquivos")
@@ -103,7 +110,7 @@ func runExtra(args []string)error{
  switch args[0]{
  case "sync":
   if *target==""{return errors.New("sync exige -target")}
-  if *ref!="main"&&*ref!="develop"{return errors.New("-norm-ref: main ou develop")}
+  if *ref!="main"{return errors.New("-norm-ref deve ser main")}
   root,e:=filepath.Abs(*work);if e!=nil{return e}
   client:=filepath.Join(root,"client");reference:=filepath.Join(root,"reference")
   if e=cloneRepo(*target,"develop",client);e!=nil{return e}

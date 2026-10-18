@@ -34,21 +34,21 @@ func TestValidBranch(t *testing.T) {
 func TestDocPathAndSymlink(t *testing.T) {
 	root := t.TempDir()
 	s := terminalSession{Workspace: root, Area: "scope"}
-	base := "docs/ProjectCharter/1.0/scope/"
+	base := "docs/scope/"
 	for _, p := range []string{base + "README.md", base + "types/TYPE-001.md"} {
 		if !isDocPath(s, p) {
 			t.Errorf("rejected %s", p)
 		}
 	}
-	for _, p := range []string{"src/main.go", "docs/ProjectCharter/1.0/charter/foo.md", base + "../../charter/x.md", base + "x.txt", "/tmp/file.md"} {
+	for _, p := range []string{"src/main.go", "docs/charter/foo.md", base + "../../charter/x.md", base + "x.txt", "docs/ProjectCharter/1.0/scope/wrong.md", "/tmp/file.md"} {
 		if isDocPath(s, p) {
 			t.Errorf("accepted %s", p)
 		}
 	}
-	if err := os.MkdirAll(filepath.Join(root, "docs", "ProjectCharter", "1.0"), 0700); err != nil {
+	if err := os.MkdirAll(filepath.Join(root, "docs"), 0700); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.Symlink(t.TempDir(), filepath.Join(root, "docs", "ProjectCharter", "1.0", "scope")); err != nil {
+	if err := os.Symlink(t.TempDir(), filepath.Join(root, "docs", "scope")); err != nil {
 		t.Fatal(err)
 	}
 	if _, err := safeDocFile(s, base+"README.md"); err == nil {
@@ -59,7 +59,7 @@ func TestDiffForNewFile(t *testing.T) {
 	root := t.TempDir()
 	session := terminalSession{Workspace: root, Area: "charter"}
 	var output bytes.Buffer
-	app := terminalApp{out: &output, paths: appPaths{Temp: root}, session: session, proposals: []documentEdit{{Path: "docs/ProjectCharter/1.0/charter/TEST.md", Content: "# Test\n", Reason: "new"}}}
+	app := terminalApp{out: &output, paths: appPaths{Temp: root}, session: session, proposals: []documentEdit{{Path: "docs/charter/TEST.md", Content: "# Test\n", Reason: "new"}}}
 	if err := app.diffProposals(); err != nil {
 		t.Fatal(err)
 	}
@@ -73,4 +73,17 @@ func TestValidationRejectsOtherSteps(t *testing.T) {
 	if _, err := app.changedPaths(); err == nil {
 		t.Fatal("should fail for non-git root")
 	}
+}
+
+func TestLegacyDocumentationLocations(t *testing.T) {
+    root := t.TempDir()
+    old := filepath.Join(root, "docs", "ProjectCharter", "1.0", "scope")
+    if err := os.MkdirAll(old, 0700); err != nil { t.Fatal(err) }
+    found := legacyDocumentationLocations(root, "scope")
+    if len(found) != 1 || found[0] != "docs/ProjectCharter/1.0/scope" {
+        t.Fatalf("legacy folders: %v", found)
+    }
+    if got := legacyDocumentationLocations(root, "charter"); len(got) != 0 {
+        t.Fatalf("unrelated area: %v", got)
+    }
 }

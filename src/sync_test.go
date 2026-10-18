@@ -10,3 +10,23 @@ func TestConvertCharter(t *testing.T) {
  n,e:=convertCharter(source,out,"teste");if e!=nil||n!=1{t.Fatalf("%d %v",n,e)}
  b,e:=os.ReadFile(out);if e!=nil||!strings.Contains(string(b),"PCDSL-DOCS 1") {t.Fatal(e)}
 }
+
+func TestFindCharterDirectDocs(t *testing.T) {
+ root:=t.TempDir()
+ direct:=filepath.Join(root,"docs","scope")
+ legacy:=filepath.Join(root,"docs","ProjectCharter","1.0","scope")
+ if err:=os.MkdirAll(direct,0700);err!=nil{t.Fatal(err)}
+ if err:=os.MkdirAll(legacy,0700);err!=nil{t.Fatal(err)}
+ found,err:=findCharter(root,false)
+ if err!=nil || found!=filepath.Join(root,"docs"){t.Fatalf("should prefer direct docs root: %q, %v",found,err)}
+ // Normative source remains versioned; do not confuse it with target /docs.
+ norm:=filepath.Join(root,"ProjectCharter","1.0")
+ if err=os.MkdirAll(norm,0700);err!=nil{t.Fatal(err)}
+ found,err=findCharter(root,true)
+ if err!=nil || found!=norm{t.Fatalf("normative path changed: %q, %v",found,err)}
+}
+func TestReferenceRejectsDevelop(t *testing.T) {
+ if err:=cloneReference("develop",filepath.Join(t.TempDir(),"reference"));err==nil {
+  t.Fatal("normative develop must never be used")
+ }
+}

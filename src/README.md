@@ -42,3 +42,10 @@ Comandos internos do chat: `/status`, `/files`, `/diff`, `/apply`, `/validate`, 
 **Publicação:** alterações do modelo são propostas; `/apply` exige autorização e edita somente o clone local. `/commit` exige validação estrutural inicial e confirmação; `/push` exige outra confirmação, uma única revisão local e que `develop` remoto não tenha sido modificado desde a clonagem. Outras branches são consultáveis, mas não permitem escrita. Não execute comandos Git diretamente a partir de respostas do modelo.
 
 As sessões ficam em `DOC_ARQUITETURA_STATE_DIR` (ou `~/.local/state/doc-arquitetura`), com clones em `workspaces/`; os históricos são preservados para retomada. O modelo deve estar em execução em `http://127.0.0.1:8080` ou na API informada por `--api`. A validação implementada é apenas estrutural; ainda é necessário completar a auditoria semântica e o gate normativo antes de declarar a documentação refinada ou implementada.
+
+
+## Estrutura documental do projeto-alvo
+
+A documentação do projeto-alvo deve estar diretamente em `/docs/charter/`, `/docs/scope/`, `/docs/implementation/` e `/docs/assets/`, **sem** `docs/ProjectCharter/1.0/`. A referência `ProjectCharter/1.0` existe somente na `main` do repositório normativo `ahhvahh/doc-arquitetura`.
+
+O editor de terminal exige esses diretórios e bloqueia o commit se encontrar a etapa selecionada em uma das antigas localizações conhecidas. A migração requer aprovação, atualização de links e atualmente deve ser realizada fora do chat (não há migrador automático). Consulte [regras e comandos](docs/AGENT-COMMANDS.md).

@@ -65,3 +65,13 @@ O menu descobre branches remotas e permite escolher Charter, Scope ou Implementa
 Comandos no chat: `/help`, `/files`, `/status`, `/diff`, `/apply`, `/validate`, `/commit`, `/push`, `/exit`. Edições locais exigem confirmação via `/apply`. Commit e push possuem confirmações independentes. O push depende de confirmação de que `origin/develop` continua no SHA original e não usa force. Se a branch selecionada não for `develop`, a sessão é somente leitura e os comandos de escrita retornam erro.
 
 **Limitações:** a validação antes do commit cobre alterações restritas a Markdown na etapa escolhida, H1, badges e checagem `git diff --check`; não substitui revisão normativa completa de Charter, Scope e Implementation. Arquivos maiores que o contexto admitido não são enviados integralmente e não podem ser substituídos pelo agente. Testes de integração com GitHub remoto e modelos reais não realizados nesta entrega.
+
+## Destino obrigatório da documentação do projeto-alvo
+
+O repositório normativo é `ahhvahh/doc-arquitetura`, branch **main**, diretório **`ProjectCharter/1.0/`**. Esse caminho é a **origem das regras**, e **não deve ser reproduzido no projeto-alvo**.
+
+No projeto-alvo, os documentos ficam diretamente em `/docs/charter/`, `/docs/scope/`, `/docs/implementation/` e `/docs/assets/`, com índice em `/docs/README.md`. Nunca gere o nível intermediário `docs/ProjectCharter/1.0/`. O aplicativo aplica essa regra no prompt de sistema e na validação do caminho proposto pelo modelo; `main` do projeto-alvo nunca é editada.
+
+Se uma etapa possuir documentos nas estruturas legadas `docs/ProjectCharter/1.0/`, `docs/01-Project_Charter/` ou `ProjectCharter/1.0/`, o terminal avisa e bloqueia o commit até que os documentos sejam migrados com matriz origem → destino, links corrigidos e autorização explícita. **A migração automática ainda não está implementada**. A análise e a apresentação de propostas não removem arquivos legados.
+
+O comando `sync` prioriza `docs/` quando encontra as etapas nesse diretório; estruturas legadas são lidas como fallback para diagnóstico. A referência normativa do comando `sync` aceita somente `--norm-ref main`.
