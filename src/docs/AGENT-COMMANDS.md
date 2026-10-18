@@ -75,3 +75,29 @@ No projeto-alvo, os documentos ficam diretamente em `/docs/charter/`, `/docs/sco
 Se uma etapa possuir documentos nas estruturas legadas `docs/ProjectCharter/1.0/`, `docs/01-Project_Charter/` ou `ProjectCharter/1.0/`, o terminal avisa e bloqueia o commit até que os documentos sejam migrados com matriz origem → destino, links corrigidos e autorização explícita. **A migração automática ainda não está implementada**. A análise e a apresentação de propostas não removem arquivos legados.
 
 O comando `sync` prioriza `docs/` quando encontra as etapas nesse diretório; estruturas legadas são lidas como fallback para diagnóstico. A referência normativa do comando `sync` aceita somente `--norm-ref main`.
+
+## Escolher prompts e reutilizar documentação no terminal
+
+Após selecionar um repositório e uma das etapas `charter`, `scope` ou `implementation`, o programa apresenta os prompts `.md` especializados da referência versionada **`ahhvahh/doc-arquitetura/main/ProjectCharter/1.0/<etapa>/prompts/`**. A seleção fica associada à sessão e é incluída na mensagem do modelo local com o AGENT-PROMPT da etapa.
+
+```text
+/prompts                    # catálogo da etapa
+/prompt select              # selecionar um prompt
+/prompt show                # ver prompt selecionado
+/prompt reset               # limpar seleção
+/backup plan                # listar arquivos elegíveis e tamanhos
+/backup add docs/legado     # incluir uma fonte documental adicional
+/backup create              # gerar snapshot confirmado
+/migration plan             # mostrar destinos sugeridos e conflitos
+/diff                       # mostrar alterações propostas
+/apply                      # aprovar edição dos documentos ativos
+/validate
+/commit
+/push
+```
+
+**Backup obrigatório:** `/docs/backup/<UTC>-<sha-base-curto>/`, com `manifest.json` e `original/<caminho relativo de origem>`. A cópia preserva bytes, caminhos, hashes SHA-256 e referência do commit-base. A ferramenta só cria backup após confirmação expressa e quando a branch é `develop` e o workspace está limpo. A verificação do manifesto/hash impede que o agente edite o histórico. O diretório é incluído no commit autorizado, mas excluído da compilação DSL do projeto e dos gates de documentação ativa. Limites iniciais: 300 arquivos, 4 MiB por arquivo e 32 MiB por snapshot.
+
+A função de inventário inclui as pastas canônicas e legadas conhecidas da etapa, além das fontes adicionadas pelo usuário. **O operador deve conferir se existem segredos/dados sensíveis antes de aprovar o backup ou push**. Migração e substituição de documentos são propostas pelo agente especializado; sem snapshot aprovado, `/apply` recusa propostas de prompt `legacy-*`. `/migration plan` não move nem apaga automaticamente os originais; a limpeza do legado exige operação própria futura e autorização independente.
+
+A referência normativa é sempre `main` (somente leitura). Um prompt novo publicado apenas em `doc-arquitetura/develop` não aparece até ser promovido à `main`.

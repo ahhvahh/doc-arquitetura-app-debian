@@ -87,3 +87,10 @@ func TestLegacyDocumentationLocations(t *testing.T) {
         t.Fatalf("unrelated area: %v", got)
     }
 }
+
+func TestBackupPathNotAgentEditable(t *testing.T) {
+    s:=terminalSession{Workspace:t.TempDir(),Area:"scope"}
+    for _,path:=range []string{"docs/backup/a/manifest.json","docs/backup/a/original/docs/scope/README.md","docs/charter/README.md"}{
+        if isDocPath(s,path) {t.Fatalf("agente conseguiu escrever em %s",path)}
+    }
+}

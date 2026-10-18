@@ -39,7 +39,12 @@ func compactDoc(input string) string {
 func convertCharter(source,destination,origin string)(int,error){
  var docs []string
  err:=filepath.WalkDir(source,func(p string,d fs.DirEntry,e error)error{
-  if e!=nil{return e};if d.Type()&os.ModeSymlink!=0{return nil};if d.IsDir(){return nil}
+  if e!=nil{return e};if d.Type()&os.ModeSymlink!=0{return nil};if d.IsDir(){
+       relative,er:=filepath.Rel(source,p);if er!=nil{return er}
+       normalized:=filepath.ToSlash(relative)
+       if normalized=="backup"||strings.HasPrefix(normalized,"backup/"){return filepath.SkipDir}
+       return nil
+     }
   if strings.HasSuffix(strings.ToLower(p),".md"){docs=append(docs,p)};return nil
  });if err!=nil{return 0,err};if len(docs)==0{return 0,errors.New("Charter nao contem Markdown")}
  sort.Strings(docs)

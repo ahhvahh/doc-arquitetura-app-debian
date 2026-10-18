@@ -30,3 +30,19 @@ func TestReferenceRejectsDevelop(t *testing.T) {
   t.Fatal("normative develop must never be used")
  }
 }
+
+func TestConvertExcludesBackupDirectory(t *testing.T) {
+    root:=t.TempDir()
+    docs:=filepath.Join(root,"docs")
+    active:=filepath.Join(docs,"charter","README.md")
+    legacy:=filepath.Join(docs,"backup","snapshot","original","docs","charter","OBJ-001.md")
+    for _,p:=range []string{active,legacy}{
+        if err:=os.MkdirAll(filepath.Dir(p),0700);err!=nil{t.Fatal(err)}
+        if err:=os.WriteFile(p,[]byte("# Teste\\n"),0600);err!=nil{t.Fatal(err)}
+    }
+    output:=filepath.Join(t.TempDir(),"bundle.pcdsl")
+    n,err:=convertCharter(docs,output,"target")
+    if err!=nil || n!=1 {t.Fatalf("deve excluir backup: %d %v",n,err)}
+    b,err:=os.ReadFile(output)
+    if err!=nil || strings.Contains(string(b),"OBJ-001.md"){t.Fatalf("backup incluido no bundle: %v",err)}
+}

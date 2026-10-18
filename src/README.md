@@ -49,3 +49,8 @@ As sessões ficam em `DOC_ARQUITETURA_STATE_DIR` (ou `~/.local/state/doc-arquite
 A documentação do projeto-alvo deve estar diretamente em `/docs/charter/`, `/docs/scope/`, `/docs/implementation/` e `/docs/assets/`, **sem** `docs/ProjectCharter/1.0/`. A referência `ProjectCharter/1.0` existe somente na `main` do repositório normativo `ahhvahh/doc-arquitetura`.
 
 O editor de terminal exige esses diretórios e bloqueia o commit se encontrar a etapa selecionada em uma das antigas localizações conhecidas. A migração requer aprovação, atualização de links e atualmente deve ser realizada fora do chat (não há migrador automático). Consulte [regras e comandos](docs/AGENT-COMMANDS.md).
+
+
+## Seleção de prompts e migração com backup
+
+O aplicativo oferece um seletor de prompts após o clone do projeto e os comandos `/prompts`, `/prompt select`, `/backup plan`, `/backup add <caminho>`, `/backup create` e `/migration plan`. O histórico de migração fica **exclusivamente em `/docs/backup/`**, acompanhado de `manifest.json`, SHA-256 e cópias fiéis dos documentos. Backups são criados com aprovação, incluídos no commit documental autorizado e excluídos da DSL ativa. A alteração dos documentos ativos depende de `/apply`, seguida de validação e aprovações independentes de commit/push. O agente não apaga automaticamente originais legados.

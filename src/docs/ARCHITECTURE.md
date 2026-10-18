@@ -12,3 +12,6 @@
 **Restricao importante:** a compactação estrutural é parcial e nao substitui a leitura integral da documentacao normativa. O clone de main e a referencia; se desenvolver regras em develop, registrar REFERENCE_DIVERGENCE.
 
 **Layout no projeto-alvo:** documentos ficam diretamente em `docs/charter/`, `docs/scope/`, `docs/implementation/` e `docs/assets/`; `ProjectCharter/1.0` pertence exclusivamente à árvore normativa. O editor de terminal recusa propostas fora da etapa em `docs/<area>/`; diretórios legados conhecidos bloqueiam o commit até migração aprovada, ainda manual. A referência normativa é consultada somente na branch `main`; a escrita do projeto-alvo continua exclusiva de `develop`.
+
+
+**Novidade — terminal documental:** prompts especializados selecionáveis da referência `main` versionada, chat com agente, plano de migração e snapshots confirmados em `/docs/backup/<id>/`. Cada snapshot possui manifesto/hashes e cópias `original/<origem>`; o modelo somente pode propor edição de Markdown em `/docs/<etapa>/`. O commit pode incluir arquivos de backup somente se o snapshot registrado na sessão for revalidado. O conversor do projeto-alvo exclui `/docs/backup/`; a limpeza do legado continua não automática.
