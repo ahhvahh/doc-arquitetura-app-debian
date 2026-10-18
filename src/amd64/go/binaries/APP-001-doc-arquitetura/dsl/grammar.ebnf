@@ -1,0 +1,10 @@
+bundle = "PCDSL-DOCS 1", NL, origin, NL, numberOfDocuments, NL, { document } ;
+origin = "ORIGIN ", text ;
+numberOfDocuments = "DOCUMENTS ", integer ;
+document = "DOC ", quotedPath, " ", sha256, " ", status, " ", integer, NL, utf8Payload, NL ;
+(* utf8Payload tem exatamente o comprimento UTF-8 indicado pelo ultimo integer. *)
+quotedPath = JSON_String ;
+status = "unknown" | "backlog" | "refinement" | "refined" | "implemented" | "cancelled" ;
+sha256 = 64 * HEX ;
+integer = DIGIT, { DIGIT } ;
+NL = "\n" ;

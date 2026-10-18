@@ -1,0 +1,37 @@
+# ProjectCharter DSL v0.1 — subconjunto operacional do Charter.
+# ORIGEM: ahhvahh/doc-arquitetura, develop@bde79df99bff1a1f6f7fb12bfcfb5cb81c598585
+# ATENCAO: nao substitui a norma Markdown nem o julgamento humano.
+PCDSL 1
+BASE docs/ProjectCharter/1.0/charter
+POL target=explicit_github_url
+POL branch=develop
+POL reference=ahhvahh/doc-arquitetura@main:read_only
+POL write=explicit_diff_approval+head_sha+develop_only
+POL unknown=ask_user+block_dependent_action
+POL no_inference=true
+POL source_of_truth=normative_markdown
+ROUTE entrada|project-intake-review.md
+ROUTE existente|existing-project-catalog.md
+ROUTE migracao|legacy-charter-migration.md
+ROUTE refinamento|charter-refinement.md
+ROUTE fechamento|charter-review.md
+ROUTE objetivos|objective-refinement.md
+ROUTE exclusoes|non-objective-refinement.md
+ROUTE condicoes|constraint-assumption-refinement.md
+ROUTE questoes|open-question-resolution.md
+ROUTE descoberta|discovery-refinement.md
+CHECK CH-001|BLOCKER|exists|README.md|README com proposito do Charter
+CHECK CH-002|BLOCKER|min_docs|objectives/OBJ-*.md:1|Ao menos um objetivo verificavel
+CHECK CH-003|BLOCKER|min_docs|project-context/PCH-*.md:1|Contexto de projeto e atores
+CHECK CH-004|BLOCKER|statuses|.|Documentos canonicos devem estar refined ou implemented
+CHECK CH-005|BLOCKER|no_pending|README.md|Proposito nao pode conter PENDING
+CHECK CH-006|BLOCKER|links|.|Links internos devem apontar para arquivos existentes
+CHECK CH-007|BLOCKER|badges|.|Documentos devem conter tipo/status/versao
+CHECK CH-008|BLOCKER|unique_ids|.|IDs de arquivos canonicos nao podem colidir
+CHECK CH-009|REVIEW|semantic|README.md|Validar problema, proposito, beneficiarios e valor
+CHECK CH-010|REVIEW|semantic|objectives|Validar OBJ com motivacao, resultado e criterio verificavel
+CHECK CH-011|REVIEW|semantic|non-objectives|Verificar NOBJ, efeitos e responsabilidades
+CHECK CH-012|REVIEW|semantic|conditions|Confirmar CON/ASM e criterios de validade
+CHECK CH-013|REVIEW|semantic|open-questions|Confirmar inexistencia de OPEN bloqueadora
+CHECK CH-014|REVIEW|semantic|discovery|Confirmar DSC com fonte oficial, versoes e conclusao
+CHECK CH-015|REVIEW|semantic|project-context|Confirmar stakeholders e ACT canonicos

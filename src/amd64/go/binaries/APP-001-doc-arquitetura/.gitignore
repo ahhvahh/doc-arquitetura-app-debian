@@ -1,0 +1,5 @@
+workspace/
+*.gguf
+*.deb
+coverage.out
+doc-arquitetura
