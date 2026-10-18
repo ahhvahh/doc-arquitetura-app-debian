@@ -21,3 +21,14 @@ O modo `sync` baixa a referência `doc-arquitetura/main` e a branch `develop` do
 `routes`, `check`, `analyze`, `clone`, `serve`, `sync`, `convert`, `model` e `review-bundle` são comandos do MVP. `check` aplica as regras Charter locais; `review-bundle` ainda é preliminar. Modelos GGUF e `llama-server` não integram o pacote.
 
 Consulte [arquitetura](docs/ARCHITECTURE.md) e [plano de implementação](docs/IMPLEMENTATION-PLAN.md).
+
+## Novos comandos locais
+
+Consulte [Modelos e DSL](docs/AGENT-COMMANDS.md) para instalar modelos GGUF, associar modelos a agentes, consultar a referência `main` e compilar DSL versionada.
+
+```sh
+go run . models catalog
+go run . reference update
+go run . dsl update
+go run . dsl status
+```
