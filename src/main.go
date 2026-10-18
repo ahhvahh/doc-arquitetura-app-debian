@@ -500,6 +500,18 @@ func appWeb(addr string, d DSL) error {
 	return http.ListenAndServe(addr, mux)
 }
 func asPretty(r Report) string { b, _ := json.MarshalIndent(r, "", "  "); return string(b) }
+// defaultDSLPath selects the CLI rules installed by the Debian package.
+// DOC_ARQUITETURA_DSL and the explicit -dsl option allow overriding them.
+func defaultDSLPath() string {
+ if override := os.Getenv("DOC_ARQUITETURA_DSL"); override != "" {
+  return override
+ }
+ const installed = "/usr/share/doc-arquitetura-app/dsl/charter.pcdsl"
+ if _, err := os.Stat(installed); err == nil {
+  return installed
+ }
+ return "dsl/charter.pcdsl"
+}
 func main() {
  if len(os.Args)>1 && (os.Args[1]=="sync" || os.Args[1]=="convert" || os.Args[1]=="model" || os.Args[1]=="review-bundle") {
   if err:=runExtra(os.Args[1:]);err!=nil{fmt.Fprintln(os.Stderr,err);os.Exit(1)};return
@@ -512,7 +524,7 @@ func main() {
 	command := os.Args[1]
 	fs := flag.NewFlagSet(command, flag.ExitOnError)
 	repo := fs.String("repo", ".", "diretorio de projeto cliente")
-	dsl := fs.String("dsl", "dsl/charter.pcdsl", "regras DSL")
+	dsl := fs.String("dsl", defaultDSLPath(), "regras DSL")
 	jsonFlag := fs.Bool("json", false, "relatorio JSON")
 	localLLM := fs.String("llm", "http://127.0.0.1:8080", "URL do llama-server local")
 	norm := fs.String("norm", "", "raiz ProjectCharter/1.0 da referencia clonada (opcional)")
