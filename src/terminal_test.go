@@ -1,6 +1,7 @@
 package main
 
 import (
+    "bufio"
 	"bytes"
 	"os"
 	"path/filepath"
@@ -107,4 +108,51 @@ func TestCharterLegacyContextForOrdinaryReview(t *testing.T) {
        !strings.Contains(legacy,"Objetivo preexistente") {
         t.Fatalf("documentação antiga omitida do contexto: %q",legacy)
     }
+}
+
+func TestCloseSessionRetainsWorkspaceAndHistory(t *testing.T) {
+    root:=t.TempDir()
+    workspace:=filepath.Join(root,"workspaces","session-closed","repository")
+    if err:=os.MkdirAll(filepath.Join(workspace,".git"),0700);err!=nil{t.Fatal(err)}
+    var output bytes.Buffer
+    app:=terminalApp{
+        paths:appPaths{State:root},
+        out:&output,
+        session:terminalSession{
+            ID:"session-closed",Repo:"https://github.com/ahhvahh/a-bioma-sauva.git",
+            Branch:"ajusteDoc",Area:"charter",Workspace:workspace,
+        },
+        proposals:[]documentEdit{{Path:"docs/charter/test.md"}},
+    }
+    if err:=app.saveSession();err!=nil{t.Fatal(err)}
+    if err:=app.closeSession();err!=nil{t.Fatal(err)}
+    if app.session.ClosedAt=="" {t.Fatal("close timestamp missing")}
+    if len(app.proposals)!=0{t.Fatal("pending proposals retained after closing")}
+    if _,err:=os.Stat(filepath.Join(workspace,".git"));err!=nil{t.Fatal("workspace deleted",err)}
+    var saved terminalSession
+    if err:=readJSON(filepath.Join(root,"sessions","session-closed.json"),&saved);err!=nil{t.Fatal(err)}
+    if saved.ClosedAt==""{t.Fatal("close timestamp not persisted")}
+    if err:=app.closeSession();err==nil{t.Fatal("closed session accepted twice")}
+    // A closed session must no longer be listed for resumption.
+    app.in=bufio.NewReader(strings.NewReader("1\n"))
+    if err:=app.selectSession();err==nil{t.Fatal("closed session could be resumed")}
+}
+func TestCloseSavedSessionConfirmation(t *testing.T) {
+    root:=t.TempDir()
+    workspace:=filepath.Join(root,"workspaces","session-open","repository")
+    if err:=os.MkdirAll(filepath.Join(workspace,".git"),0700);err!=nil{t.Fatal(err)}
+    var output bytes.Buffer
+    app:=terminalApp{paths:appPaths{State:root},out:&output,
+        session:terminalSession{ID:"session-open",Repo:"https://github.com/ahhvahh/a-bioma-sauva.git",
+        Branch:"develop",Area:"charter",Workspace:workspace}}
+    if err:=app.saveSession();err!=nil{t.Fatal(err)}
+    app.in=bufio.NewReader(strings.NewReader("1\nNAO\n"))
+    if err:=app.closeSavedSession();err!=nil{t.Fatal(err)}
+    var saved terminalSession
+    if err:=readJSON(filepath.Join(root,"sessions","session-open.json"),&saved);err!=nil{t.Fatal(err)}
+    if saved.ClosedAt!=""{t.Fatal("session closed without confirmation")}
+    app.in=bufio.NewReader(strings.NewReader("1\nSIM\n"))
+    if err:=app.closeSavedSession();err!=nil{t.Fatal(err)}
+    if err:=readJSON(filepath.Join(root,"sessions","session-open.json"),&saved);err!=nil{t.Fatal(err)}
+    if saved.ClosedAt==""{t.Fatal("confirmed closure not persisted")}
 }

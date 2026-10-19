@@ -13,3 +13,5 @@ Esta documentação descreve o aplicativo migrado, não substitui a referência 
 - [Administração root e cadastro de usuários, grupos e credenciais GitHub](ADMIN-SETUP.md) — **refinement, não implementado**. Define `sudo doc-arquitetura admin` e `/etc/doc-arquitetura-app/config.yaml`.
 
 - [Conexão GitHub por arquivo local no aplicativo](GITHUB-CONFIG.md) — suporte à CLI legado, não usa configuração global do Git.
+
+- [Configuração local de contexto e encerramento de sessões](LOCAL-CONFIG.md) — recursos CLI da versão 0.2.3.

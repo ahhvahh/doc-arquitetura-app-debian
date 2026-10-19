@@ -485,6 +485,10 @@ func main() {
      if err:=githubAskPass();err!=nil{os.Exit(1)}
      return
  }
+ if len(os.Args)>1 && os.Args[1]=="config" {
+     if err:=localConfigCommand(os.Args[2:]);err!=nil{fmt.Fprintln(os.Stderr,err);os.Exit(1)}
+     return
+ }
  if len(os.Args)>1 && os.Args[1]=="github" {
      if err:=githubCommand(os.Args[2:]);err!=nil{fmt.Fprintln(os.Stderr,err);os.Exit(1)}
      return
@@ -505,7 +509,7 @@ func main() {
  }
 
 	if len(os.Args) < 2 {
-		fmt.Fprintln(os.Stderr, "Uso: doc-arquitetura [terminal] | <check|analyze|clone|routes|models|reference|dsl> [opcoes]")
+		fmt.Fprintln(os.Stderr, "Uso: doc-arquitetura [terminal] | <config|github|check|analyze|clone|routes|models|reference|dsl> [opcoes]")
 		os.Exit(2)
 	}
 	command := os.Args[1]

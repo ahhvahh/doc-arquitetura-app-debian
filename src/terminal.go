@@ -31,6 +31,7 @@ type terminalSession struct {
 	ReferenceSHA string `json:"reference_sha"`
 	Workspace    string `json:"workspace"`
 	CreatedAt    string `json:"created_at"`
+	ClosedAt     string `json:"closed_at,omitempty"`
 	Model        string `json:"model,omitempty"`
 	Prompt string `json:"prompt,omitempty"`
 	BackupID string `json:"backup_id,omitempty"`
@@ -213,12 +214,15 @@ func (a *terminalApp) selectSession() error {
 	}
 	var names []string
 	for _, v := range entries {
-		if strings.HasSuffix(v.Name(), ".json") {
-			names = append(names, strings.TrimSuffix(v.Name(), ".json"))
-		}
+        if !strings.HasSuffix(v.Name(), ".json") || !v.Type().IsRegular() {continue}
+        var candidate terminalSession
+        id:=strings.TrimSuffix(v.Name(),".json")
+        if err:=readJSON(filepath.Join(path,v.Name()),&candidate);err!=nil{continue}
+        if candidate.ID==id && candidate.ClosedAt=="" {names=append(names,id)}
 	}
 	sort.Strings(names)
-	id, err := a.choose("Sessões salvas:", names)
+    if len(names)==0{return errors.New("nenhuma sessão aberta; inicie um projeto GitHub")}
+	id, err := a.choose("Sessões abertas:", names)
 	if err != nil {
 		return err
 	}
@@ -226,7 +230,7 @@ func (a *terminalApp) selectSession() error {
 	if err = readJSON(filepath.Join(path, id+".json"), &sess); err != nil {
 		return err
 	}
-	if sess.ID != id || !docAreaRE.MatchString(sess.Area) || !validGitBranch(sess.Branch) {
+	if sess.ID != id || sess.ClosedAt!="" || !docAreaRE.MatchString(sess.Area) || !validGitBranch(sess.Branch) {
 		return errors.New("sessão salva inválida")
 	}
 	if _, err = normalizeGitHubURL(sess.Repo); err != nil {
@@ -242,6 +246,37 @@ func (a *terminalApp) selectSession() error {
 	}
 	a.session = sess
 	return nil
+}
+
+// A closed session is retained as an audit record but cannot be resumed.
+func (a *terminalApp) closeSession() error {
+    if a.session.ID==""{return errors.New("nenhuma sessão selecionada")}
+    if a.session.ClosedAt!=""{return errors.New("sessão já encerrada")}
+    a.session.ClosedAt=time.Now().UTC().Format(time.RFC3339)
+    if err:=a.saveSession();err!=nil {
+        a.session.ClosedAt=""
+        return err
+    }
+    a.modelStop()
+    a.proposals=nil
+    a.contextFiles=nil
+    fmt.Fprintf(a.out,"Sessão %s encerrada; workspace e histórico preservados, sem possibilidade de retomada pelo menu.\n",a.session.ID)
+    return nil
+}
+func (a *terminalApp) closeSavedSession() error {
+    a.session=terminalSession{}
+    if err:=a.selectSession();err!=nil{return err}
+    fmt.Fprintf(a.out,"Sessão selecionada: %s (%s, branch %s).\n",a.session.ID,a.session.Repo,a.session.Branch)
+    ok,err:=a.confirmation("Deseja encerrar esta sessão salva")
+    if err!=nil{return err}
+    if !ok {
+        fmt.Fprintln(a.out,"Sessão mantida aberta.")
+        a.session=terminalSession{}
+        return nil
+    }
+    err=a.closeSession()
+    a.session=terminalSession{}
+    return err
 }
 func (a *terminalApp) setup() error {
 	remote, err := a.ask("URL GitHub: ")
@@ -754,9 +789,21 @@ func (a *terminalApp) chat() error {
 		}
 		switch message {
 		case "/help":
-			fmt.Fprintln(a.out, "/status /files /model /model select /model clear /model start /model check /model stop /benchmark /prompts /prompt select /prompt show /prompt reset /backup plan /backup add <caminho> /backup create /migration plan /diff /apply /validate /commit /push /help /exit")
+			fmt.Fprintln(a.out, "/status /files /model /model select /model clear /model start /model check /model stop /benchmark /context /context set <tokens> /session close /prompts /prompt select /prompt show /prompt reset /backup plan /backup add <caminho> /backup create /migration plan /diff /apply /validate /commit /push /help /exit")
 		case "/exit":
+            fmt.Fprintln(a.out,"Chat encerrado; sessão salva permanece disponível para continuar.")
 			return nil
+        case "/session close":
+            if len(a.proposals)>0 {
+                fmt.Fprintf(a.out,"ATENÇÃO: %d proposta(s) não aplicada(s) serão descartadas da memória; o workspace será preservado.\n",len(a.proposals))
+            }
+            var confirmed bool
+            confirmed,err=a.confirmation("Encerrar definitivamente esta sessão salva")
+            if err==nil&&confirmed {
+                err=a.closeSession()
+                if err==nil{return nil}
+            }
+            if err==nil&&!confirmed{fmt.Fprintln(a.out,"Sessão mantida aberta.")}
 		case "/status":
 			fmt.Fprintf(a.out, "%s | %s | %s | modelo: %s | prompt: %s | backup: %s | propostas: %d\n",a.session.Repo,a.session.Branch,a.session.Area,a.session.Model,a.session.Prompt,a.session.BackupID,len(a.proposals))
         case "/model":
@@ -775,6 +822,8 @@ func (a *terminalApp) chat() error {
             fmt.Fprintln(a.out,"Servidor desta sessão encerrado (caso iniciado pelo aplicativo).")
         case "/benchmark":
             err=a.modelBenchmark()
+        case "/context":
+            err=localConfigCommand([]string{"show"})
         case "/prompts":
             err=a.showPrompts()
         case "/prompt select":
@@ -820,7 +869,18 @@ func (a *terminalApp) chat() error {
 		case "/push":
 			err = a.push()
         default:
-            if strings.HasPrefix(message,"/backup add "){
+            if strings.HasPrefix(message,"/context set "){
+                tokens:=strings.TrimSpace(strings.TrimPrefix(message,"/context set "))
+                err=localConfigCommand([]string{"set-context",tokens})
+                if err==nil {
+                    if _,hasOverride:=os.LookupEnv("DOC_ARQUITETURA_LLAMA_CONTEXT");hasOverride {
+                        _=os.Unsetenv("DOC_ARQUITETURA_LLAMA_CONTEXT")
+                        fmt.Fprintln(a.out,"Substituição de contexto via ambiente desativada nesta execução para aplicar o valor salvo.")
+                    }
+                    a.modelStop()
+                    fmt.Fprintln(a.out,"Runtime anterior encerrado; use /model start ou envie uma solicitação para iniciar com o novo contexto.")
+                }
+            } else if strings.HasPrefix(message,"/backup add "){
                 path:=strings.TrimSpace(strings.TrimPrefix(message,"/backup add "))
                 if a.session.BackupID!=""{err=errors.New("backup já criado; inicie nova sessão para acrescentar fontes")}else{
                     _,err=withinRepository(a.session.Workspace,path)
@@ -897,7 +957,7 @@ func runTerminal(args []string) error {
 		return errors.New("argumentos posicionais desconhecidos")
 	}
 	for {
-		choice, err := app.choose("Doc Arquitetura — Terminal", []string{"Iniciar projeto GitHub", "Continuar sessão", "Atualizar referência main e DSL", "Catálogo de modelos locais", "Sair"})
+		choice, err := app.choose("Doc Arquitetura — Terminal", []string{"Iniciar projeto GitHub", "Continuar sessão", "Encerrar sessão salva", "Atualizar referência main e DSL", "Catálogo de modelos locais", "Sair"})
 		if err != nil {
 			return err
 		}
@@ -912,7 +972,9 @@ func runTerminal(args []string) error {
 			if err == nil {
 				err = app.chat()
 			}
-		case "Atualizar referência main e DSL":
+		case "Encerrar sessão salva":
+                err=app.closeSavedSession()
+            case "Atualizar referência main e DSL":
 			err = referenceUpdate(p)
 			if err == nil {
 				err = dslCompile(p)

@@ -61,3 +61,14 @@ Além dos dois Qwen anteriores, o catálogo possui `gemma3-1b` (revisão textual
 ## Contexto ampliado para testes de Charter
 
 A partir de v0.2.2, `DOC_ARQUITETURA_LLAMA_CONTEXT` aceita 512–16384 tokens (padrão 4096). Exemplo: `DOC_ARQUITETURA_LLAMA_CONTEXT=16384 doc-arquitetura`. O runtime inicia com `-np 1` (um slot de inferência) e permite até 15 minutos de espera para solicitações longas. O benchmark padrão, com apenas 15 tokens de prompt, não avalia diretamente grandes entradas documentais; confirme RAM e CPU em uma análise real. A tarefa ainda exige orçamento de tokens e divisão em lotes para evitar ultrapassar a janela.
+
+
+## Arquivo de configuração do contexto
+
+Na versão 0.2.3, a preferência persistente está em `~/.config/doc-arquitetura/config.json`:
+
+```json
+{"llama":{"context_tokens":16384}}
+```
+
+A aplicação aceita `doc-arquitetura config set-context 16384`, `doc-arquitetura config show`, `/context` e `/context set 16384`. O intervalo é 512–32768 tokens e o valor de ambiente substitui o arquivo quando presente. O chat dispõe de `/session close` e o menu inicial de **Encerrar sessão salva**, diferenciando fechamento definitivo de `/exit`. Veja [Configuração e sessões](LOCAL-CONFIG.md).

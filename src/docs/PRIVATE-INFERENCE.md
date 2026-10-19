@@ -56,3 +56,8 @@ DOC_ARQUITETURA_LLAMA_CONTEXT=16384 doc-arquitetura
 O runtime continua privado no socket Unix, mas passa a criar **apenas um slot de inferência** (`-np 1`) em vez de quatro slots automáticos. O contexto configurado é por slot; esta escolha evita quatro caches de contexto para um único chat e é adequada ao host CPU de quatro núcleos e memória limitada. A chamada HTTP de inferência dispõe agora de até 15 minutos, já que uma solicitação com ~9,4 mil tokens pode levar vários minutos para ler e produzir a resposta. Medir memória real e desempenho com um prompt representativo, pois benchmark curto não garante a capacidade de processar 16 mil tokens nem a mesma taxa de tokens/s.
 
 **Limitação ainda aberta:** o agente envia conjuntamente regras, prompts, documentação e pedido. O aplicativo ainda **não** mede os tokens da solicitação antes de transmiti-la e **não** divide automaticamente documentos em lotes. Mesmo com 16.384 tokens, solicitações superiores ao limite ou saídas longas podem falhar. Aumentar contexto não substitui orçamento de tokens e execução por lotes.
+
+
+## Configuração persistente do contexto (v0.2.3)
+
+Além de `DOC_ARQUITETURA_LLAMA_CONTEXT`, o runtime aceita `~/.config/doc-arquitetura/config.json` com `{"llama":{"context_tokens":16384}}`. Limites: 512..32768 tokens. Use `doc-arquitetura config set-context 16384` para gravar o arquivo; use `/context set 16384` dentro do chat para atualizar e reiniciar o subprocesso. Erros de configuração não são convertidos silenciosamente ao valor padrão. Consulte [Configuração e sessões](LOCAL-CONFIG.md).

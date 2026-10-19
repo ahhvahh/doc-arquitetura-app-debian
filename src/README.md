@@ -94,3 +94,8 @@ O instalador remoto `src/scripts/instalar-deb-ssh.sh` usa o `projetos.conf` da p
 ## Janela de contexto para análise documental
 
 A partir do pacote v0.2.2 é possível iniciar `DOC_ARQUITETURA_LLAMA_CONTEXT=16384 doc-arquitetura`. O modelo GGUF permanece no runtime privado por socket Unix e abre apenas **um slot** de inferência, adequado a uma sessão de cada vez. Também aceita `8192` ou `12288`. A aplicação ainda precisa de processamento documental em lotes para evitar HTTP 400 com contextos maiores que a janela. Consulte [inferência privada](docs/PRIVATE-INFERENCE.md).
+
+
+## Contexto persistente e encerramento de sessão (v0.2.3)
+
+Para trabalhar com o contexto maior sem variável de ambiente a cada execução: `doc-arquitetura config set-context 16384` e `doc-arquitetura config show`. O valor fica em `~/.config/doc-arquitetura/config.json` (permissão 0600), separado de `github.json`. Intervalo permitido: 512–32768 tokens; a variável `DOC_ARQUITETURA_LLAMA_CONTEXT`, se definida, tem precedência. No chat, `/context set 16384` salva e interrompe o runtime antigo para reiniciar com o novo valor; `/session close` encerra definitivamente a sessão com confirmação, enquanto `/exit` apenas sai preservando a sessão. O menu inicial também oferece **Encerrar sessão salva**. Consulte [configuração local](docs/LOCAL-CONFIG.md).

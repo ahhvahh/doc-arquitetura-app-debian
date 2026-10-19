@@ -117,3 +117,15 @@ Catálogo complementar: `gemma3-1b` e `qwen3.5-4b` além de `qwen3.5-0.8b` e `qw
 
 
 **Integração privada atual:** consulte [Inferência local privada](PRIVATE-INFERENCE.md) para build/revisão/lifecycle.
+
+## Configuração local e encerramento de sessão (v0.2.3)
+
+- `doc-arquitetura config show`: exibe local e quantidade efetiva de tokens.
+- `doc-arquitetura config set-context 16384`: grava em `~/.config/doc-arquitetura/config.json` com modo 0600, separado do arquivo GitHub.
+- `/context`: consulta o contexto dentro do chat.
+- `/context set 16384`: grava e encerra o runtime, que reinicia com novo contexto na próxima inferência.
+- `/exit`: apenas sai do chat e mantém a sessão retomável.
+- `/session close`: confirma encerramento definitivo da sessão ativa, preservando o workspace e histórico.
+- Menu **Encerrar sessão salva**: encerra outra sessão aberta sem precisar retomá-la.
+
+O Llama continua privado por socket Unix com um slot de inferência. Consulte [Configuração e sessões](LOCAL-CONFIG.md).

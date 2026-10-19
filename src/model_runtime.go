@@ -40,13 +40,6 @@ func managedLlamaExecutable() (string,error) {
     }
     return "",fmt.Errorf("llama-server privado ausente; recompile e instale o pacote Debian com src/scripts/build-private-llama.sh (esperado: %s)",paths[0])
 }
-func managedLlamaContext() int {
-    if v:=os.Getenv("DOC_ARQUITETURA_LLAMA_CONTEXT");v!=""{
-        n,e:=strconv.Atoi(v)
-        if e==nil && n>=512 && n<=16384{return n}
-    }
-    return 4096 // suitable starting point for a CPU-only 8 GiB workstation
-}
 func activeModelIs(id,wanted string) bool {
     if id==wanted{return true}
     return strings.HasSuffix(id,"/"+wanted+".gguf") || id==wanted+".gguf"
@@ -94,6 +87,7 @@ func (a *terminalApp) modelStart() error {
         return a.modelReady()
     }
     spec,err:=managedLlamaExecutable();if err!=nil{return err}
+    contextTokens,contextSource,err:=configuredLlamaContext();if err!=nil{return err}
     if _,err=verifyModel(a.paths,a.session.Model);err!=nil{return err}
     // mktemp mode 0700 prevents cross-user access; name fits UNIX sun_path.
     parent:=os.TempDir()
@@ -109,7 +103,7 @@ func (a *terminalApp) modelStart() error {
     if cores>4{cores=4};if cores<1{cores=1}
     cmd:=exec.Command(spec,"-m",modelPath(a.paths,a.session.Model),
        "--alias",a.session.Model,"--host",socket,"--no-webui",
-       "-c",strconv.Itoa(managedLlamaContext()),"-np","1", // single session: one full-size KV cache slot
+       "-c",strconv.Itoa(contextTokens),"-np","1", // single session: one full-size KV cache slot
        "-t",strconv.Itoa(cores),"-tb",strconv.Itoa(cores),
        "-ngl","0")
     cmd.Stdout=io.Discard
@@ -119,8 +113,8 @@ func (a *terminalApp) modelStart() error {
     done:=make(chan error,1)
     a.serverDone=done
     go func(){done<-cmd.Wait()}()
-    fmt.Fprintf(a.out,"Iniciando llama.cpp privado: %s, contexto %d, %d threads, 1 slot. Socket: %s\n",
-        a.session.Model,managedLlamaContext(),cores,socket)
+    fmt.Fprintf(a.out,"Iniciando llama.cpp privado: %s, contexto %d (%s), %d threads, 1 slot. Socket: %s\n",
+        a.session.Model,contextTokens,contextSource,cores,socket)
     deadline:=time.NewTimer(90*time.Second);defer deadline.Stop()
     ticker:=time.NewTicker(800*time.Millisecond);defer ticker.Stop()
     for {
