@@ -79,3 +79,8 @@ O serviço isolado terá uma interface de administração em **terminal**, acess
 ## Autenticação GitHub por arquivo local (versão posterior à 0.2.0)
 
 O aplicativo pode ler `~/.config/doc-arquitetura/github.json` com token pessoal GitHub, sem alterar configurações globais do Git/SSH. Veja [GitHub por arquivo](docs/GITHUB-CONFIG.md). Para verificar: `doc-arquitetura github config` e `doc-arquitetura github check https://github.com/OWNER/REPO`. O arquivo é por usuário e não deve ser versionado. A administração root via systemd é uma evolução distinta, ainda em planejamento.
+
+
+## Instalador remoto Debian via SSH
+
+O script [instalar-deb-ssh.sh](scripts/instalar-deb-ssh.sh) permite copiar um `.deb` ao servidor, verificar SHA-256, pesquisar versões instaladas com nome igual/semelhante, atualizar sem remover (padrão), remover explicitamente antes da instalação e acompanhar menus coloridos. Consulte [scripts/README.md](scripts/README.md). `github.json` permanece suportado na versão 0.2.1; o script de SSH não exige modificações nesse arquivo.
