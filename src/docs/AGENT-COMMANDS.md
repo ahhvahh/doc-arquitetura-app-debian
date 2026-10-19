@@ -101,3 +101,7 @@ Após selecionar um repositório e uma das etapas `charter`, `scope` ou `impleme
 A função de inventário inclui as pastas canônicas e legadas conhecidas da etapa, além das fontes adicionadas pelo usuário. **O operador deve conferir se existem segredos/dados sensíveis antes de aprovar o backup ou push**. Migração e substituição de documentos são propostas pelo agente especializado; sem snapshot aprovado, `/apply` recusa propostas de prompt `legacy-*`. `/migration plan` não move nem apaga automaticamente os originais; a limpeza do legado exige operação própria futura e autorização independente.
 
 A referência normativa é sempre `main` (somente leitura). Um prompt novo publicado apenas em `doc-arquitetura/develop` não aparece até ser promovido à `main`.
+
+## Modelo por sessão
+
+Após iniciar o projeto GitHub, escolha um modelo instalado, baixe um do catálogo ou continue sem inferência. A escolha persiste por sessão e pode ser alterada com `/model select`; `/model` mostra o estado e `/model clear` limpa a seleção. É preciso iniciar o `llama-server` separadamente com o modelo escolhido. Consulte [o fluxo completo](MODEL-SELECTION.md).

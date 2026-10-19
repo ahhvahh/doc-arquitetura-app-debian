@@ -54,3 +54,7 @@ O editor de terminal exige esses diretórios e bloqueia o commit se encontrar a 
 ## Seleção de prompts e migração com backup
 
 O aplicativo oferece um seletor de prompts após o clone do projeto e os comandos `/prompts`, `/prompt select`, `/backup plan`, `/backup add <caminho>`, `/backup create` e `/migration plan`. O histórico de migração fica **exclusivamente em `/docs/backup/`**, acompanhado de `manifest.json`, SHA-256 e cópias fiéis dos documentos. Backups são criados com aprovação, incluídos no commit documental autorizado e excluídos da DSL ativa. A alteração dos documentos ativos depende de `/apply`, seguida de validação e aprovações independentes de commit/push. O agente não apaga automaticamente originais legados.
+
+## Modelo por sessão GitHub
+
+Ao iniciar um projeto GitHub, a CLI solicita o modelo GGUF a utilizar **antes de selecionar o prompt e abrir o chat**. O modelo fica registrado na sessão e pode ser trocado com `/model select`; veja [Seleção de modelo](docs/MODEL-SELECTION.md). O `llama-server` permanece um processo local separado.

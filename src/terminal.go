@@ -32,6 +32,7 @@ type terminalSession struct {
 	ReferenceSHA string `json:"reference_sha"`
 	Workspace    string `json:"workspace"`
 	CreatedAt    string `json:"created_at"`
+	Model        string `json:"model,omitempty"`
 	Prompt string `json:"prompt,omitempty"`
 	BackupID string `json:"backup_id,omitempty"`
 	BackupManifestSHA string `json:"backup_manifest_sha,omitempty"`
@@ -266,6 +267,7 @@ func (a *terminalApp) setup() error {
 		return err
 	}
 	if err = a.startSession(remote, branch, area); err != nil {return err}
+	if err = a.selectSessionModel(); err != nil {return err}
 	return a.promptSelect()
 }
 // Documents in target repositories live directly under docs/<area>.
@@ -389,6 +391,8 @@ func localhostAPI(raw string) (string, error) {
 	return strings.TrimRight(raw, "/"), nil
 }
 func (a *terminalApp) agentReply(message string) (documentAnswer, error) {
+	if a.session.Model == "" {return documentAnswer{}, errors.New("nenhum modelo selecionado; use /model select")}
+	if a.model != a.session.Model {return documentAnswer{}, errors.New("modelo da sessão indisponível; use /model select ou verifique o GGUF instalado")}
 	api, err := localhostAPI(a.api)
 	if err != nil {
 		return documentAnswer{}, err
@@ -736,12 +740,15 @@ func (a *terminalApp) resolveAssignedModel() {
 }
 
 func (a *terminalApp) chat() error {
-	a.resolveAssignedModel()
+	if err := a.activateSessionModel(); err != nil {
+		fmt.Fprintln(a.out, "ATENÇÃO:", err)
+	}
 	fmt.Fprintf(a.out, "\nProjeto: %s\nBranch: %s\nÁrea: %s\nReferência main: %s\nPrompt: %s\nBackup: %s\n",a.session.Repo,a.session.Branch,a.session.Area,a.session.ReferenceSHA,a.session.Prompt,a.session.BackupID)
 	if a.session.Branch != "develop" {
 		fmt.Fprintln(a.out, "ATENÇÃO: branch somente leitura. Para editar e publicar, selecione develop.")
 	}
-	fmt.Fprintf(a.out, "Chat local. Modelo: %s; API: %s. Use /help para comandos.\n", a.model, a.api)
+	fmt.Fprintf(a.out, "Chat local. Modelo selecionado: %s; API: %s. Use /help para comandos.\n", a.model, a.api)
+	if a.session.Model != "" {fmt.Fprintf(a.out, "Antes de conversar com o agente, execute em outro terminal: doc-arquitetura models serve %s\n", a.session.Model)}
 	for {
 		message, err := a.ask("você > ")
 		if errors.Is(err, io.EOF) {
@@ -755,11 +762,17 @@ func (a *terminalApp) chat() error {
 		}
 		switch message {
 		case "/help":
-			fmt.Fprintln(a.out, "/status /files /prompts /prompt select /prompt show /prompt reset /backup plan /backup add <caminho> /backup create /migration plan /diff /apply /validate /commit /push /help /exit")
+			fmt.Fprintln(a.out, "/status /files /model /model select /model clear /prompts /prompt select /prompt show /prompt reset /backup plan /backup add <caminho> /backup create /migration plan /diff /apply /validate /commit /push /help /exit")
 		case "/exit":
 			return nil
 		case "/status":
-			fmt.Fprintf(a.out, "%s | %s | %s | prompt: %s | backup: %s | propostas: %d\n",a.session.Repo,a.session.Branch,a.session.Area,a.session.Prompt,a.session.BackupID,len(a.proposals))
+			fmt.Fprintf(a.out, "%s | %s | %s | modelo: %s | prompt: %s | backup: %s | propostas: %d\n",a.session.Repo,a.session.Branch,a.session.Area,a.session.Model,a.session.Prompt,a.session.BackupID,len(a.proposals))
+        case "/model":
+            a.modelStatus()
+        case "/model select":
+            err=a.selectSessionModel()
+        case "/model clear":
+            err=a.clearSessionModel()
         case "/prompts":
             err=a.showPrompts()
         case "/prompt select":
@@ -853,7 +866,7 @@ func runTerminal(args []string) error {
 	branch := flags.String("branch", "", "branch de origem")
 	area := flags.String("area", "", "charter, scope ou implementation")
 	flags.StringVar(&app.api, "api", app.api, "API do llama-server local")
-	flags.StringVar(&app.model, "model", app.model, "identificador do modelo servido")
+	requestedModel := flags.String("model", "", "modelo GGUF instalado a usar nesta sessão GitHub")
 	if err = flags.Parse(args); err != nil {
 		return err
 	}
@@ -870,9 +883,15 @@ func runTerminal(args []string) error {
 		if err = app.startSession(*repo, *branch, *area); err != nil {
 			return err
 		}
+		if *requestedModel != "" {
+			if err = app.useSessionModel(*requestedModel); err != nil {return err}
+		} else {
+			if err = app.selectSessionModel(); err != nil {return err}
+		}
         if err=app.promptSelect();err!=nil{return err}
 		return app.chat()
 	}
+	if *requestedModel != "" {return errors.New("--model exige --repo, --branch e --area")}
 	if len(args) > 0 && flags.NArg() > 0 {
 		return errors.New("argumentos posicionais desconhecidos")
 	}
