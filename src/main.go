@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"bytes"
 	"encoding/json"
 	"errors"
@@ -362,7 +363,8 @@ func cloneRepo(source, branch, dest string) error {
 		return errors.New("destino ja existe; nao sera sobrescrito")
 	}
 	if e:=os.MkdirAll(filepath.Dir(abs),0755);e!=nil{return e}
-	cmd := exec.Command("git", "-c", "protocol.file.allow=never", "clone", "--depth", "1", "--single-branch", "--branch", "develop", "--no-recurse-submodules", "--", "https://github.com/"+path+".git", abs)
+	cmd, e := githubGitCommand(context.Background(),"-c", "protocol.file.allow=never", "clone", "--depth", "1", "--single-branch", "--branch", "develop", "--no-recurse-submodules", "--", "https://github.com/"+path+".git", abs)
+	if e!=nil{return e}
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	return cmd.Run()
@@ -480,6 +482,14 @@ func defaultDSLPath() string {
  return "dsl/charter.pcdsl"
 }
 func main() {
+ if os.Getenv("DOC_ARQUITETURA_GITHUB_ASKPASS")=="1" {
+     if err:=githubAskPass();err!=nil{os.Exit(1)}
+     return
+ }
+ if len(os.Args)>1 && os.Args[1]=="github" {
+     if err:=githubCommand(os.Args[2:]);err!=nil{fmt.Fprintln(os.Stderr,err);os.Exit(1)}
+     return
+ }
  if len(os.Args)==1 || os.Args[1]=="terminal" {
   var args []string
   if len(os.Args)>1 { args=os.Args[2:] }

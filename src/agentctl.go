@@ -363,7 +363,9 @@ func gitOutput(ctx context.Context, dir string, args ...string) (string, error) 
 	if dir != "" {
 		cmd.Dir = dir
 	}
-	cmd.Env = append(os.Environ(), "GIT_TERMINAL_PROMPT=0")
+	gitEnv, err := githubGitEnv()
+	if err != nil {return "", err}
+	cmd.Env = gitEnv
 	b, e := cmd.CombinedOutput()
 	if e != nil {
 		return "", fmt.Errorf("git %s: %v: %s", args[0], e, strings.TrimSpace(string(b)))

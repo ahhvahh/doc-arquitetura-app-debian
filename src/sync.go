@@ -81,7 +81,8 @@ func cloneReference(ref,dest string)error{
  if _,e:=os.Stat(dest);e==nil{return errors.New("destino ja existe: "+dest)}
  if e:=os.MkdirAll(filepath.Dir(dest),0755);e!=nil{return e}
  ctx,cancel:=context.WithTimeout(context.Background(),4*time.Minute);defer cancel()
- cmd:=exec.CommandContext(ctx,"git","-c","protocol.file.allow=never","clone","--depth","1","--single-branch","--branch",ref,"--no-recurse-submodules","--","https://github.com/ahhvahh/doc-arquitetura.git",dest)
+ cmd,e:=githubGitCommand(ctx,"-c","protocol.file.allow=never","clone","--depth","1","--single-branch","--branch",ref,"--no-recurse-submodules","--","https://github.com/ahhvahh/doc-arquitetura.git",dest)
+ if e!=nil{return e}
  cmd.Stderr=os.Stderr;return cmd.Run()
 }
 

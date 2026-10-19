@@ -74,3 +74,8 @@ Está registrada a proposta de execução exclusiva pelo daemon systemd, com doi
 ### Administração root (arquitetura futura)
 
 O serviço isolado terá uma interface de administração em **terminal**, acessível somente com `sudo doc-arquitetura admin`, para cadastrar usuário técnico, grupos, usuários permitidos, repositórios e credencial GitHub. O arquivo de configuração será `/etc/doc-arquitetura-app/config.yaml` (root-owned, sem segredos). Chaves ficarão em arquivo protegido e serão entregues ao serviço pelo systemd. A [especificação](docs/ADMIN-SETUP.md) está registrada em `develop`, mas o comando `admin` e o serviço seguro ainda **não foram implementados**. Não use `sudo doc-arquitetura` para executar o cliente atual: isso não habilita isolamento.
+
+
+## Autenticação GitHub por arquivo local (versão posterior à 0.2.0)
+
+O aplicativo pode ler `~/.config/doc-arquitetura/github.json` com token pessoal GitHub, sem alterar configurações globais do Git/SSH. Veja [GitHub por arquivo](docs/GITHUB-CONFIG.md). Para verificar: `doc-arquitetura github config` e `doc-arquitetura github check https://github.com/OWNER/REPO`. O arquivo é por usuário e não deve ser versionado. A administração root via systemd é uma evolução distinta, ainda em planejamento.

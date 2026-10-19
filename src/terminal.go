@@ -86,7 +86,9 @@ func gitSession(ctx context.Context, root string, args ...string) (string, error
 	if root != "" {
 		cmd.Dir = root
 	}
-	cmd.Env = append(os.Environ(), "GIT_TERMINAL_PROMPT=0")
+	gitEnv, err := githubGitEnv()
+	if err != nil {return "", err}
+	cmd.Env = gitEnv
 	result, err := cmd.CombinedOutput()
 	if err != nil {
 		return "", fmt.Errorf("git %s: %w: %s", args[0], err, strings.TrimSpace(string(result)))
