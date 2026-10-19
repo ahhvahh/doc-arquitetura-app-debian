@@ -1,5 +1,8 @@
 # Arquitetura — avaliador local
 
+> **Evolução em refinamento, não implementada:** a arquitetura do daemon isolado e a política de branches por tarefa substituem, quando desenvolvidas e validadas, o fluxo antigo de execução diretamente pelo usuário. Consulte [Serviço isolado](SERVICE-ISOLATION-PLAN.md) e [Branch por tarefa](TASK-BRANCH-LIFECYCLE.md). Até essa implementação, a CLI instalada continua seguindo o fluxo anterior; não use esta especificação como garantia de isolamento já existente.
+
+
 1. O operador informa a URL GitHub no terminal. A ferramenta lista branches e clona a escolhida em sessão isolada, sem submódulos. Somente `develop` permite edição, commit local e push; outras branches ficam em leitura.
 2. O Go clona ahhvahh/doc-arquitetura **main** exclusivamente, para workspace/reference.
 3. O conversor percorre todos os .md sob ProjectCharter/1.0, produzindo reference.pcdsl e client.pcdsl. Cada DOC inclui caminho relativo, hash SHA-256 do original, status e conteudo textual. Arquivos originais permanecem nos clones.

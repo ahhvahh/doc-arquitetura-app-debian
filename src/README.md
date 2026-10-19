@@ -65,3 +65,7 @@ Ao iniciar um projeto GitHub, a CLI solicita o modelo GGUF a utilizar **antes de
 O chat inicia o subprocesso privado e verifica `/health` e `/v1/models` no socket Unix antes de solicitar inferência. Disponibiliza `/model start`, `/model check`, `/model stop` e `/benchmark` para inicialização/diagnóstico e velocidade real em tokens/s. O runtime privado usa contexto padrão 4096 e alias do modelo, acessível apenas via socket Unix. A seleção de branch privilegia `develop` para edição; outras branches continuam disponíveis somente para leitura. Quando o Charter canônico ainda não existe em `/docs/charter/`, o agente recebe evidência parcial dos documentos legados `/docs/01-Project_Charter/charter/` para revisão, sem movimentar originais automaticamente.
 
 **Integração privada atual:** consulte [Inferência local privada](docs/PRIVATE-INFERENCE.md) para build/revisão/lifecycle.
+
+## Próxima arquitetura — serviço isolado (refinement)
+
+Está registrada a proposta de execução exclusiva pelo daemon systemd, com dois grupos de acesso distintos, runtime `llama.cpp` privado, socket Unix de controle, auditoria e branches de trabalho individuais derivadas de `develop`. A documentação está em [Plano de serviço isolado](docs/SERVICE-ISOLATION-PLAN.md) e [Fluxo de tarefa e branch](docs/TASK-BRANCH-LIFECYCLE.md). **Ainda não está em execução neste binário**: os comandos legados de edição/commit para `develop` deverão ser desativados quando o daemon for implementado; não presumir segurança multiusuário no MVP atual.
