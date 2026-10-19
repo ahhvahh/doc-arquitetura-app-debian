@@ -15,7 +15,6 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -354,31 +353,7 @@ func modelsCommand(p appPaths, args []string) error {
 		}
 		return assignModel(p, args[0], args[1])
 	case "serve":
-		f := flag.NewFlagSet("models serve", flag.ContinueOnError)
-		port := f.Int("port", 8080, "porta local")
-		contextSize := f.Int("context", 8192, "contexto em tokens")
-		if e := f.Parse(args); e != nil {
-			return e
-		}
-		if f.NArg() != 1 {
-			return errors.New("uso: models serve [--port N] [--context N] <modelo>")
-		}
-		if *port < 1 || *port > 65535 || *contextSize < 256 || *contextSize > 32768 {
-			return errors.New("porta/contexto invalidos")
-		}
-		id := f.Arg(0)
-		if _, e := verifyModel(p, id); e != nil {
-			return e
-		}
-		server, e := exec.LookPath("llama-server")
-		if e != nil {
-			return errors.New("llama-server ausente: instale llama.cpp separadamente")
-		}
-		cmd := exec.Command(server, "-m", modelPath(p, id), "--alias", id, "--host", "127.0.0.1", "--port", strconv.Itoa(*port), "-c", strconv.Itoa(*contextSize))
-		cmd.Stdin = os.Stdin
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		return cmd.Run()
+        return errors.New("models serve foi substituído pelo runtime privado gerenciado pelo aplicativo. Execute 'doc-arquitetura', escolha o modelo e use /model start ou inicie uma análise.")
 	default:
 		return fmt.Errorf("comando models desconhecido: %s", sub)
 	}

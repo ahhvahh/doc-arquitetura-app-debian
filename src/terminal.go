@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"net/url"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -60,6 +59,8 @@ type terminalApp struct {
 	contextFiles map[string]bool
 	serverProcess *exec.Cmd
 	serverDone chan error
+	serverDir string
+	serverSocket string
 }
 
 var gitHubRepoRE = regexp.MustCompile(`^https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:\.git)?/?$`)
@@ -382,22 +383,12 @@ func (a *terminalApp) documentContext() (string, error) {
 	}
 	return b.String(), nil
 }
-func localhostAPI(raw string) (string, error) {
-	u, err := url.Parse(raw)
-	if err != nil {
-		return "", err
-	}
-	if u.Scheme != "http" || !(u.Hostname() == "localhost" || u.Hostname() == "127.0.0.1") || u.User != nil || u.RawQuery != "" || u.Fragment != "" || (u.Path != "" && u.Path != "/") {
-		return "", errors.New("API deve ser http://127.0.0.1:porta")
-	}
-	return strings.TrimRight(raw, "/"), nil
-}
 func (a *terminalApp) agentReply(message string) (documentAnswer, error) {
 	if a.session.Model == "" {return documentAnswer{}, errors.New("nenhum modelo selecionado; use /model select")}
 	if a.model != a.session.Model {return documentAnswer{}, errors.New("modelo da sessão indisponível; use /model select ou verifique o GGUF instalado")}
-	if err:=a.modelReady();err!=nil{return documentAnswer{},err}
-	api, err := localhostAPI(a.api)
-	if err != nil {return documentAnswer{}, err}
+	if err:=a.ensureRuntime();err!=nil{return documentAnswer{},err}
+    client,api,err:=a.managedHTTP()
+    if err!=nil{return documentAnswer{},err}
 	ref := filepath.Join(refBase(a.paths), a.session.ReferenceSHA, normTree, a.session.Area, "AGENT-PROMPT.md")
 	norm, err := os.ReadFile(ref)
 	if err != nil {
@@ -418,7 +409,6 @@ func (a *terminalApp) agentReply(message string) (documentAnswer, error) {
 	if err != nil {
 		return documentAnswer{}, err
 	}
-	client := &http.Client{Timeout: 4 * time.Minute}
 	req, err := http.NewRequest(http.MethodPost, api+"/v1/chat/completions", bytes.NewReader(data))
 	if err != nil {
 		return documentAnswer{}, err
@@ -747,14 +737,8 @@ func (a *terminalApp) chat() error {
 	if a.session.Branch != "develop" {
 		fmt.Fprintln(a.out, "ATENÇÃO: branch somente leitura. Para editar e publicar, selecione develop.")
 	}
-	fmt.Fprintf(a.out, "Chat local. Modelo selecionado: %s; API: %s. Use /help para comandos.\n", a.model, a.api)
-	if a.session.Model != "" {
-		if err:=a.modelReady();err!=nil {fmt.Fprintln(a.out,"ATENÇÃO:",err)
-			if _,look:=exec.LookPath("llama-server");look==nil {
-				yes,e:=a.confirmation("Deseja iniciar o modelo local automaticamente agora?");if e==nil&&yes {if e=a.modelStart();e!=nil{fmt.Fprintln(a.out,"Erro:",e)}}
-			}
-		}
-	}
+	fmt.Fprintf(a.out, "Chat local privado: llama.cpp será iniciado sob demanda por socket Unix. Use /model start ou /help.\n")
+    if a.session.Model!=""{fmt.Fprintf(a.out,"Modelo: %s; nenhum serviço TCP é aberto.\n",a.session.Model)}
 	for {
 		message, err := a.ask("você > ")
 		if errors.Is(err, io.EOF) {
@@ -876,16 +860,15 @@ func runTerminal(args []string) error {
 	if err != nil {
 		return err
 	}
-	app := terminalApp{in: bufio.NewReader(os.Stdin), out: os.Stdout, paths: p, api: "http://127.0.0.1:8080", model: "local-model"}
+	app := terminalApp{in: bufio.NewReader(os.Stdin), out: os.Stdout, paths: p, api: "unix", model: "local-model"}
 	flags := flag.NewFlagSet("terminal", flag.ContinueOnError)
 	repo := flags.String("repo", "", "repositório GitHub")
 	branch := flags.String("branch", "", "branch de origem")
 	area := flags.String("area", "", "charter, scope ou implementation")
-	flags.StringVar(&app.api, "api", app.api, "API do llama-server local")
+	flags.StringVar(&app.api, "api", app.api, "legado: somente unix é permitido")
 	requestedModel := flags.String("model", "", "modelo GGUF instalado a usar nesta sessão GitHub")
-	if err = flags.Parse(args); err != nil {
-		return err
-	}
+	if err = flags.Parse(args); err != nil {return err}
+	if app.api!="unix" {return errors.New("--api TCP foi desabilitado: o agente usa apenas um socket Unix privado, gerenciado pela aplicação")}
 	if *repo != "" {
 		if *branch == "" || *area == "" {
 			return errors.New("--repo exige --branch e --area")

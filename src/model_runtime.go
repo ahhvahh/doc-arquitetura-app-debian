@@ -2,128 +2,175 @@ package main
 
 import (
     "bytes"
+    "context"
     "encoding/json"
     "errors"
     "fmt"
     "io"
+    "net"
     "net/http"
-    "net/url"
     "os"
     "os/exec"
+    "path/filepath"
+    "runtime"
     "strconv"
     "strings"
     "time"
 )
 
-func activeModelIs(id, wanted string) bool {
-    if id == wanted { return true }
-    return strings.HasSuffix(id, "/"+wanted+".gguf") ||
-        strings.HasSuffix(id, "\\"+wanted+".gguf") ||
-        id == wanted+".gguf"
-}
+// llama.cpp is a private subprocess, reached only through a UNIX domain socket.
+// No TCP listener, server daemon, global installation or web UI is required.
+const privateLlamaBinary = "/usr/lib/doc-arquitetura-app/llama-server"
+const privateLlamaHost = "http://doc-arquitetura.internal"
 
+func managedLlamaExecutable() (string,error) {
+    paths:=[]string{}
+    if override:=os.Getenv("DOC_ARQUITETURA_LLAMA_BIN");override!="" {
+        if !filepath.IsAbs(override) {return "",errors.New("DOC_ARQUITETURA_LLAMA_BIN precisa ser absoluto")}
+        paths=append(paths,override)
+    }else{
+        paths=append(paths,privateLlamaBinary)
+        if exe,err:=os.Executable();err==nil {
+            paths=append(paths,filepath.Join(filepath.Dir(exe),"llama-server"))
+        }
+    }
+    for _,p:=range paths {
+        info,e:=os.Stat(p)
+        if e==nil && info.Mode().IsRegular() && info.Mode()&0111!=0{return p,nil}
+    }
+    return "",fmt.Errorf("llama-server privado ausente; recompile e instale o pacote Debian com src/scripts/build-private-llama.sh (esperado: %s)",paths[0])
+}
+func managedLlamaContext() int {
+    if v:=os.Getenv("DOC_ARQUITETURA_LLAMA_CONTEXT");v!=""{
+        n,e:=strconv.Atoi(v)
+        if e==nil && n>=512 && n<=8192{return n}
+    }
+    return 4096 // suitable starting point for a CPU-only 8 GiB workstation
+}
+func activeModelIs(id,wanted string) bool {
+    if id==wanted{return true}
+    return strings.HasSuffix(id,"/"+wanted+".gguf") || id==wanted+".gguf"
+}
+func (a *terminalApp) managedHTTP() (*http.Client,string,error) {
+    if a.serverSocket==""{return nil,"",errors.New("runtime ainda não iniciado; use /model start")}
+    socket:=a.serverSocket
+    transport:=&http.Transport{
+        Proxy:nil,
+        DialContext:func(ctx context.Context,_,_ string)(net.Conn,error){
+            var d net.Dialer
+            return d.DialContext(ctx,"unix",socket)
+        },
+        DisableKeepAlives:true,
+    }
+    return &http.Client{Transport:transport,Timeout:4*time.Minute},privateLlamaHost,nil
+}
 func (a *terminalApp) modelReady() error {
-    if a.session.Model == "" { return errors.New("nenhum modelo configurado; use /model select") }
-    if st,err:=os.Stat(modelPath(a.paths,a.session.Model));err!=nil||!st.Mode().IsRegular(){return errors.New("GGUF selecionado indisponível; use /model select")}
-    endpoint,err:=localhostAPI(a.api);if err!=nil{return err}
-    cli:=&http.Client{Timeout:3*time.Second}
-    res,err:=cli.Get(endpoint+"/health")
-    if err!=nil {
-        return fmt.Errorf("servidor local inacessível em %s: inicie com /model start (exige llama-server instalado), ou em outro terminal: doc-arquitetura models serve %s: %w", endpoint,a.session.Model,err)
-    }
-    io.Copy(io.Discard,io.LimitReader(res.Body,2048));res.Body.Close()
-    if res.StatusCode!=http.StatusOK {
-        return fmt.Errorf("llama-server não pronto em %s (HTTP %d); aguarde carregar o modelo e use /model check",endpoint,res.StatusCode)
-    }
-    models,err:=cli.Get(endpoint+"/v1/models")
-    if err!=nil{return fmt.Errorf("não foi possível verificar o modelo do servidor: %w",err)}
-    defer models.Body.Close()
-    if models.StatusCode!=http.StatusOK{return fmt.Errorf("modelo do servidor não verificável: HTTP %d",models.StatusCode)}
-    var response struct{Data []struct{ID string `json:"id"`} `json:"data"`}
-    if err=json.NewDecoder(io.LimitReader(models.Body,1<<20)).Decode(&response);err!=nil{return err}
-    if len(response.Data)==0{return errors.New("llama-server não anunciou modelo ativo")}
-    for _,m:=range response.Data {if activeModelIs(m.ID,a.session.Model){return nil}}
-    ids:=make([]string,0,len(response.Data));for _,m:=range response.Data{ids=append(ids,m.ID)}
-    return fmt.Errorf("modelo incompatível: a sessão usa %s mas o servidor oferece %s. Encerre o servidor anterior e execute: doc-arquitetura models serve %s",a.session.Model,strings.Join(ids,", "),a.session.Model)
+    if a.serverProcess==nil||a.serverSocket==""{return errors.New("modelo não iniciado; a aplicação o carregará na primeira análise ou use /model start")}
+    if a.session.Model==""{return errors.New("nenhum modelo selecionado")}
+    cli,host,err:=a.managedHTTP();if err!=nil{return err}
+    ctx,cancel:=context.WithTimeout(context.Background(),2*time.Second);defer cancel()
+    req,err:=http.NewRequestWithContext(ctx,http.MethodGet,host+"/health",nil);if err!=nil{return err}
+    res,err:=cli.Do(req);if err!=nil{return fmt.Errorf("runtime privado indisponível: %w",err)}
+    io.Copy(io.Discard,io.LimitReader(res.Body,1024));res.Body.Close()
+    if res.StatusCode!=http.StatusOK{return fmt.Errorf("modelo ainda carregando (HTTP %d)",res.StatusCode)}
+    request,err:=http.NewRequestWithContext(ctx,http.MethodGet,host+"/v1/models",nil);if err!=nil{return err}
+    response,err:=cli.Do(request);if err!=nil{return err}
+    defer response.Body.Close()
+    if response.StatusCode!=http.StatusOK{return fmt.Errorf("catálogo privado HTTP %d",response.StatusCode)}
+    var result struct { Data []struct{ID string `json:"id"`} `json:"data"` }
+    if err=json.NewDecoder(io.LimitReader(response.Body,1<<20)).Decode(&result);err!=nil{return err}
+    for _,entry:=range result.Data{if activeModelIs(entry.ID,a.session.Model){return nil}}
+    return fmt.Errorf("modelo do runtime não corresponde ao selecionado: %s",a.session.Model)
 }
-
+func (a *terminalApp) cleanupRuntime() {
+    if a.serverSocket!="" { _=os.Remove(a.serverSocket) }
+    if a.serverDir!="" {_=os.Remove(a.serverDir)}
+    a.serverSocket=""
+    a.serverDir=""
+}
 func (a *terminalApp) modelStart() error {
-    if a.session.Model==""{return errors.New("selecione um modelo com /model select")}
-    if err:=a.modelReady();err==nil{fmt.Fprintln(a.out,"llama-server já está pronto com o modelo da sessão");return nil}
-    endpoint,err:=localhostAPI(a.api);if err!=nil{return err}
-    // If a server already holds the port, do not launch another one over it.
-    probe:=&http.Client{Timeout:2*time.Second}
-    if res,e:=probe.Get(endpoint+"/health");e==nil{
-        res.Body.Close()
-        return fmt.Errorf("porta %s já responde, mas não com o modelo esperado; encerre o servidor existente antes de iniciar %s",endpoint,a.session.Model)
+    if a.session.Model=="" {return errors.New("selecione o modelo com /model select")}
+    if a.serverProcess!=nil {
+        return a.modelReady()
     }
-    if a.serverProcess!=nil{return errors.New("servidor da sessão já iniciado; use /model check ou /model stop")}
-    u,err:=url.Parse(endpoint);if err!=nil{return err}
-    port:=u.Port()
-    if port==""{port="80"}
-    n,err:=strconv.Atoi(port);if err!=nil||n<1||n>65535{return errors.New("porta de API inválida")}
-    exe,err:=exec.LookPath("llama-server")
-    if err!=nil{return errors.New("llama-server não está instalado no PATH; instale o runtime llama.cpp antes de usar /model start")}
+    spec,err:=managedLlamaExecutable();if err!=nil{return err}
     if _,err=verifyModel(a.paths,a.session.Model);err!=nil{return err}
-    cmd:=exec.Command(exe,"-m",modelPath(a.paths,a.session.Model),"--alias",a.session.Model,
-        "--host","127.0.0.1","--port",port,"-c","8192")
+    // mktemp mode 0700 prevents cross-user access; name fits UNIX sun_path.
+    parent:=os.TempDir()
+    if runtimeDir:=os.Getenv("XDG_RUNTIME_DIR");runtimeDir!=""{
+        if info,e:=os.Stat(runtimeDir);e==nil && info.IsDir() {parent=runtimeDir}
+    }
+    dir,err:=os.MkdirTemp(parent,"docarq-llm-");if err!=nil{return err}
+    if err=os.Chmod(dir,0700);err!=nil{os.Remove(dir);return err}
+    socket:=filepath.Join(dir,"llama.sock")
+    if len(socket)>100{os.Remove(dir);return errors.New("caminho do socket Unix muito longo; defina TMPDIR menor")}
+    a.serverDir,a.serverSocket=dir,socket
+    cores:=runtime.NumCPU()
+    if cores>4{cores=4};if cores<1{cores=1}
+    cmd:=exec.Command(spec,"-m",modelPath(a.paths,a.session.Model),
+       "--alias",a.session.Model,"--host",socket,"--no-webui",
+       "-c",strconv.Itoa(managedLlamaContext()),"-t",strconv.Itoa(cores),"-tb",strconv.Itoa(cores),
+       "-ngl","0")
     cmd.Stdout=io.Discard
     cmd.Stderr=os.Stderr
-    if err=cmd.Start();err!=nil{return fmt.Errorf("falha ao iniciar llama-server: %w",err)}
+    if err=cmd.Start();err!=nil{a.cleanupRuntime();return fmt.Errorf("não foi possível iniciar runtime privado: %w",err)}
     a.serverProcess=cmd
     done:=make(chan error,1)
     a.serverDone=done
     go func(){done<-cmd.Wait()}()
-    fmt.Fprintln(a.out,"Carregando modelo no llama-server local (até 60 segundos)...")
-    deadline:=time.NewTimer(60*time.Second);defer deadline.Stop()
-    tick:=time.NewTicker(600*time.Millisecond);defer tick.Stop()
-    for{
-        select{
-        case err=<-done:
-            a.serverProcess=nil;a.serverDone=nil
-            return fmt.Errorf("llama-server terminou durante a inicialização: %v",err)
+    fmt.Fprintf(a.out,"Iniciando llama.cpp privado: %s, contexto %d, %d threads. Socket: %s\n",
+        a.session.Model,managedLlamaContext(),cores,socket)
+    deadline:=time.NewTimer(90*time.Second);defer deadline.Stop()
+    ticker:=time.NewTicker(800*time.Millisecond);defer ticker.Stop()
+    for {
+        select {
+        case exit:=<-done:
+            a.serverProcess=nil;a.serverDone=nil;a.cleanupRuntime()
+            return fmt.Errorf("runtime privado terminou antes de ficar pronto: %v",exit)
         case <-deadline.C:
             a.modelStop()
-            return errors.New("timeout ao carregar modelo (60s); verifique logs, memória disponível e versão do llama.cpp")
-        case <-tick.C:
+            return errors.New("modelo não ficou pronto em 90 segundos; verifique memória, GGUF e logs do processo")
+        case <-ticker.C:
             if err=a.modelReady();err==nil{
-                fmt.Fprintf(a.out,"Modelo %s pronto em %s. Use /benchmark para medir tokens/s.\n",a.session.Model,endpoint)
+                fmt.Fprintln(a.out,"Runtime privado pronto para análise.")
                 return nil
             }
         }
     }
 }
-
-func (a *terminalApp) modelStop() {
-    if a.serverProcess==nil{return}
-    cmd,done:=a.serverProcess,a.serverDone
-    a.serverProcess=nil;a.serverDone=nil
-    _=cmd.Process.Signal(os.Interrupt)
-    select{
-    case <-done:
-    case <-time.After(3*time.Second):
-        _=cmd.Process.Kill()
-        <-done
-    }
+func (a *terminalApp) ensureRuntime() error {
+    if a.serverProcess==nil{return a.modelStart()}
+    return a.modelReady()
 }
-
-func (a *terminalApp) modelBenchmark() error {
-    if err:=a.modelReady();err!=nil{return err}
-    endpoint,err:=localhostAPI(a.api);if err!=nil{return err}
-    // Native llama.cpp timings report prompt processing and generation separately.
-    request:=map[string]any{
-        "prompt":"Leia esta solicitação de documentação técnica em português. Descreva resumidamente quatro critérios de qualidade de um Charter, um por frase.",
-        "n_predict":128,"temperature":0.0,"stream":false,"cache_prompt":false,
+func (a *terminalApp) modelStop() {
+    cmd,done:=a.serverProcess,a.serverDone
+    a.serverProcess=nil
+    a.serverDone=nil
+    if cmd!=nil {
+        _=cmd.Process.Signal(os.Interrupt)
+        select {
+        case <-done:
+        case <-time.After(3*time.Second):
+            _=cmd.Process.Kill()
+            <-done
+        }
     }
-    body,err:=json.Marshal(request);if err!=nil{return err}
-    cli:=&http.Client{Timeout:3*time.Minute}
-    req,err:=http.NewRequest(http.MethodPost,endpoint+"/completion",bytes.NewReader(body));if err!=nil{return err}
-    req.Header.Set("Content-Type","application/json")
+    a.cleanupRuntime()
+}
+func (a *terminalApp) modelBenchmark() error {
+    if err:=a.ensureRuntime();err!=nil{return err}
+    client,host,err:=a.managedHTTP();if err!=nil{return err}
+    data,err:=json.Marshal(map[string]any{
+        "prompt":"Descreva quatro critérios objetivos para revisar uma documentação Charter em português.",
+        "n_predict":128,"temperature":0.0,"stream":false,
+    });if err!=nil{return err}
+    request,err:=http.NewRequest(http.MethodPost,host+"/completion",bytes.NewReader(data));if err!=nil{return err}
+    request.Header.Set("Content-Type","application/json")
     start:=time.Now()
-    response,err:=cli.Do(req);if err!=nil{return err}
+    response,err:=client.Do(request);if err!=nil{return err}
     defer response.Body.Close()
-    if response.StatusCode!=http.StatusOK{return fmt.Errorf("benchmark HTTP %d",response.StatusCode)}
-    var result struct{
+    if response.StatusCode!=200{return fmt.Errorf("benchmark do runtime HTTP %d",response.StatusCode)}
+    var result struct {
         Timings struct{
             PromptN int `json:"prompt_n"`
             PromptPerSecond float64 `json:"prompt_per_second"`
@@ -131,12 +178,10 @@ func (a *terminalApp) modelBenchmark() error {
             PredictedPerSecond float64 `json:"predicted_per_second"`
         } `json:"timings"`
     }
-    if err=json.NewDecoder(io.LimitReader(response.Body,3<<20)).Decode(&result);err!=nil{return err}
+    if err=json.NewDecoder(io.LimitReader(response.Body,2<<20)).Decode(&result);err!=nil{return err}
     t:=result.Timings
-    if t.PredictedN<1||t.PredictedPerSecond<=0{return errors.New("servidor não forneceu métricas válidas de geração")}
-    fmt.Fprintf(a.out,"BENCHMARK REAL — %s\n",a.session.Model)
-    fmt.Fprintf(a.out,"Tokens gerados: %d | Geração: %.2f tokens/s\n",t.PredictedN,t.PredictedPerSecond)
-    if t.PromptPerSecond>0{fmt.Fprintf(a.out,"Processamento do prompt: %d tokens, %.2f tokens/s\n",t.PromptN,t.PromptPerSecond)}
-    fmt.Fprintf(a.out,"Tempo total da solicitação: %.2f s. Resultado local, depende da CPU, memória, contexto e carga.\n",time.Since(start).Seconds())
+    if t.PredictedN<=0||t.PredictedPerSecond<=0{return errors.New("runtime não forneceu métricas de desempenho válidas")}
+    fmt.Fprintf(a.out,"BENCHMARK %s — Geração: %.2f tokens/s (%d tokens); prompt: %.2f tokens/s (%d tokens); duração: %.2f s\n",
+        a.session.Model,t.PredictedPerSecond,t.PredictedN,t.PromptPerSecond,t.PromptN,time.Since(start).Seconds())
     return nil
 }

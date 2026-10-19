@@ -11,12 +11,12 @@ doc-arquitetura models download qwen3-1.7b
 doc-arquitetura models list
 doc-arquitetura models assign triagem qwen3.5-0.8b
 doc-arquitetura models assign analise qwen3-1.7b
-doc-arquitetura models serve qwen3-1.7b
+# O motor será iniciado sob demanda no terminal (não use models serve)
 # Porta/contexto opcionais:
-doc-arquitetura models serve --port 8080 --context 2048 qwen3-1.7b
+# Configure DOC_ARQUITETURA_LLAMA_CONTEXT=4096, se necessário
 ```
 
-`models download` consulta a API do Hugging Face para obter o SHA da revisão da fonte, fixa essa revisão na URL de download, verifica a assinatura GGUF e grava SHA-256, origem, tamanho e revisão. Um checksum **independente** pode ser exigido com `--sha256 HASH`; sem essa opção, o checksum registrado serve para detectar alterações locais, mas não prova autenticidade da fonte. `models list` verifica os arquivos instalados. Download interrompido deve ser repetido; retomada por Range ainda não é suportada. `models serve` exige `llama-server` instalado separadamente, executa em primeiro plano e escuta somente `127.0.0.1`. `models assign` registra a associação do agente com um modelo; o pipeline do MVP ainda não inicia agentes automaticamente nem aplica essa associação a `review-bundle`.
+`models download` consulta a API do Hugging Face para obter o SHA da revisão da fonte, fixa essa revisão na URL de download, verifica a assinatura GGUF e grava SHA-256, origem, tamanho e revisão. Um checksum **independente** pode ser exigido com `--sha256 HASH`; sem essa opção, o checksum registrado serve para detectar alterações locais, mas não prova autenticidade da fonte. `models list` verifica os arquivos instalados. Download interrompido deve ser repetido; retomada por Range ainda não é suportada. `llama-server` é fornecido pelo pacote e iniciado como subprocesso privado via socket Unix. `models assign` registra a associação do agente com um modelo; o pipeline do MVP ainda não inicia agentes automaticamente nem aplica essa associação a `review-bundle`.
 
 ## Referência e compilação DSL
 
@@ -48,8 +48,8 @@ Aceita `DOC_ARQUITETURA_DATA_DIR`, `DOC_ARQUITETURA_CACHE_DIR`, `DOC_ARQUITETURA
 
 ## Limitações
 
-- Runtime `llama.cpp` e modelos GGUF são externos ao `.deb`.
-- Cada modelo é executado isoladamente; não há servidor de múltiplos modelos nem daemon systemd no MVP.
+- Runtime `llama.cpp` é compilado e incluído no `.deb`; os modelos GGUF são externos.
+- A aplicação gerencia um subprocesso de inferência por sessão, sem daemon systemd ou porta TCP.
 - O comando `review-bundle` ainda usa a limitação de contexto do MVP.
 - Testes locais não dependem de rede; downloads reais e inferência devem ser validados no host de instalação.
 - Não editar a branch `main` do repositório normativo.
@@ -57,7 +57,7 @@ Aceita `DOC_ARQUITETURA_DATA_DIR`, `DOC_ARQUITETURA_CACHE_DIR`, `DOC_ARQUITETURA
 
 ```sh
 doc-arquitetura
-doc-arquitetura terminal --repo https://github.com/OWNER/REPO --branch develop --area scope --api http://127.0.0.1:8080
+doc-arquitetura terminal --repo https://github.com/OWNER/REPO --branch develop --area scope 
 ```
 
 O menu descobre branches remotas e permite escolher Charter, Scope ou Implementation. Os prompts são carregados da referência normativa `main` versionada pelo SHA da sessão. O agente envia propostas JSON para documentos Markdown na etapa escolhida; respostas da LLM jamais são comandos shell/Git executáveis.
@@ -109,8 +109,11 @@ Após iniciar o projeto GitHub, escolha um modelo instalado, baixe um do catálo
 
 ## Diagnóstico do chat e velocidade de inferência
 
-Se o agente responder `connect: connection refused`, o problema é **servidor de inferência ausente** (e não download GGUF): verifique a instalação do `llama-server` e use `/model start` dentro do chat ou inicie `doc-arquitetura models serve qwen3-1.7b` em outro terminal. Use `/model check` para confirmar que a API responde e que o modelo realmente carregado corresponde à sessão. Para medir o desempenho CPU local, execute `/benchmark`; ele imprime tokens/s de geração, tokens/s do prompt e tempo total quando disponíveis.
+Se o agente não responder, use `/model check`: o subprocesso `llama-server` privado será iniciado automaticamente na primeira solicitação, sem TCP. Use `/model check` para confirmar que a API responde e que o modelo realmente carregado corresponde à sessão. Para medir o desempenho CPU local, execute `/benchmark`; ele imprime tokens/s de geração, tokens/s do prompt e tempo total quando disponíveis.
 
 A escolha de uma branch diferente de `develop` agora enfatiza que a sessão é somente leitura. Os documentos legados de Charter disponíveis em `docs/01-Project_Charter/charter/` podem ser consultados em diagnóstico, mesmo usando um prompt não migratório; a aplicação não confunde esse caminho com o destino canônico `docs/charter/`.
 
 Catálogo complementar: `gemma3-1b` e `qwen3.5-4b` além de `qwen3.5-0.8b` e `qwen3-1.7b`. Consulte [Seleção de modelo](MODEL-SELECTION.md).
+
+
+**Integração privada atual:** consulte [Inferência local privada](PRIVATE-INFERENCE.md) para build/revisão/lifecycle.

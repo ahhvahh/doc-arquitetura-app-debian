@@ -18,7 +18,7 @@ O modo `sync` baixa a referência `doc-arquitetura/main` e a branch `develop` do
 
 `package.yaml` é o contrato de build consumido pelo `build-package.sh` externo. O modo `package` valida os testes Go e publica o CLI em `/usr/bin/doc-arquitetura`, junto da DSL Charter em `/usr/share/doc-arquitetura-app/dsl/charter.pcdsl`.
 
-`routes`, `check`, `analyze`, `clone`, `sync`, `convert`, `model` e `review-bundle` são comandos do MVP. `check` aplica as regras Charter locais; `review-bundle` ainda é preliminar. Modelos GGUF e `llama-server` não integram o pacote.
+`routes`, `check`, `analyze`, `clone`, `sync`, `convert`, `model` e `review-bundle` são comandos do MVP. `check` aplica as regras Charter locais; `review-bundle` ainda é preliminar. Modelos GGUF não integram o pacote; `llama-server` é compilado e instalado privadamente.
 
 Consulte [arquitetura](docs/ARCHITECTURE.md) e [plano de implementação](docs/IMPLEMENTATION-PLAN.md).
 
@@ -41,7 +41,7 @@ Comandos internos do chat: `/status`, `/files`, `/diff`, `/apply`, `/validate`, 
 
 **Publicação:** alterações do modelo são propostas; `/apply` exige autorização e edita somente o clone local. `/commit` exige validação estrutural inicial e confirmação; `/push` exige outra confirmação, uma única revisão local e que `develop` remoto não tenha sido modificado desde a clonagem. Outras branches são consultáveis, mas não permitem escrita. Não execute comandos Git diretamente a partir de respostas do modelo.
 
-As sessões ficam em `DOC_ARQUITETURA_STATE_DIR` (ou `~/.local/state/doc-arquitetura`), com clones em `workspaces/`; os históricos são preservados para retomada. O modelo deve estar em execução em `http://127.0.0.1:8080` ou na API informada por `--api`. A validação implementada é apenas estrutural; ainda é necessário completar a auditoria semântica e o gate normativo antes de declarar a documentação refinada ou implementada.
+As sessões ficam em `DOC_ARQUITETURA_STATE_DIR` (ou `~/.local/state/doc-arquitetura`), com clones em `workspaces/`; os históricos são preservados para retomada. O modelo é executado automaticamente por socket Unix privado; não existe porta TCP nem parâmetro externo `--api`. A validação implementada é apenas estrutural; ainda é necessário completar a auditoria semântica e o gate normativo antes de declarar a documentação refinada ou implementada.
 
 
 ## Estrutura documental do projeto-alvo
@@ -57,9 +57,11 @@ O aplicativo oferece um seletor de prompts após o clone do projeto e os comando
 
 ## Modelo por sessão GitHub
 
-Ao iniciar um projeto GitHub, a CLI solicita o modelo GGUF a utilizar **antes de selecionar o prompt e abrir o chat**. O modelo fica registrado na sessão e pode ser trocado com `/model select`; veja [Seleção de modelo](docs/MODEL-SELECTION.md). O `llama-server` permanece um processo local separado.
+Ao iniciar um projeto GitHub, a CLI solicita o modelo GGUF a utilizar **antes de selecionar o prompt e abrir o chat**. O modelo fica registrado na sessão e pode ser trocado com `/model select`; veja [Seleção de modelo](docs/MODEL-SELECTION.md). O `llama-server` é um subprocesso privado iniciado sob demanda pela aplicação.
 
 
 ## Diagnóstico de Charter e benchmark local
 
-O chat agora verifica `/health` e `/v1/models` antes de enviar uma solicitação ao agente. Disponibiliza `/model start`, `/model check`, `/model stop` e `/benchmark` para inicialização/diagnóstico e velocidade real em tokens/s. O `models serve` usa contexto padrão 8192 e alias do modelo. A seleção de branch privilegia `develop` para edição; outras branches continuam disponíveis somente para leitura. Quando o Charter canônico ainda não existe em `/docs/charter/`, o agente recebe evidência parcial dos documentos legados `/docs/01-Project_Charter/charter/` para revisão, sem movimentar originais automaticamente.
+O chat inicia o subprocesso privado e verifica `/health` e `/v1/models` no socket Unix antes de solicitar inferência. Disponibiliza `/model start`, `/model check`, `/model stop` e `/benchmark` para inicialização/diagnóstico e velocidade real em tokens/s. O runtime privado usa contexto padrão 4096 e alias do modelo, acessível apenas via socket Unix. A seleção de branch privilegia `develop` para edição; outras branches continuam disponíveis somente para leitura. Quando o Charter canônico ainda não existe em `/docs/charter/`, o agente recebe evidência parcial dos documentos legados `/docs/01-Project_Charter/charter/` para revisão, sem movimentar originais automaticamente.
+
+**Integração privada atual:** consulte [Inferência local privada](docs/PRIVATE-INFERENCE.md) para build/revisão/lifecycle.

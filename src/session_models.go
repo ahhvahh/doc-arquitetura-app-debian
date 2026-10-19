@@ -40,13 +40,14 @@ func (a *terminalApp) useSessionModel(id string) error {
         return fmt.Errorf("modelo %s não está instalado ou íntegro: %w",id,err)
     }
     oldSessionModel, oldRuntimeModel := a.session.Model, a.model
+    if oldSessionModel != id {a.modelStop()}
     a.session.Model = id
     a.model = id
     if err := a.saveSession(); err != nil {
         a.session.Model, a.model = oldSessionModel, oldRuntimeModel
         return err
     }
-    fmt.Fprintf(a.out,"Modelo da sessão: %s. Inicie o servidor com 'doc-arquitetura models serve %s' em outro terminal.\n",id,id)
+    fmt.Fprintf(a.out,"Modelo da sessão: %s. O runtime privado será iniciado sob demanda pela aplicação; nenhum servidor externo é necessário.\n",id)
     return nil
 }
 
@@ -63,6 +64,7 @@ func (a *terminalApp) selectSessionModel() error {
             case "installed":
                 return a.useSessionModel(item.id)
             case "skip":
+                a.modelStop()
                 a.session.Model = ""
                 a.model = "local-model"
                 if err = a.saveSession();err != nil {return err}
@@ -99,6 +101,7 @@ func (a *terminalApp) activateSessionModel() error {
 func (a *terminalApp) clearSessionModel() error {
     if a.session.ID==""{return errors.New("nenhuma sessão GitHub iniciada")}
     previous,previousRuntime:=a.session.Model,a.model
+    a.modelStop()
     a.session.Model=""
     a.model="local-model"
     if err:=a.saveSession();err!=nil{
@@ -114,6 +117,6 @@ func (a *terminalApp) modelStatus(){
         fmt.Fprintln(a.out,"Nenhum modelo selecionado. Use /model select. Disponíveis: doc-arquitetura models catalog.")
         return
     }
-    fmt.Fprintf(a.out,"Modelo selecionado: %s; API local: %s\n",id,a.api)
-    fmt.Fprintf(a.out,"Para executar: doc-arquitetura models serve %s (em outro terminal).\n",id)
+    fmt.Fprintf(a.out,"Modelo selecionado: %s; runtime privado gerenciado pela aplicação\n",id)
+    if a.serverSocket==""{fmt.Fprintln(a.out,"Estado: descarregado; será iniciado na próxima análise")}else{fmt.Fprintln(a.out,"Socket privado:",a.serverSocket)}
 }

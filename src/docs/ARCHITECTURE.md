@@ -17,4 +17,7 @@
 **Novidade — terminal documental:** prompts especializados selecionáveis da referência `main` versionada, chat com agente, plano de migração e snapshots confirmados em `/docs/backup/<id>/`. Cada snapshot possui manifesto/hashes e cópias `original/<origem>`; o modelo somente pode propor edição de Markdown em `/docs/<etapa>/`. O commit pode incluir arquivos de backup somente se o snapshot registrado na sessão for revalidado. O conversor do projeto-alvo exclui `/docs/backup/`; a limpeza do legado continua não automática.
 
 
-**Seleção de modelo por sessão:** após o clone e antes da seleção de prompt, o terminal solicita o GGUF do agente. Registra o modelo na sessão, restaura-o na retomada, valida SHA-256 ao ativar e permite troca com `/model select`. Não executa troca automática no `llama-server`; o processo de inferência é independente. A política de branch `develop` e referência normativa `main` é preservada.
+**Seleção de modelo por sessão:** após o clone e antes da seleção de prompt, o terminal solicita o GGUF do agente. Registra o modelo na sessão, restaura-o na retomada, valida SHA-256 ao ativar e permite troca com `/model select`. O modelo é carregado sob demanda; o processo-filho é encerrado automaticamente ao mudar de modelo ou sair da sessão. A política de branch `develop` e referência normativa `main` é preservada.
+
+
+**Integração privada atual:** consulte [Inferência local privada](PRIVATE-INFERENCE.md) para build/revisão/lifecycle.
