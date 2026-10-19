@@ -94,3 +94,17 @@ func TestBackupPathNotAgentEditable(t *testing.T) {
         if isDocPath(s,path) {t.Fatalf("agente conseguiu escrever em %s",path)}
     }
 }
+
+func TestCharterLegacyContextForOrdinaryReview(t *testing.T) {
+    root:=t.TempDir()
+    old:=filepath.Join(root,"docs","01-Project_Charter","charter","README.md")
+    if err:=os.MkdirAll(filepath.Dir(old),0700);err!=nil{t.Fatal(err)}
+    if err:=os.WriteFile(old,[]byte("# Documento legado de Charter\\n\\nObjetivo preexistente do sistema.\\n"),0600);err!=nil{t.Fatal(err)}
+    app:=terminalApp{session:terminalSession{Workspace:root,Area:"charter",Prompt:"charter-refinement.md"}}
+    legacy,err:=app.legacyContext()
+    if err!=nil {t.Fatal(err)}
+    if !strings.Contains(legacy,"docs/01-Project_Charter/charter/README.md") ||
+       !strings.Contains(legacy,"Objetivo preexistente") {
+        t.Fatalf("documentação antiga omitida do contexto: %q",legacy)
+    }
+}

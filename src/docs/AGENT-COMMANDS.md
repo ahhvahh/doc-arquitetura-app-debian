@@ -105,3 +105,12 @@ A referência normativa é sempre `main` (somente leitura). Um prompt novo publi
 ## Modelo por sessão
 
 Após iniciar o projeto GitHub, escolha um modelo instalado, baixe um do catálogo ou continue sem inferência. A escolha persiste por sessão e pode ser alterada com `/model select`; `/model` mostra o estado e `/model clear` limpa a seleção. É preciso iniciar o `llama-server` separadamente com o modelo escolhido. Consulte [o fluxo completo](MODEL-SELECTION.md).
+
+
+## Diagnóstico do chat e velocidade de inferência
+
+Se o agente responder `connect: connection refused`, o problema é **servidor de inferência ausente** (e não download GGUF): verifique a instalação do `llama-server` e use `/model start` dentro do chat ou inicie `doc-arquitetura models serve qwen3-1.7b` em outro terminal. Use `/model check` para confirmar que a API responde e que o modelo realmente carregado corresponde à sessão. Para medir o desempenho CPU local, execute `/benchmark`; ele imprime tokens/s de geração, tokens/s do prompt e tempo total quando disponíveis.
+
+A escolha de uma branch diferente de `develop` agora enfatiza que a sessão é somente leitura. Os documentos legados de Charter disponíveis em `docs/01-Project_Charter/charter/` podem ser consultados em diagnóstico, mesmo usando um prompt não migratório; a aplicação não confunde esse caminho com o destino canônico `docs/charter/`.
+
+Catálogo complementar: `gemma3-1b` e `qwen3.5-4b` além de `qwen3.5-0.8b` e `qwen3-1.7b`. Consulte [Seleção de modelo](MODEL-SELECTION.md).

@@ -58,6 +58,8 @@ type terminalApp struct {
 	session      terminalSession
 	proposals    []documentEdit
 	contextFiles map[string]bool
+	serverProcess *exec.Cmd
+	serverDone chan error
 }
 
 var gitHubRepoRE = regexp.MustCompile(`^https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(?:\.git)?/?$`)
@@ -109,6 +111,7 @@ func availableBranches(remote string) ([]string, error) {
 		}
 	}
 	sort.Strings(branches)
+	for i,v := range branches { if v=="develop" {branches[0],branches[i]=branches[i],branches[0];break} }
 	if len(branches) == 0 {
 		return nil, errors.New("nenhuma branch válida encontrada")
 	}
@@ -251,10 +254,9 @@ func (a *terminalApp) setup() error {
 	if err != nil {
 		return err
 	}
-	branch, err := a.choose("Branch de origem:", branches)
-	if err != nil {
-		return err
-	}
+	branch, err := a.choose("Branch de origem (develop para editar; outras apenas leitura):", branches)
+	if err != nil {return err}
+	if branch!="develop" {fmt.Fprintf(a.out,"ATENÇÃO: %s é uma branch somente leitura. O programa não fará commit nem push nela. Para publicar documentos, reinicie e escolha develop.\n",branch)}
 	area, err := a.choose("Etapa da documentação:", []string{"charter", "scope", "implementation"})
 	if err != nil {
 		return err
@@ -370,7 +372,7 @@ func (a *terminalApp) documentContext() (string, error) {
 		if er != nil {
 			return "", er
 		}
-		if len(raw) > 16000 || total+len(raw) > 27000 {
+		if len(raw) > 9000 || total+len(raw) > 12000 {
 			fmt.Fprintf(&b, "OMITIDO POR TAMANHO: %s (%d bytes); nenhuma edição desse arquivo será aceita.\n", path, len(raw))
 			continue
 		}
@@ -393,10 +395,9 @@ func localhostAPI(raw string) (string, error) {
 func (a *terminalApp) agentReply(message string) (documentAnswer, error) {
 	if a.session.Model == "" {return documentAnswer{}, errors.New("nenhum modelo selecionado; use /model select")}
 	if a.model != a.session.Model {return documentAnswer{}, errors.New("modelo da sessão indisponível; use /model select ou verifique o GGUF instalado")}
+	if err:=a.modelReady();err!=nil{return documentAnswer{},err}
 	api, err := localhostAPI(a.api)
-	if err != nil {
-		return documentAnswer{}, err
-	}
+	if err != nil {return documentAnswer{}, err}
 	ref := filepath.Join(refBase(a.paths), a.session.ReferenceSHA, normTree, a.session.Area, "AGENT-PROMPT.md")
 	norm, err := os.ReadFile(ref)
 	if err != nil {
@@ -740,15 +741,20 @@ func (a *terminalApp) resolveAssignedModel() {
 }
 
 func (a *terminalApp) chat() error {
-	if err := a.activateSessionModel(); err != nil {
-		fmt.Fprintln(a.out, "ATENÇÃO:", err)
-	}
+	defer a.modelStop()
+	if err := a.activateSessionModel(); err != nil {fmt.Fprintln(a.out,"ATENÇÃO:",err)}
 	fmt.Fprintf(a.out, "\nProjeto: %s\nBranch: %s\nÁrea: %s\nReferência main: %s\nPrompt: %s\nBackup: %s\n",a.session.Repo,a.session.Branch,a.session.Area,a.session.ReferenceSHA,a.session.Prompt,a.session.BackupID)
 	if a.session.Branch != "develop" {
 		fmt.Fprintln(a.out, "ATENÇÃO: branch somente leitura. Para editar e publicar, selecione develop.")
 	}
 	fmt.Fprintf(a.out, "Chat local. Modelo selecionado: %s; API: %s. Use /help para comandos.\n", a.model, a.api)
-	if a.session.Model != "" {fmt.Fprintf(a.out, "Antes de conversar com o agente, execute em outro terminal: doc-arquitetura models serve %s\n", a.session.Model)}
+	if a.session.Model != "" {
+		if err:=a.modelReady();err!=nil {fmt.Fprintln(a.out,"ATENÇÃO:",err)
+			if _,look:=exec.LookPath("llama-server");look==nil {
+				yes,e:=a.confirmation("Deseja iniciar o modelo local automaticamente agora?");if e==nil&&yes {if e=a.modelStart();e!=nil{fmt.Fprintln(a.out,"Erro:",e)}}
+			}
+		}
+	}
 	for {
 		message, err := a.ask("você > ")
 		if errors.Is(err, io.EOF) {
@@ -762,7 +768,7 @@ func (a *terminalApp) chat() error {
 		}
 		switch message {
 		case "/help":
-			fmt.Fprintln(a.out, "/status /files /model /model select /model clear /prompts /prompt select /prompt show /prompt reset /backup plan /backup add <caminho> /backup create /migration plan /diff /apply /validate /commit /push /help /exit")
+			fmt.Fprintln(a.out, "/status /files /model /model select /model clear /model start /model check /model stop /benchmark /prompts /prompt select /prompt show /prompt reset /backup plan /backup add <caminho> /backup create /migration plan /diff /apply /validate /commit /push /help /exit")
 		case "/exit":
 			return nil
 		case "/status":
@@ -773,6 +779,16 @@ func (a *terminalApp) chat() error {
             err=a.selectSessionModel()
         case "/model clear":
             err=a.clearSessionModel()
+        case "/model start":
+            err=a.modelStart()
+        case "/model check":
+            err=a.modelReady()
+            if err==nil{fmt.Fprintln(a.out,"Servidor pronto com o modelo selecionado.")}
+        case "/model stop":
+            a.modelStop()
+            fmt.Fprintln(a.out,"Servidor desta sessão encerrado (caso iniciado pelo aplicativo).")
+        case "/benchmark":
+            err=a.modelBenchmark()
         case "/prompts":
             err=a.showPrompts()
         case "/prompt select":

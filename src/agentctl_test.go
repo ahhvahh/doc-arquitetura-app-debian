@@ -141,3 +141,15 @@ func TestModelCatalogGGUFFilenames(t *testing.T) {
         })
     }
 }
+
+func TestAdditionalReviewModelsInCatalog(t *testing.T) {
+    for _,tc:=range []struct{ID,Repo,File string}{
+        {"gemma3-1b","ggml-org/gemma-3-1b-it-GGUF","gemma-3-1b-it-Q4_K_M.gguf"},
+        {"qwen3.5-4b","lmstudio-community/Qwen3.5-4B-GGUF","Qwen3.5-4B-Q4_K_M.gguf"},
+    }{
+        model,err:=getModel(tc.ID)
+        if err!=nil||model.Repo!=tc.Repo||model.File!=tc.File{
+            t.Errorf("catalog mismatch for %s: %+v (%v)",tc.ID,model,err)
+        }
+    }
+}

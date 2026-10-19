@@ -58,3 +58,8 @@ O aplicativo oferece um seletor de prompts após o clone do projeto e os comando
 ## Modelo por sessão GitHub
 
 Ao iniciar um projeto GitHub, a CLI solicita o modelo GGUF a utilizar **antes de selecionar o prompt e abrir o chat**. O modelo fica registrado na sessão e pode ser trocado com `/model select`; veja [Seleção de modelo](docs/MODEL-SELECTION.md). O `llama-server` permanece um processo local separado.
+
+
+## Diagnóstico de Charter e benchmark local
+
+O chat agora verifica `/health` e `/v1/models` antes de enviar uma solicitação ao agente. Disponibiliza `/model start`, `/model check`, `/model stop` e `/benchmark` para inicialização/diagnóstico e velocidade real em tokens/s. O `models serve` usa contexto padrão 8192 e alias do modelo. A seleção de branch privilegia `develop` para edição; outras branches continuam disponíveis somente para leitura. Quando o Charter canônico ainda não existe em `/docs/charter/`, o agente recebe evidência parcial dos documentos legados `/docs/01-Project_Charter/charter/` para revisão, sem movimentar originais automaticamente.

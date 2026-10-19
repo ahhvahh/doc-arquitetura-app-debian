@@ -237,14 +237,15 @@ func (a *terminalApp) backupAllowedPath(path string) bool {
 }
 
 func (a *terminalApp) legacyContext() (string,error) {
-    if !strings.HasPrefix(a.session.Prompt,"legacy-"){return "",nil}
+    // Every documentation review must see available legacy sources, even if the
+    // selected prompt is a normal Charter refinement/review rather than migration.
     sources,err:=a.backupSources();if err!=nil{return "",err}
     var out strings.Builder
-    limit:=12000
+    limit:=6000
     for _,item:=range sources{
         if !strings.HasSuffix(strings.ToLower(item.Source),".md") {continue}
         if strings.HasPrefix(item.Source,"docs/"+a.session.Area+"/"){continue}
-        if item.Size>8000 || int(item.Size)>limit {
+        if item.Size>5500 || int(item.Size)>limit {
             fmt.Fprintf(&out,"LEGADO OMITIDO POR TAMANHO: %s (%d bytes). Solicite revisão específica antes de editar.\n",item.Source,item.Size)
             continue
         }

@@ -34,3 +34,23 @@ doc-arquitetura models serve qwen3-1.7b
 ```
 
 Se trocar de modelo no chat, encerre o servidor anterior e inicie outro com o novo GGUF. O catálogo embutido ainda oferece dois modelos (`qwen3.5-0.8b` e `qwen3-1.7b`); catálogo dinâmico e importação de GGUF externos são evoluções futuras. A seleção não autoriza alterações em `main`; edição documental e push continuam restritos a `develop` com aprovações independentes.
+
+
+## Diagnóstico e benchmark de modelos (atualizado)
+
+O aplicativo informa explicitamente quando a API local não está ativa, quando o modelo em `/v1/models` não é o escolhido ou quando a memória ainda está carregando. Se `llama-server` estiver no PATH, após entrar no chat é possível confirmar a inicialização local e aguardar `/health` até 60 segundos. Se não estiver instalado, instalar o runtime llama.cpp separadamente. O processo lançado pela CLI é encerrado ao sair da sessão; outros servidores existentes não são encerrados.
+
+Comandos interativos:
+
+```text
+/model start   Inicia llama-server do modelo selecionado em 127.0.0.1:8080 (contexto 8192)
+/model check   Confere GET /health e o modelo anunciado em /v1/models
+/model stop    Encerra apenas o processo iniciado por esta sessão
+/benchmark     Mede a geração e o processamento do prompt no próprio servidor (tokens/s)
+```
+
+O comando `models serve` também configura `--alias <id>` e usa 8192 tokens por padrão (`--context` permite sobrescrever). Benchmarks usam os campos `timings.prompt_per_second` e `timings.predicted_per_second` do llama.cpp; a medida não é uma estimativa genérica de CPU. Velocidade de prefill é diferente de velocidade de geração. Os resultados mudam conforme a CPU, quantidade de threads, memória, contextos, quantização e concorrência.
+
+Além dos dois Qwen anteriores, o catálogo possui `gemma3-1b` (revisão textual leve) e `qwen3.5-4b` (tarefas mais exigentes). O Qwen3.5 4B exige mais RAM, pode ser lento em CPU e requer versão atual do llama.cpp que suporte sua arquitetura GGUF.
+
+**Atenção às branches e ao legado:** uma sessão aberta em outra branch, como `ajusteDoc`, é somente leitura. Para modificar documentos e publicar, selecione `develop`. Charter de projetos legados também é lido como fonte histórica de diagnóstico quando a etapa escolhida é Charter, independentemente do prompt; os originais não são sobrescritos sem autorização. O contexto enviado ao modelo é limitado por tamanho, logo uma auditoria integral de vários documentos deve ser segmentada por assunto.

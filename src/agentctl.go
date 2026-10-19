@@ -28,6 +28,8 @@ type modelSpec struct{ ID, Repo, File, Purpose string }
 var modelCatalog = []modelSpec{
 	{"qwen3.5-0.8b", "ggml-org/Qwen3.5-0.8B-GGUF", "Qwen3.5-0.8B-Q4_0.gguf", "triagem, classificacao e extracao preliminar"},
 	{"qwen3-1.7b", "bartowski/Qwen_Qwen3-1.7B-GGUF", "Qwen_Qwen3-1.7B-Q4_K_M.gguf", "analise semantica, contratos e inconsistencias"},
+	{"gemma3-1b", "ggml-org/gemma-3-1b-it-GGUF", "gemma-3-1b-it-Q4_K_M.gguf", "revisao textual leve e organizacao de documentos"},
+	{"qwen3.5-4b", "lmstudio-community/Qwen3.5-4B-GGUF", "Qwen3.5-4B-Q4_K_M.gguf", "analise tecnica detalhada e migracao documental (mais lento)"},
 }
 
 type modelRecord struct {
@@ -354,7 +356,7 @@ func modelsCommand(p appPaths, args []string) error {
 	case "serve":
 		f := flag.NewFlagSet("models serve", flag.ContinueOnError)
 		port := f.Int("port", 8080, "porta local")
-		contextSize := f.Int("context", 2048, "contexto em tokens")
+		contextSize := f.Int("context", 8192, "contexto em tokens")
 		if e := f.Parse(args); e != nil {
 			return e
 		}
@@ -372,7 +374,7 @@ func modelsCommand(p appPaths, args []string) error {
 		if e != nil {
 			return errors.New("llama-server ausente: instale llama.cpp separadamente")
 		}
-		cmd := exec.Command(server, "-m", modelPath(p, id), "--host", "127.0.0.1", "--port", strconv.Itoa(*port), "-c", strconv.Itoa(*contextSize))
+		cmd := exec.Command(server, "-m", modelPath(p, id), "--alias", id, "--host", "127.0.0.1", "--port", strconv.Itoa(*port), "-c", strconv.Itoa(*contextSize))
 		cmd.Stdin = os.Stdin
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
