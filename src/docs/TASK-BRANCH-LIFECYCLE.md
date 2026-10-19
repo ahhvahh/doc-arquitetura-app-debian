@@ -82,3 +82,7 @@ Para publicação, confirmar novamente branch alvo e SHA base, usar `git push or
 - Sem token de GitHub de serviço com permissão adequada, o push fica `BLOCKED`, sem tentativa de tomar credenciais do usuário.
 - **Pendente para refinamento:** mecanismo oficial de credenciais GitHub no daemon; política de administração/approvação entre operadores; retenção de eventos, diffs e históricos; migração dos GGUF existentes do diretório do usuário para o diretório privado do serviço; limites e política de concorrência/retry. Esses pontos precisam de decisão antes de implementar operações remotas efetivas.
 
+
+## 5. Controle administrativo de acesso
+
+O cadastro de usuários autorizados, a identidade técnica e a credencial GitHub são definidos apenas em [ADMIN-SETUP.md](ADMIN-SETUP.md), por root. O daemon valida `SO_PEERCRED`, grupo Linux e allowlist no arquivo root-owned antes de aceitar comandos. O `task_id` e o UID do criador são obrigatórios para aprovações; não transmitir credenciais do GitHub pela CLI.

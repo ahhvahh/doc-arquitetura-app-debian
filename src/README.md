@@ -69,3 +69,8 @@ O chat inicia o subprocesso privado e verifica `/health` e `/v1/models` no socke
 ## Próxima arquitetura — serviço isolado (refinement)
 
 Está registrada a proposta de execução exclusiva pelo daemon systemd, com dois grupos de acesso distintos, runtime `llama.cpp` privado, socket Unix de controle, auditoria e branches de trabalho individuais derivadas de `develop`. A documentação está em [Plano de serviço isolado](docs/SERVICE-ISOLATION-PLAN.md) e [Fluxo de tarefa e branch](docs/TASK-BRANCH-LIFECYCLE.md). **Ainda não está em execução neste binário**: os comandos legados de edição/commit para `develop` deverão ser desativados quando o daemon for implementado; não presumir segurança multiusuário no MVP atual.
+
+
+### Administração root (arquitetura futura)
+
+O serviço isolado terá uma interface de administração em **terminal**, acessível somente com `sudo doc-arquitetura admin`, para cadastrar usuário técnico, grupos, usuários permitidos, repositórios e credencial GitHub. O arquivo de configuração será `/etc/doc-arquitetura-app/config.yaml` (root-owned, sem segredos). Chaves ficarão em arquivo protegido e serão entregues ao serviço pelo systemd. A [especificação](docs/ADMIN-SETUP.md) está registrada em `develop`, mas o comando `admin` e o serviço seguro ainda **não foram implementados**. Não use `sudo doc-arquitetura` para executar o cliente atual: isso não habilita isolamento.

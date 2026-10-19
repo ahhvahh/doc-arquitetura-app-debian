@@ -20,70 +20,30 @@ systemd doc-arquitetura-app.service
   ├─ lê normativa main como referência (somente leitura)
   ├─ modelo GGUF e prompts sob controle do daemon
   ├─ llama-server filho
-  │     └─ /run/doc-arquitetura-app/private/<id>/llama.sock (0700)
+  │     └─ /run/doc-arquitetura-app-private/<id>/llama.sock (0700)
   └─ commit/push SOMENTE na branch da tarefa, após aprovação
 ```
 
 O CLI será apenas cliente do protocolo. O serviço será o **único** responsável por clonagem, modelos, inferência, escrita, Git e publicação. Deve ser removido/impedido o caminho legado em que `doc-arquitetura terminal` edita repositórios com o UID do usuário. O serviço **não** poderá receber comandos arbitrários de shell/exec do cliente ou do modelo.
 
-### Permissões Linux propostas
+### Configuração administrativa root e permissões
 
-| Objeto | Proprietário | Grupo | Modo | Observação |
-|---|---|---|---|---|
-| Conta do daemon | `docarq-svc` | `docarq-clients` (primário) | sem login | Identidade exclusiva do serviço |
-| Grupo de operadores | administrado por root | `docarq-clients` | n/a | Apenas membros podem conectar ao socket |
-| Grupo técnico interno | administrado por root | `docarq-runtime` | n/a | Apenas conta do serviço pertence a esse grupo |
-| `/run/doc-arquitetura-app/` | `docarq-svc` | `docarq-clients` | `0750` | Travessia do diretório do socket público |
-| `control.sock` | `docarq-svc` | `docarq-clients` | `0660` | Socket público de comandos estruturados |
-| `private/` | `docarq-svc` | `docarq-runtime` | `0700` | Não acessível ao grupo de clientes |
-| `private/<task>/llama.sock` | `docarq-svc` | `docarq-runtime` | `0600` | Apenas serviço pode interagir com o Llama |
-| `/usr/lib/doc-arquitetura-app/llama-server` | `root` | `docarq-runtime` | `0750` | Usuários clientes não podem executar diretamente |
-| `/var/lib/doc-arquitetura-app/` | `docarq-svc` | `docarq-clients` | `0700` | Workspace, modelos, logs e dados privados |
+A configuração administrativa é definida em [ADMIN-SETUP.md](ADMIN-SETUP.md). Todo cadastro de contas/grupos Linux, credenciais GitHub, usuários autorizados e parâmetros do daemon será realizado **somente por root** via terminal (`sudo doc-arquitetura admin`).
 
-O serviço roda com `User=docarq-svc`, `Group=docarq-clients` e `SupplementaryGroups=docarq-runtime`. O diretório `private/` precisa continuar modo 0700, independente do grupo herdado. Embora pertençam a `docarq-clients`, os operadores não recebem acesso a modelos, tokens, workspaces ou ao socket do Llama. Root e processos sob o UID técnico têm as prerrogativas habituais do Linux; o serviço não promete proteção contra root.
+O esquema anterior, em que `docarq-svc` era membro primário de `docarq-clients`, foi substituído para impedir que a conta técnica integre o grupo dos usuários finais. O serviço usará exclusivamente `User=docarq-svc` e `Group=docarq-runtime`; o grupo `docarq-clients` será usado apenas no socket público, de propriedade do systemd (socket activation).
 
-Autorização obrigatória por Linux DAC no socket **e** `SO_PEERCRED` para registrar UID/PID do cliente; o serviço não aceita UID informado pelo próprio cliente como prova de identidade. Aprovação de uma tarefa: somente o UID do solicitante, ou administrador explicitamente configurado; outro membro do grupo não pode aprová-la implicitamente.
+| Objeto | Proprietário/grupo | Modo | Finalidade |
+|---|---|---|---|
+| `/etc/doc-arquitetura-app/config.yaml` | `root:docarq-runtime` | `0640` | Configuração administrativa, sem segredo |
+| `/etc/doc-arquitetura-app/secrets/` | `root:root` | `0700` | Credenciais sob custódia root |
+| `/run/doc-arquitetura-app/control.sock` | `root:docarq-clients` | `0660` | Comandos autorizados, validação por `SO_PEERCRED` e allowlist |
+| `/run/doc-arquitetura-app-private/` | `docarq-svc:docarq-runtime` | `0700` | Socket do Llama inacessível a clientes |
+| `/usr/lib/doc-arquitetura-app/llama-server` | `root:docarq-runtime` | `0750` | Executável privado do serviço |
+| `/var/lib/doc-arquitetura-app/` | `docarq-svc:docarq-runtime` | `0700` | Clones, modelos, tarefas e registros privados |
 
-### Unidade systemd proposta
+Os grupos/clientes podem usar IPC apenas se o usuário estiver simultaneamente no grupo e em `authorized_users`; aprovar operações de outra pessoa não decorre da participação no grupo. Root gerencia mudanças por menu, mas **não executa o daemon como root**. O socket externo é separado do socket interno e dos diretórios de modelos.
 
-```ini
-[Unit]
-Description=Doc Arquitetura — orquestrador documental privado
-After=network-online.target
-Wants=network-online.target
-
-[Service]
-Type=simple
-User=docarq-svc
-Group=docarq-clients
-SupplementaryGroups=docarq-runtime
-ExecStart=/usr/bin/doc-arquitetura service
-WorkingDirectory=/var/lib/doc-arquitetura-app
-Environment=HOME=/var/lib/doc-arquitetura-app
-StateDirectory=doc-arquitetura-app
-StateDirectoryMode=0700
-CacheDirectory=doc-arquitetura-app
-CacheDirectoryMode=0700
-RuntimeDirectory=doc-arquitetura-app
-RuntimeDirectoryMode=0750
-UMask=0077
-NoNewPrivileges=yes
-ProtectSystem=strict
-ProtectHome=yes
-PrivateTmp=yes
-ProtectKernelTunables=yes
-ProtectControlGroups=yes
-RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
-KillMode=control-group
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target
-```
-
-O daemon cria o socket de controle no RuntimeDirectory e aplica `chmod 0660` depois do bind (o `UMask=0077` impediria isso automaticamente). O `llama.cpp` será **iniciado pelo serviço** quando necessário, sempre pelo socket privado, nunca TCP. O socket privado é criado sob a árvore `0700`, não dentro do diretório acessível ao grupo de clientes. `KillMode=control-group` evita processos órfãos do motor após a parada do serviço.
-
-O `llama-server` atual já é compilado e distribuído privadamente no pacote. A mudança é no **usuário executor**, **permissões do binário**, **ciclo de vida** e **protocolo**; não implica recompilar por solicitação.
+A unidade `doc-arquitetura-app.socket` define `SocketGroup=docarq-clients` e `SocketMode=0660` para o socket de controle; `doc-arquitetura-app.service` usa `User=docarq-svc`, `Group=docarq-runtime`, `RuntimeDirectory=doc-arquitetura-app-private` e `RuntimeDirectoryMode=0700`. O arquivo de configuração é root-owned, somente leitura pelo daemon; credenciais são entregues pelo `LoadCredential=` do systemd. Configuração inválida bloqueia o serviço. Esta definição substitui os exemplos antigos de permissões e lifecycle.
 
 ## 2. Protocolo cliente → daemon
 
@@ -113,7 +73,7 @@ O serviço registra eventos de auditoria com parâmetros sensíveis censurados (
 
 - A **única base de tarefas editáveis** é `origin/develop`. Nenhum commit ou push direto em `main` ou `develop`.
 - O daemon clona como `docarq-svc` em workspace privado, com `--no-recurse-submodules`; não executa código, hooks ou filtros fornecidos pelo projeto-alvo.
-- Credenciais GitHub ficam sob controle do serviço (GitHub App de instalação ou credencial de menor privilégio), protegidas em arquivo/secret do systemd, não transmitidas por stdin do cliente nem incluídas em logs/URLs. Acesso a repositórios privados ou push fica `BLOCKED` até configuração segura dessas credenciais. O daemon não tem acesso automático ao SSH agent/credenciais do usuário.
+- Credenciais GitHub são cadastradas somente pelo root (GitHub App de instalação ou chave SSH de serviço), protegidas em secrets root-only e entregues ao daemon por systemd LoadCredential; não transitam no cliente nem são incluídas em logs/URLs. Consulte ADMIN-SETUP.md. Acesso a repositórios privados ou push fica `BLOCKED` até configuração segura dessas credenciais. O daemon não tem acesso automático ao SSH agent/credenciais do usuário.
 - Criar branch de trabalho baseada no SHA exato de `origin/develop`, sem modificar o ponteiro de `develop`.
 - Commit local e publicação na branch da tarefa exigem aprovação separada; push sem force e bloqueio de troca inesperada de HEAD.
 - Quando houver conflito ou mudança remota, suspender publicação e solicitar nova revisão.
@@ -128,7 +88,7 @@ Requisitos de segurança a verificar nos testes: ACL/DAC de sockets e binário, 
 
 ## 5. Estratégia de entrega
 
-1. **Documentar contratos** em Charter, Scope e Implementation, e revisar gates normativos. Estado inicial `refinement`/`BLOCKED` para dependências ainda não aprovadas.
+1. **Documentar contratos** em Charter, Scope e Implementation, incluindo o novo [cadastro administrativo root](ADMIN-SETUP.md), e revisar gates normativos. Estado inicial `refinement`/`BLOCKED` para dependências ainda não aprovadas.
 2. Implementar daemon de controle, IPC com credenciais e persistência de tarefas; testes locais Unix/grupos.
 3. Mover clonagem, repositório normativo, seleção de modelos, prompts e inferência para o processo do serviço. **Desabilitar os caminhos legados de escrita no CLI**; não ligar o serviço com lógica incompleta.
 4. Implementar branches por operação e fluxo separado de aprovação, commit e push.
