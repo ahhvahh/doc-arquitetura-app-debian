@@ -27,7 +27,7 @@ type modelSpec struct{ ID, Repo, File, Purpose string }
 
 var modelCatalog = []modelSpec{
 	{"qwen3.5-0.8b", "ggml-org/Qwen3.5-0.8B-GGUF", "Qwen3.5-0.8B-Q4_0.gguf", "triagem, classificacao e extracao preliminar"},
-	{"qwen3-1.7b", "bartowski/Qwen_Qwen3-1.7B-GGUF", "Qwen3-1.7B-Q4_K_M.gguf", "analise semantica, contratos e inconsistencias"},
+	{"qwen3-1.7b", "bartowski/Qwen_Qwen3-1.7B-GGUF", "Qwen_Qwen3-1.7B-Q4_K_M.gguf", "analise semantica, contratos e inconsistencias"},
 }
 
 type modelRecord struct {

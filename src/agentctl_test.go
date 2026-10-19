@@ -119,3 +119,25 @@ func TestBadToken(t *testing.T) {
 		}
 	}
 }
+
+func TestModelCatalogGGUFFilenames(t *testing.T) {
+    tests := []struct{
+        id   string
+        repo string
+        file string
+    }{
+        {"qwen3.5-0.8b", "ggml-org/Qwen3.5-0.8B-GGUF", "Qwen3.5-0.8B-Q4_0.gguf"},
+        {"qwen3-1.7b", "bartowski/Qwen_Qwen3-1.7B-GGUF", "Qwen_Qwen3-1.7B-Q4_K_M.gguf"},
+    }
+    for _, tc := range tests {
+        t.Run(tc.id, func(t *testing.T) {
+            model, err := getModel(tc.id)
+            if err != nil {
+                t.Fatal(err)
+            }
+            if model.Repo != tc.repo || model.File != tc.file {
+                t.Fatalf("GGUF catalog mismatched: repo=%q file=%q; want repo=%q file=%q", model.Repo, model.File, tc.repo, tc.file)
+            }
+        })
+    }
+}
