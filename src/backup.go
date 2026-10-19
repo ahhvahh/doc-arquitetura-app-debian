@@ -131,8 +131,13 @@ func (a *terminalApp) migrationPlan() error {
         if dest==""{fmt.Fprintf(a.out,"  REVISAR destino: %s\n",item.Source);continue}
         if dest==item.Source {fmt.Fprintf(a.out,"  PRESERVAR: %s\n",item.Source);continue}
         path,err:=withinRepository(a.session.Workspace,dest);if err!=nil{return err}
-        if _,err=os.Lstat(path);err==nil{fmt.Fprintf(a.out,"  CONFLITO: %s -> %s (destino já existe)\n",item.Source,dest)}
-        else if !os.IsNotExist(err){return err}else{fmt.Fprintf(a.out,"  PROPOSTO: %s -> %s\n",item.Source,dest)}
+        if _, err = os.Lstat(path); err == nil {
+            fmt.Fprintf(a.out, "  CONFLITO: %s -> %s (destino já existe)\n", item.Source, dest)
+        } else if !os.IsNotExist(err) {
+            return err
+        } else {
+            fmt.Fprintf(a.out, "  PROPOSTO: %s -> %s\n", item.Source, dest)
+        }
     }
     fmt.Fprintln(a.out,"Plano é preliminar; o agente deve atualizar documentos e links. Nenhum arquivo foi movido.")
     return nil
