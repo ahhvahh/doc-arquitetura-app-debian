@@ -1,0 +1,93 @@
+# A-Bioma Debian Package Builder schema 1
+# Lido automaticamente pelo atualizar-e-compilar.sh, em src/package.yaml.
+schema: 1
+
+project:
+  name: "doc-arquitetura-app-debian"
+  origin:
+    repository: "https://github.com/ahhvahh/doc-arquitetura-app-debian"
+    homepage: "https://github.com/ahhvahh/doc-arquitetura-app-debian"
+    source_type: "git"
+
+package:
+  name: "doc-arquitetura-app"
+  section: "devel"
+  priority: "optional"
+  maintainer: "A-Bioma Build System <noreply@localhost>"
+  version:
+    strategy: "literal"
+    value: "0.1.0"
+    fallback: "0.1.0"
+  description:
+    short: "Ferramenta local de analise ProjectCharter em Go"
+    long: |
+      Prototipo CLI para clonagem de projetos GitHub e conversao da referencia
+      normativa ProjectCharter/1.0 em DSL. Auditoria completa ainda pendente.
+      O runtime llama.cpp e os modelos GGUF nao integram este pacote.
+
+dependencies:
+  depends:
+    - "git"
+    - "ca-certificates"
+  recommends: []
+  suggests: []
+  pre_depends: []
+  setup:
+    shell: "/bin/bash"
+    stop_on_error: true
+    commands: []
+
+build:
+  working_directory: "."
+  architectures:
+    amd64:
+      enabled: true
+      debian_architecture: "amd64"
+      description: "Binario Go Linux amd64, sem CGO"
+      commands:
+        - 'command -v go >/dev/null 2>&1 || { echo "Go ausente no host de build" >&2; exit 1; }'
+        - 'command -v install >/dev/null 2>&1 || { echo "install ausente no host de build" >&2; exit 1; }'
+        - 'test -f "$PROJECT_ROOT/src/go.mod"'
+        - 'mkdir -p "$PROJECT_ROOT/out/amd64"'
+        - '(cd "$PROJECT_ROOT/src" && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GOAMD64=v1 go build -trimpath -o "$PROJECT_ROOT/out/amd64/doc-arquitetura" .)'
+        - 'install -m 0644 "$PROJECT_ROOT/src/dsl/charter.pcdsl" "$PROJECT_ROOT/out/amd64/charter.pcdsl"'
+      output:
+        root: "out/amd64"
+      tests:
+        enabled: true
+        commands:
+          - '(cd "$PROJECT_ROOT/src" && go test ./...)'
+          - 'test -x "$OUTPUT_ROOT/doc-arquitetura"'
+          - 'test -s "$OUTPUT_ROOT/charter.pcdsl"'
+          - '"$OUTPUT_ROOT/doc-arquitetura" routes -dsl "$OUTPUT_ROOT/charter.pcdsl" >/dev/null'
+          - 'DOC_ARQUITETURA_DSL="$OUTPUT_ROOT/charter.pcdsl" "$OUTPUT_ROOT/doc-arquitetura" routes >/dev/null'
+
+publication:
+  directories:
+    - path: "/usr/bin"
+      owner: "root"
+      group: "root"
+      mode: "0755"
+      managed_by: "package"
+    - path: "/usr/share/doc-arquitetura-app/dsl"
+      owner: "root"
+      group: "root"
+      mode: "0755"
+      managed_by: "package"
+  files:
+    - source: "doc-arquitetura"
+      destination: "/usr/bin/doc-arquitetura"
+      owner: "root"
+      group: "root"
+      mode: "0755"
+    - source: "charter.pcdsl"
+      destination: "/usr/share/doc-arquitetura-app/dsl/charter.pcdsl"
+      owner: "root"
+      group: "root"
+      mode: "0644"
+
+lifecycle:
+  pre_install: []
+  post_install: []
+  pre_remove: []
+  post_remove: []
