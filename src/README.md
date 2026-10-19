@@ -84,3 +84,8 @@ O aplicativo pode ler `~/.config/doc-arquitetura/github.json` com token pessoal 
 ## Instalador remoto Debian via SSH
 
 O script [instalar-deb-ssh.sh](scripts/instalar-deb-ssh.sh) permite copiar um `.deb` ao servidor, verificar SHA-256, pesquisar versões instaladas com nome igual/semelhante, atualizar sem remover (padrão), remover explicitamente antes da instalação e acompanhar menus coloridos. Consulte [scripts/README.md](scripts/README.md). `github.json` permanece suportado na versão 0.2.1; o script de SSH não exige modificações nesse arquivo.
+
+
+### Seleção de builds pela estrutura A-Bioma
+
+O instalador remoto `src/scripts/instalar-deb-ssh.sh` usa o `projetos.conf` da pasta do empacotador A-Bioma como índice e oferece o pacote mais recente válido sob `packages/<projeto>/develop/amd64/<timestamp>/`. Uma pasta de build criada antes de falha não é considerada pacote instalado. Veja `src/scripts/README.md` e a opção local `--list-builds`.

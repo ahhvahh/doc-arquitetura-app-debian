@@ -62,6 +62,7 @@ build:
           - '(cd "$PROJECT_ROOT/src" && go test ./...)'
           - 'bash -n "$PROJECT_ROOT/src/scripts/instalar-deb-ssh.sh"'
           - 'bash "$PROJECT_ROOT/src/scripts/tests/test-instalar-deb-ssh.sh"'
+          - 'bash "$PROJECT_ROOT/src/scripts/tests/test-project-selection.sh"'
           - 'test -x "$OUTPUT_ROOT/doc-arquitetura"'
           - 'test -s "$OUTPUT_ROOT/charter.pcdsl"'
           - 'test -x "$OUTPUT_ROOT/llama-server"'

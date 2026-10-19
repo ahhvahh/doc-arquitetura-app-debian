@@ -34,3 +34,9 @@ O teste cobre seis decisões simuladas. A instalação real requer SSH configura
 ## Runtime privado
 
 `build-private-llama.sh` constrói o executável privado do llama.cpp durante o empacotamento Debian e não é utilizado no desktop para instalação remota.
+
+## Seleção por projetos.conf e histórico do build
+
+O instalador procura `projetos.conf` e `packages/` na pasta do próprio instalador/build, depois no diretório atual e em diretórios ancestrais. Pode informar `ABIOMA_ROOT=/caminho/abioma` se necessário. A opção de instalação lista apenas os repositórios cadastrados que possuem saída em `packages/` e examina `packages/<projeto>/develop/amd64/<YYYY-MM-DD_HH-MM-SS>/`. Ordena por data descendente e valida os metadados de cada `.deb` com `dpkg-deb`; diretórios vazios, arquivos truncados ou builds falhos não são tratados como artefato instalável.
+
+Se o diretório mais recente não contiver `.deb` válido, o instalador avisa que as versões disponíveis são anteriores e não as seleciona automaticamente. Para conferir localmente sem conexão SSH: `bash instalar-deb-ssh.sh --list-builds`. Se o arquivo não estiver na mesma pasta de `projetos.conf`/`packages`, execute `ABIOMA_ROOT=/home/usuario/Documentos/Projetos/abioma bash instalar-deb-ssh.sh --list-builds`.

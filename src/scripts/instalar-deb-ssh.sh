@@ -19,14 +19,54 @@ warning() { printf '%s[ATENÇÃO]%s %s\n' "$C_YELLOW" "$C_RESET" "$1"; }
 failure() { printf '%s[ERRO]%s %s\n' "$C_RED" "$C_RESET" "$1" >&2; }
 
 
-for program in ssh scp dpkg-deb realpath mktemp sha256sum; do
+for program in dpkg-deb realpath mktemp sha256sum find sort; do
     if ! command -v "$program" >/dev/null 2>&1; then
         printf 'ERRO: comando necessário não encontrado: %s\n' "$program" >&2
         exit 1
     fi
 done
 
-workdir="$(realpath -e -- "$PWD")"
+# Diretório de build: localizar projetos.conf e packages/ sem depender de PWD.
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+resolve_abioma_root() {
+    local candidate
+    if [[ -n "${ABIOMA_ROOT:-}" ]]; then
+        candidate="$(realpath -e -- "$ABIOMA_ROOT")" || return 1
+        if [[ -f "$candidate/projetos.conf" && -d "$candidate/packages" ]]; then
+            printf '%s\n' "$candidate"
+            return 0
+        fi
+        failure "ABIOMA_ROOT não contém projetos.conf e packages/: $candidate"
+        return 1
+    fi
+    for candidate in "$script_dir" "$PWD" "$script_dir/.." "$script_dir/../.."; do
+        if [[ -f "$candidate/projetos.conf" && -d "$candidate/packages" ]]; then
+            realpath -e -- "$candidate"
+            return 0
+        fi
+    done
+    failure "Não encontrei projetos.conf e packages/ ao lado do instalador/build."
+    printf 'Coloque o instalador na pasta abioma ou defina ABIOMA_ROOT=/caminho/abioma.\n' >&2
+    return 1
+}
+workdir="$(resolve_abioma_root)" || exit 2
+packages_dir="$workdir/packages"
+projects_file="$workdir/projetos.conf"
+local_only=false
+case "${1:-}" in
+    --list-builds) local_only=true ;;
+    --help|-h)
+        printf 'Uso: %s [--list-builds]\n' "${0##*/}"
+        printf 'Localiza projetos.conf e packages/ na pasta do build.\n'
+        exit 0 ;;
+    "") ;;
+    *) failure "Opção desconhecida: $1"; exit 2 ;;
+esac
+if [[ "$local_only" != true ]]; then
+    for program in ssh scp; do
+        command -v "$program" >/dev/null 2>&1 || { failure "Comando necessário não encontrado: $program"; exit 1; }
+    done
+fi
 control_dir=""
 control_socket=""
 remote_package=""
@@ -54,8 +94,9 @@ trap 'exit 130' INT
 trap 'exit 143' TERM
 
 heading "Gerenciador remoto de pacotes Debian via SSH"
-printf 'Diretório local de referência: %s\n\n' "$workdir"
+printf 'Pasta de build: %s\nCadastro: %s\nPacotes: %s\n\n' "$workdir" "$projects_file" "$packages_dir"
 
+if [[ "$local_only" != true ]]; then
 read -r -p "${C_YELLOW}IP IPv4 do servidor: ${C_RESET}" server_ip
 if [[ ! "$server_ip" =~ ^[0-9]{1,3}(\.[0-9]{1,3}){3}$ ]]; then
     printf 'ERRO: informe um endereço IPv4 válido.\n' >&2
@@ -93,6 +134,7 @@ if ! ssh -S "$control_socket" -O check "$target" >/dev/null 2>&1; then
     exit 1
 fi
 success 'Conexão SSH estabelecida.'
+fi
 
 # Navegador de arquivos: inicia no PWD e nunca sobe para fora dele.
 # A navegação é local: não precisa de permissões adicionais no servidor.
@@ -125,7 +167,7 @@ choose_from_recursive_search() {
     done
 }
 
-choose_package() {
+choose_package_manual() {
     local current="$workdir" input i count selected candidate
     local -a folders=() debs=() options=()
 
@@ -204,6 +246,77 @@ step "ARQUIVOS" 'Escolha um pacote .deb nas pastas locais.'
         esac
     done
 }
+
+choose_project_package() {
+    local url project idx choice chosen root build name version arch path newest latest_ok
+    local -a projects=() builds=() files=() artifacts=() labels=() dates=()
+    heading "Projetos cadastrados em projetos.conf"
+    while IFS= read -r url || [[ -n "$url" ]]; do
+        [[ "$url" =~ ^[[:space:]]*(#|$) ]] && continue
+        if [[ "$url" =~ ^https://github[.]com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+([.]git)?/?$ ]]; then
+            project="${url%/}"; project="${project##*/}"; project="${project%.git}"
+            if [[ -d "$packages_dir/$project" ]]; then projects+=("$project"); else warning "$project sem pasta packages/$project"; fi
+        else warning "URL inválida em projetos.conf: $url"; fi
+    done < "$projects_file"
+    if (( ${#projects[@]} == 0 )); then failure "Nenhum projeto empacotado no cadastro."; return 1; fi
+    for idx in "${!projects[@]}"; do printf "  %s%2d)%s %s\n" "$C_GREEN" "$((idx+1))" "$C_RESET" "${projects[$idx]}"; done
+    printf '  M) Navegar manualmente\n  V) Voltar\n'
+    while true; do
+        read -r -p "Escolha o projeto: " choice || return 1
+        case "$choice" in [mM]) choose_package_manual; return $? ;; [vV]) return 1 ;; esac
+        if [[ "$choice" =~ ^[0-9]{1,3}$ ]] && (( 10#$choice>=1 && 10#$choice<=${#projects[@]} )); then
+            chosen="${projects[$((10#$choice-1))]}"; break
+        fi
+        warning "Número inválido."
+    done
+    root="$packages_dir/$chosen/develop/amd64"
+    if [[ ! -d "$root" ]]; then failure "Pasta não encontrada: $root"; return 1; fi
+    step "BUILD" "Procurando .deb por data em develop/amd64..."
+    mapfile -d '' -t builds < <(find "$root" -mindepth 1 -maxdepth 1 -type d -printf '%f\0' | sort -zr)
+    newest=""
+    for build in "${builds[@]}"; do
+        [[ "$build" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{2}-[0-9]{2}-[0-9]{2}$ ]] || continue
+        [[ -n "$newest" ]] || newest="$build"
+        mapfile -d '' -t files < <(find "$root/$build" -maxdepth 2 -type f -name '*.deb' -print0 | sort -z)
+        for path in "${files[@]}"; do
+            [[ -s "$path" ]] || continue
+            name="$(dpkg-deb -f "$path" Package 2>/dev/null)" || continue
+            version="$(dpkg-deb -f "$path" Version 2>/dev/null)" || continue
+            arch="$(dpkg-deb -f "$path" Architecture 2>/dev/null)" || continue
+            [[ "$name" =~ ^[a-z0-9][a-z0-9.+-]*$ ]] || continue
+            [[ -n "$version" && ( "$arch" == amd64 || "$arch" == all ) ]] || continue
+            artifacts+=("$path"); labels+=("$build | $name | versão $version | $arch"); dates+=("$build")
+        done
+    done
+    if (( ${#artifacts[@]} == 0 )); then failure "Nenhum .deb válido; consulte logs/$chosen. Build mais recente: $newest"; return 1; fi
+    latest_ok=false
+    [[ "${dates[0]}" == "$newest" ]] && latest_ok=true
+    if [[ "$latest_ok" != true ]]; then warning "O build mais recente ($newest) falhou ou não gerou .deb. As versões abaixo são ANTERIORES."; fi
+    for idx in "${!artifacts[@]}"; do
+        if (( idx == 0 )) && [[ "$latest_ok" == true ]]; then
+            printf "  %s%2d) [MAIS RECENTE]%s %s\n" "$C_GREEN" "$((idx+1))" "$C_RESET" "${labels[$idx]}"
+        else
+            printf "  %s%2d)%s %s\n" "$C_CYAN" "$((idx+1))" "$C_RESET" "${labels[$idx]}"
+        fi
+    done
+    printf '  V) Voltar\n'
+    while true; do
+        if [[ "$latest_ok" == true ]]; then
+            read -r -p "Escolha o .deb [Enter=1]: " choice || return 1
+            [[ -n "$choice" ]] || choice=1
+        else
+            read -r -p "Escolha explicitamente uma versão anterior: " choice || return 1
+        fi
+        [[ "$choice" == [vV] ]] && return 1
+        if [[ "$choice" =~ ^[0-9]{1,3}$ ]] && (( 10#$choice>=1 && 10#$choice<=${#artifacts[@]} )); then
+            package_path="${artifacts[$((10#$choice-1))]}"
+            success "Pacote selecionado: $(relative_display "$package_path")"
+            return 0
+        fi
+        warning "Opção inválida."
+    done
+}
+choose_package() { choose_project_package; }
 
 # As operações são explícitas e executam sempre como usuário comum.
 # Apenas o apt usa sudo, sem abrir shell root permanente.
@@ -480,6 +593,14 @@ open_remote_shell() {
         -o ControlPath="$control_socket" "$target"
 }
 
+if [[ "$local_only" == true ]]; then
+    package_path=""
+    if choose_package; then
+        printf '\n%s\n' "$package_path"
+        exit 0
+    fi
+    exit 2
+fi
 while true; do
 heading "Gerenciamento de pacotes em $server_ip"
     printf '  %s1)%s Enviar e instalar um pacote .deb\n' "$C_GREEN" "$C_RESET"
