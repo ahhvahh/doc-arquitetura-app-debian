@@ -16,8 +16,8 @@ package:
   maintainer: "A-Bioma Build System <noreply@localhost>"
   version:
     strategy: "literal"
-    value: "0.2.1"
-    fallback: "0.2.1"
+    value: "0.2.2"
+    fallback: "0.2.2"
   description:
     short: "Ferramenta local de analise ProjectCharter em Go"
     long: |

@@ -89,3 +89,8 @@ O script [instalar-deb-ssh.sh](scripts/instalar-deb-ssh.sh) permite copiar um `.
 ### Seleção de builds pela estrutura A-Bioma
 
 O instalador remoto `src/scripts/instalar-deb-ssh.sh` usa o `projetos.conf` da pasta do empacotador A-Bioma como índice e oferece o pacote mais recente válido sob `packages/<projeto>/develop/amd64/<timestamp>/`. Uma pasta de build criada antes de falha não é considerada pacote instalado. Veja `src/scripts/README.md` e a opção local `--list-builds`.
+
+
+## Janela de contexto para análise documental
+
+A partir do pacote v0.2.2 é possível iniciar `DOC_ARQUITETURA_LLAMA_CONTEXT=16384 doc-arquitetura`. O modelo GGUF permanece no runtime privado por socket Unix e abre apenas **um slot** de inferência, adequado a uma sessão de cada vez. Também aceita `8192` ou `12288`. A aplicação ainda precisa de processamento documental em lotes para evitar HTTP 400 com contextos maiores que a janela. Consulte [inferência privada](docs/PRIVATE-INFERENCE.md).

@@ -57,3 +57,7 @@ Além dos dois Qwen anteriores, o catálogo possui `gemma3-1b` (revisão textual
 
 
 **Integração privada atual:** consulte [Inferência local privada](PRIVATE-INFERENCE.md) para build/revisão/lifecycle.
+
+## Contexto ampliado para testes de Charter
+
+A partir de v0.2.2, `DOC_ARQUITETURA_LLAMA_CONTEXT` aceita 512–16384 tokens (padrão 4096). Exemplo: `DOC_ARQUITETURA_LLAMA_CONTEXT=16384 doc-arquitetura`. O runtime inicia com `-np 1` (um slot de inferência) e permite até 15 minutos de espera para solicitações longas. O benchmark padrão, com apenas 15 tokens de prompt, não avalia diretamente grandes entradas documentais; confirme RAM e CPU em uma análise real. A tarefa ainda exige orçamento de tokens e divisão em lotes para evitar ultrapassar a janela.

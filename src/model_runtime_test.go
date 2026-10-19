@@ -43,6 +43,17 @@ func TestPrivateRuntimeExecutableOverride(t *testing.T) {
 func TestPrivateRuntimeContextBounds(t *testing.T) {
     t.Setenv("DOC_ARQUITETURA_LLAMA_CONTEXT","99999")
     if managedLlamaContext()!=4096{t.Fatal("out-of-range context was accepted")}
-    t.Setenv("DOC_ARQUITETURA_LLAMA_CONTEXT","2048")
-    if managedLlamaContext()!=2048{t.Fatal("valid context rejected")}
+    for _,tc:=range []struct{value string; want int}{
+        {"2048",2048},
+        {"8192",8192},
+        {"12288",12288},
+        {"16384",16384},
+        {"16385",4096},
+        {"not-a-number",4096},
+    } {
+        t.Setenv("DOC_ARQUITETURA_LLAMA_CONTEXT",tc.value)
+        if got:=managedLlamaContext();got!=tc.want{
+            t.Fatalf("context %s: got %d, want %d",tc.value,got,tc.want)
+        }
+    }
 }

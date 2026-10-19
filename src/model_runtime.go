@@ -43,7 +43,7 @@ func managedLlamaExecutable() (string,error) {
 func managedLlamaContext() int {
     if v:=os.Getenv("DOC_ARQUITETURA_LLAMA_CONTEXT");v!=""{
         n,e:=strconv.Atoi(v)
-        if e==nil && n>=512 && n<=8192{return n}
+        if e==nil && n>=512 && n<=16384{return n}
     }
     return 4096 // suitable starting point for a CPU-only 8 GiB workstation
 }
@@ -62,7 +62,7 @@ func (a *terminalApp) managedHTTP() (*http.Client,string,error) {
         },
         DisableKeepAlives:true,
     }
-    return &http.Client{Transport:transport,Timeout:4*time.Minute},privateLlamaHost,nil
+    return &http.Client{Transport:transport,Timeout:15*time.Minute},privateLlamaHost,nil
 }
 func (a *terminalApp) modelReady() error {
     if a.serverProcess==nil||a.serverSocket==""{return errors.New("modelo não iniciado; a aplicação o carregará na primeira análise ou use /model start")}
@@ -109,7 +109,8 @@ func (a *terminalApp) modelStart() error {
     if cores>4{cores=4};if cores<1{cores=1}
     cmd:=exec.Command(spec,"-m",modelPath(a.paths,a.session.Model),
        "--alias",a.session.Model,"--host",socket,"--no-webui",
-       "-c",strconv.Itoa(managedLlamaContext()),"-t",strconv.Itoa(cores),"-tb",strconv.Itoa(cores),
+       "-c",strconv.Itoa(managedLlamaContext()),"-np","1", // single session: one full-size KV cache slot
+       "-t",strconv.Itoa(cores),"-tb",strconv.Itoa(cores),
        "-ngl","0")
     cmd.Stdout=io.Discard
     cmd.Stderr=os.Stderr
@@ -118,7 +119,7 @@ func (a *terminalApp) modelStart() error {
     done:=make(chan error,1)
     a.serverDone=done
     go func(){done<-cmd.Wait()}()
-    fmt.Fprintf(a.out,"Iniciando llama.cpp privado: %s, contexto %d, %d threads. Socket: %s\n",
+    fmt.Fprintf(a.out,"Iniciando llama.cpp privado: %s, contexto %d, %d threads, 1 slot. Socket: %s\n",
         a.session.Model,managedLlamaContext(),cores,socket)
     deadline:=time.NewTimer(90*time.Second);defer deadline.Stop()
     ticker:=time.NewTicker(800*time.Millisecond);defer ticker.Stop()
