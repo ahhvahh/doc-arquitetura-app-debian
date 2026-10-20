@@ -1,4 +1,4 @@
-name: Go tests and Charter validation
+name: Functional test groups
 
 on:
   push:
@@ -7,6 +7,12 @@ on:
     branches: [main]
     types: [opened, reopened, synchronize, ready_for_review, edited]
   workflow_dispatch:
+    inputs:
+      group:
+        description: "Test group from src/test/groups.json, or all"
+        default: all
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -16,60 +22,92 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  go-tests:
-    name: Go unit tests, vet, build, and coverage
+  inventory:
+    name: Test inventory
     if: >-
       github.event_name != 'pull_request' ||
       (github.event.pull_request.head.ref == 'develop' &&
        github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    defaults:
-      run:
-        working-directory: src
-        shell: bash
+    timeout-minutes: 10
+    outputs:
+      groups: ${{ steps.groups.outputs.groups }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-      - name: Setup Go from src/go.mod
-        uses: actions/setup-go@v7
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v7
         with:
           go-version-file: src/go.mod
           cache: false
-      - name: Run Go vet
-        run: go vet ./...
-      - name: Run Go unit tests and collect coverage
+      - name: Validate inventory and scripts
         run: |
-          mkdir -p test-results
-          set -o pipefail
-          CGO_ENABLED=1 go test -race -count=1 -covermode=atomic -coverprofile=test-results/coverage.out -json ./... | tee test-results/go-test.json
-      - name: Summarize coverage
-        if: always()
+          bash -n src/test.sh
+          bash src/test.sh --check
+      - name: Select groups
+        id: groups
+        env:
+          REQUESTED_GROUP: ${{ inputs.group || 'all' }}
         run: |
-          if [[ -s test-results/coverage.out ]]; then
-            go tool cover -func=test-results/coverage.out | tee test-results/coverage.txt
-            {
-              echo '### Go coverage'
-              echo '```'
-              tail -n 1 test-results/coverage.txt
-              echo '```'
-            } >> "$GITHUB_STEP_SUMMARY"
+          if [[ "$REQUESTED_GROUP" == all ]]; then
+            groups=$(jq -c 'keys' src/test/groups.json)
           else
-            echo 'No Go coverage profile was generated.' >> "$GITHUB_STEP_SUMMARY"
+            jq -e --arg g "$REQUESTED_GROUP" 'has($g)' src/test/groups.json
+            groups=$(jq -cn --arg g "$REQUESTED_GROUP" '[$g]')
           fi
-      - name: Check static Linux build
-        run: CGO_ENABLED=0 go build -o /tmp/doc-arquitetura ./
-      - name: Upload unit test evidence
-        uses: actions/upload-artifact@v4
-        if: always()
+          echo "groups=$groups" >> "$GITHUB_OUTPUT"
+
+  functional-tests:
+    name: Tests / ${{ matrix.group }}
+    needs: inventory
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        group: ${{ fromJSON(needs.inventory.outputs.groups) }}
+    steps:
+      - uses: actions/checkout@v7
         with:
-          name: go-unit-test-evidence
-          path: |
-            src/test-results/go-test.json
-            src/test-results/coverage.out
-            src/test-results/coverage.txt
-          if-no-files-found: warn
+          persist-credentials: false
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: src/go.mod
+          cache: false
+      - name: Run isolated group
+        env:
+          TEST_GROUP: ${{ matrix.group }}
+        run: bash src/test.sh --group "$TEST_GROUP"
+      - name: Upload group evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tests-${{ matrix.group }}
+          path: src/test-results/${{ matrix.group }}/
+          if-no-files-found: error
           retention-days: 30
+
+  quality:
+    name: Go vet and Linux build
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.pull_request.head.ref == 'develop' &&
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: src/go.mod
+          cache: false
+      - run: go vet ./...
+        working-directory: src
+      - run: CGO_ENABLED=0 go build -o /tmp/doc-arquitetura ./
+        working-directory: src
 
   charter-docs:
     name: Charter documentation, links, and SVG badges

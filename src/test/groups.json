@@ -1,0 +1,130 @@
+{
+  "dsl-charter": {
+    "expected": "Converter cinco documentos da etapa, preservar conteúdo/status/hash e gerar DSL determinística sem badges.",
+    "tests": [
+      "TestStageMarkdownDSLGolden/charter"
+    ]
+  },
+  "dsl-scope": {
+    "expected": "Converter cinco documentos da etapa, preservar conteúdo/status/hash e gerar DSL determinística sem badges.",
+    "tests": [
+      "TestStageMarkdownDSLGolden/scope"
+    ]
+  },
+  "dsl-implementation": {
+    "expected": "Converter cinco documentos da etapa, preservar conteúdo/status/hash e gerar DSL determinística sem badges.",
+    "tests": [
+      "TestStageMarkdownDSLGolden/implementation"
+    ]
+  },
+  "dsl-src": {
+    "expected": "Converter cinco documentos da etapa, preservar conteúdo/status/hash e gerar DSL determinística sem badges.",
+    "tests": [
+      "TestStageMarkdownDSLGolden/src"
+    ]
+  },
+  "dsl-core": {
+    "expected": "Converter o projeto completo, detectar alterações, excluir backups e validar cache/integração normativa.",
+    "tests": [
+      "TestWholeProjectMarkdownDSLCoversFourStages",
+      "TestStageMarkdownDSLDetectsModifiedContent",
+      "TestFixtureMarkdownDSLExcludesBackup",
+      "TestCompactDoc",
+      "TestConvertCharter",
+      "TestFindCharterDirectDocs",
+      "TestReferenceRejectsDevelop",
+      "TestConvertExcludesBackupDirectory",
+      "TestDefaultDSLPathOverride",
+      "TestDSLCompileCacheAndIntegrity"
+    ]
+  },
+  "prompts": {
+    "expected": "Selecionar somente o prompt correto, conferir as 34 rotas e rejeitar catálogo vazio ou acesso a outra etapa.",
+    "tests": [
+      "TestStagePromptCatalogUsesVersionedMain",
+      "TestCentralizedPlainTextPromptsTakePrecedence",
+      "TestNewCatalogDoesNotSilentlyFallBackWhenEmpty",
+      "TestCommandTreeHasAllNormativePrompts",
+      "TestSelectedPromptStrictlyScoped"
+    ]
+  },
+  "openai-agents": {
+    "expected": "Simular criação, consulta, atualização idempotente e exclusão; bloquear chave ausente e separar norma de prompts.",
+    "tests": [
+      "TestAgentNormativeInstructionsExcludeSpecializedPrompts",
+      "TestRemoteAgentLifecycleMock",
+      "TestRemoteAgentMissingKeyBlocksNetwork"
+    ]
+  },
+  "changeset": {
+    "expected": "Decodificar retorno, preservar seções, conferir SHA e rejeitar caminhos, operações e metadados inválidos.",
+    "tests": [
+      "TestChangeSetChecksMarkdownPreservation",
+      "TestChangesetRejectsCrossStageAndTraversal",
+      "TestCreateFileRequirements",
+      "TestDecodeChangeSetReader"
+    ]
+  },
+  "auth": {
+    "expected": "Validar configuração GitHub, permissões e rejeição de symlinks; nenhuma credencial real.",
+    "tests": [
+      "TestGitHubConfiguration",
+      "TestGitHubRejectsLoosePermissions",
+      "TestGitHubRejectsTokenSymlink",
+      "TestGitHubConfigAbsent"
+    ]
+  },
+  "config": {
+    "expected": "Validar caminhos, configuração de contexto e valores inválidos.",
+    "tests": [
+      "TestConfiguredLlamaContextPreference",
+      "TestConfiguredLlamaContextRejectsBadFile",
+      "TestConfiguredLlamaContextRejectsInsecureFiles",
+      "TestConfiguredLlamaContextRejectsInvalidEnvironment",
+      "TestPathsRespectOverrides",
+      "TestBadToken"
+    ]
+  },
+  "models": {
+    "expected": "Validar catálogo GGUF, integridade, associação e seleção persistente do modelo.",
+    "tests": [
+      "TestModelValidationAndAssignment",
+      "TestModelCatalogGGUFFilenames",
+      "TestAdditionalReviewModelsInCatalog",
+      "TestModelMenuEmptyCatalog",
+      "TestModelMenuSelectAndPersist",
+      "TestModelMenuRejectMissingAndCorrupt",
+      "TestModelMenuSkipWithoutInstall"
+    ]
+  },
+  "runtime": {
+    "expected": "Validar runtime com servidor e socket simulados, sem baixar modelos.",
+    "tests": [
+      "TestActiveModelMatching",
+      "TestManagedUnixSocketEndpoints",
+      "TestPrivateRuntimeExecutableOverride"
+    ]
+  },
+  "terminal": {
+    "expected": "Validar URLs, branches, arquivos permitidos, histórico e encerramento de sessões.",
+    "tests": [
+      "TestNormalizeGitHubURL",
+      "TestValidBranch",
+      "TestDocPathAndSymlink",
+      "TestDiffForNewFile",
+      "TestValidationRejectsOtherSteps",
+      "TestLegacyDocumentationLocations",
+      "TestBackupPathNotAgentEditable",
+      "TestCharterLegacyContextForOrdinaryReview",
+      "TestCloseSessionRetainsWorkspaceAndHistory",
+      "TestCloseSavedSessionConfirmation"
+    ]
+  },
+  "backup": {
+    "expected": "Validar origem/destino, snapshot Git local e integridade dos backups.",
+    "tests": [
+      "TestBackupSourceAndDestination",
+      "TestBackupSnapshotForDevelopment"
+    ]
+  }
+}
