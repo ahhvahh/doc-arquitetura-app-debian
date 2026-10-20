@@ -5,14 +5,7 @@ on:
     branches: [develop]
   pull_request:
     branches: [main]
-    types: [opened, reopened, synchronize, ready_for_review, edited]
-  workflow_dispatch:
-    inputs:
-      group:
-        description: "Test group from src/test/groups.json, or all"
-        default: all
-        required: true
-        type: string
+    types: [opened, reopened, synchronize]
 
 permissions:
   contents: read
@@ -46,15 +39,8 @@ jobs:
           bash src/test.sh --check
       - name: Select groups
         id: groups
-        env:
-          REQUESTED_GROUP: ${{ inputs.group || 'all' }}
         run: |
-          if [[ "$REQUESTED_GROUP" == all ]]; then
-            groups=$(jq -c 'keys' src/test/groups.json)
-          else
-            jq -e --arg g "$REQUESTED_GROUP" 'has($g)' src/test/groups.json
-            groups=$(jq -cn --arg g "$REQUESTED_GROUP" '[$g]')
-          fi
+          groups=$(jq -c 'keys' src/test/groups.json)
           echo "groups=$groups" >> "$GITHUB_OUTPUT"
 
   functional-tests:

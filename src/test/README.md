@@ -15,7 +15,7 @@ bash test.sh --group openai-agents
 bash test.sh --all
 ```
 
-No GitHub Actions, abra Functional test groups. Cada Tests / grupo tem resultado próprio. Em uma falha, use Re-run failed jobs para repetir os jobs que falharam. workflow_dispatch aceita group=all ou um nome listado abaixo; o botão Run workflow depende de o workflow também existir na branch padrão.
+No GitHub Actions, abra Functional test groups. Cada Tests / grupo tem resultado próprio. Em uma falha, use Re-run failed jobs para repetir os jobs que falharam. Novas execuções ocorrem somente em push para develop e em abertura, reabertura ou atualização de commits de PR de develop para main no mesmo repositório. Não há workflow_dispatch, agendamento ou gatilho de push direto na main. Todos os grupos são executados nesses eventos; a seleção individual permanece disponível localmente.
 
 ## Grupos e resultados esperados
 
