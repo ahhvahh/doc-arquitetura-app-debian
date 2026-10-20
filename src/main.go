@@ -489,6 +489,10 @@ func main() {
      if err:=localConfigCommand(os.Args[2:]);err!=nil{fmt.Fprintln(os.Stderr,err);os.Exit(1)}
      return
  }
+ if len(os.Args)>1 && os.Args[1]=="openai" {
+     if err:=openAICommand(os.Args[2:]);err!=nil{fmt.Fprintln(os.Stderr,err);os.Exit(1)}
+     return
+ }
  if len(os.Args)>1 && os.Args[1]=="github" {
      if err:=githubCommand(os.Args[2:]);err!=nil{fmt.Fprintln(os.Stderr,err);os.Exit(1)}
      return

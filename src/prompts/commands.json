@@ -1,0 +1,255 @@
+{
+  "version": 1,
+  "source": "ahhvahh/doc-arquitetura",
+  "branch": "main",
+  "root": "ProjectCharter/1.0",
+  "description": "Catálogo de comandos proposto; não é configuração ativada no binário atual",
+  "stages": {
+    "charter": [
+      {
+        "operation": "navegar",
+        "action": "escolher",
+        "prompt_path": "prompts/charter/agente.txt",
+        "description": "Roteador de seleção de prompts Charter",
+        "executable": true
+      },
+      {
+        "operation": "mapear",
+        "action": "diagnostico",
+        "prompt_path": "prompts/charter/project-intake-review.txt",
+        "description": "Diagnóstico inicial do Charter em projeto real",
+        "executable": true
+      },
+      {
+        "operation": "mapear",
+        "action": "projeto-existente",
+        "prompt_path": "prompts/charter/existing-project-catalog.txt",
+        "description": "Inventário AS-IS de projeto existente",
+        "executable": true
+      },
+      {
+        "operation": "migrar",
+        "action": "documentacao-legada",
+        "prompt_path": "prompts/charter/legacy-charter-migration.txt",
+        "description": "Proposta de migração de documentos antigos",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "charter",
+        "prompt_path": "prompts/charter/charter-refinement.txt",
+        "description": "Refinar o Charter completo",
+        "executable": true
+      },
+      {
+        "operation": "revisar",
+        "action": "charter",
+        "prompt_path": "prompts/charter/charter-review.txt",
+        "description": "Auditar e decidir gate Charter → Scope",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "objetivos",
+        "prompt_path": "prompts/charter/objective-refinement.txt",
+        "description": "Refinar OBJ",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "nao-objetivos",
+        "prompt_path": "prompts/charter/non-objective-refinement.txt",
+        "description": "Refinar NOBJ",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "restricoes-premissas",
+        "prompt_path": "prompts/charter/constraint-assumption-refinement.txt",
+        "description": "Refinar CON e ASM",
+        "executable": true
+      },
+      {
+        "operation": "resolver",
+        "action": "questao-aberta",
+        "prompt_path": "prompts/charter/open-question-resolution.txt",
+        "description": "Propor resolução de OPEN",
+        "executable": true
+      },
+      {
+        "operation": "pesquisar",
+        "action": "discovery",
+        "prompt_path": "prompts/charter/discovery-refinement.txt",
+        "description": "Investigar viabilidade em DSC",
+        "executable": true
+      }
+    ],
+    "scope": [
+      {
+        "operation": "mapear",
+        "action": "diagnostico",
+        "prompt_path": "prompts/scope/project-intake-review.txt",
+        "description": "Diagnosticar Scope de repositório real",
+        "executable": true
+      },
+      {
+        "operation": "mapear",
+        "action": "projeto-existente",
+        "prompt_path": "prompts/scope/existing-project-catalog.txt",
+        "description": "Inventariar contratos funcionais existentes",
+        "executable": true
+      },
+      {
+        "operation": "migrar",
+        "action": "documentacao-legada",
+        "prompt_path": "prompts/scope/legacy-scope-migration.txt",
+        "description": "Migrar especificações funcionais antigas",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "scope",
+        "prompt_path": "prompts/scope/scope-refinement.txt",
+        "description": "Refinar Scope completo",
+        "executable": true
+      },
+      {
+        "operation": "revisar",
+        "action": "scope",
+        "prompt_path": "prompts/scope/scope-review.txt",
+        "description": "Auditar gate Scope → Implementation",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "fronteira",
+        "prompt_path": "prompts/scope/boundary-context-refinement.txt",
+        "description": "Refinar fronteira e contexto SCP",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "integracao",
+        "prompt_path": "prompts/scope/integration-refinement.txt",
+        "description": "Refinar interfaces INT",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "tipo",
+        "prompt_path": "prompts/scope/type-refinement.txt",
+        "description": "Refinar dados e limites TYPE",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "algoritmo",
+        "prompt_path": "prompts/scope/algorithm-refinement.txt",
+        "description": "Refinar algoritmo funcional ALG",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "fluxo",
+        "prompt_path": "prompts/scope/flow-refinement.txt",
+        "description": "Refinar fluxo FLW e exceções",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "persistencia",
+        "prompt_path": "prompts/scope/persistence-refinement.txt",
+        "description": "Refinar contratos funcionais de persistência",
+        "executable": true
+      }
+    ],
+    "implementation": [
+      {
+        "operation": "revisar",
+        "action": "implementation",
+        "prompt_path": "prompts/implementation/implementation-review.txt",
+        "description": "Auditar gate Implementation → Development",
+        "executable": true
+      },
+      {
+        "operation": "migrar",
+        "action": "documentacao-legada",
+        "prompt_path": "prompts/implementation/legacy-implementation-migration.txt",
+        "description": "Migrar documentos técnicos, com backup",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "biblioteca",
+        "prompt_path": "prompts/implementation/library-refinement.txt",
+        "description": "Refinar contrato LIB",
+        "executable": true
+      },
+      {
+        "operation": "analisar",
+        "action": "dependencia",
+        "prompt_path": "prompts/implementation/dependency-analysis.txt",
+        "description": "Analisar dependência DEP",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "algoritmo-tecnico",
+        "prompt_path": "prompts/implementation/algorithm-implementation.txt",
+        "description": "Definir estratégia técnica de ALG em LIB",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "servico",
+        "prompt_path": "prompts/implementation/service-refinement.txt",
+        "description": "Refinar serviço SVC Linux",
+        "executable": true
+      },
+      {
+        "operation": "atualizar",
+        "action": "aplicacao-cli",
+        "prompt_path": "prompts/implementation/application-cli-refinement.txt",
+        "description": "Refinar aplicação APP e CMD",
+        "executable": true
+      }
+    ],
+    "src": [
+      {
+        "operation": "gerar",
+        "action": "fonte",
+        "prompt_path": "prompts/src/source-generation.txt",
+        "description": "Implementação de código geral pela Implementation",
+        "executable": true
+      },
+      {
+        "operation": "gerar",
+        "action": "biblioteca",
+        "prompt_path": "prompts/src/library-generation.txt",
+        "description": "Implementar LIB e testes",
+        "executable": true
+      },
+      {
+        "operation": "gerar",
+        "action": "servico",
+        "prompt_path": "prompts/src/service-generation.txt",
+        "description": "Implementar SVC Linux e testes",
+        "executable": true
+      },
+      {
+        "operation": "gerar",
+        "action": "aplicacao",
+        "prompt_path": "prompts/src/application-generation.txt",
+        "description": "Implementar APP e CMD",
+        "executable": true
+      },
+      {
+        "operation": "gerar",
+        "action": "script-build",
+        "prompt_path": "prompts/src/build-script-generation.txt",
+        "description": "Contrato de build ainda PENDING",
+        "executable": false
+      }
+    ]
+  }
+}

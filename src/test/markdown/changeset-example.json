@@ -1,0 +1,19 @@
+{
+  "format": "PCDSL-CHANGESET/1",
+  "task_id": "EXAMPLE-ONLY",
+  "stage": "charter",
+  "prompt": "prompts/charter/objective-refinement.txt",
+  "normative_sha": "652e1035a6ebb7ade0f21a6f2b9d08156ba35b37",
+  "target_develop_sha": "REPLACE_WITH_REAL_SHA",
+  "changes": [
+    {
+      "operation": "replace_section",
+      "path": "docs/charter/objectives/OBJ-001-resultado.md",
+      "base_sha256": "REPLACE_WITH_REAL_SHA256",
+      "heading": "## Critérios de aceitação",
+      "heading_occurrence": 1,
+      "new_markdown": "## Critérios de aceitação\n- Resultado verificável com evidência.\n",
+      "reason": "Refinar critérios com base em evidência aprovada."
+    }
+  ]
+}

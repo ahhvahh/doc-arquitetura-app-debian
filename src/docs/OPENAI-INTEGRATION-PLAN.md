@@ -2,7 +2,7 @@
 
 **Projeto-alvo:** `ahhvahh/doc-arquitetura-app-debian`, branch `develop`.
 **Referência exclusiva:** `ahhvahh/doc-arquitetura`, branch `main`, diretório `ProjectCharter/1.0`, SHA consultado `652e1035a6ebb7ade0f21a6f2b9d08156ba35b37`.
-**Estado:** proposta para detalhamento em `/docs/charter`, `/docs/scope`, `/docs/implementation`. Não é código executável nem aprovação de gate.
+**Estado:** especificação original, com protótipo de teste parcialmente implementado em `src/openai_agents.go`, `src/openai_workflow.go` e `src/openai_changeset.go`. As chamadas pagas e a publicação remota permanecem bloqueadas; a documentação Charter/Scope/Implementation ainda carece de refinamento. Consulte [testes e comandos atuais](OPENAI-CLI-TESTING.md).
 
 ## Regras que devem permanecer invariantes
 
@@ -13,7 +13,7 @@
 - A aplicação recebe changesets estruturados e **não executa comandos vindos da LLM**. Mudanças só são aplicadas depois da validação e das aprovações explicitamente previstas em `TASK-BRANCH-LIFECYCLE.md`. Impedir escrita na `main` normativa.
 - **Fail closed para faturamento:** sem preço/modelo atual, limites positivos por operação/agente/global e câmbio vigente, não enviar inferência paga. Limite de sessão `spend_control.limit` em centavos USD e hard limit de projeto configurado separadamente no painel OpenAI. Hard limit não é instantâneo.
 
-## CLI de configuração proposta (ainda não implementada)
+## CLI planejada originalmente (consulte os comandos efetivos em OPENAI-CLI-TESTING.md)
 
 ```text
 doc-arquitetura openai key set                   # credencial padrão, entrada oculta

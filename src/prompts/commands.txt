@@ -1,0 +1,41 @@
+ÁRVORE DE COMANDOS PROPOSTA — doc-arquitetura
+(ESTRUTURA NÃO IMPLEMENTADA NO BINÁRIO)
+
+charter/
+  navegar/escolher → prompts/charter/agente.txt
+  mapear/diagnostico → prompts/charter/project-intake-review.txt
+  mapear/projeto-existente → prompts/charter/existing-project-catalog.txt
+  migrar/documentacao-legada → prompts/charter/legacy-charter-migration.txt
+  atualizar/charter → prompts/charter/charter-refinement.txt
+  revisar/charter → prompts/charter/charter-review.txt
+  atualizar/objetivos → prompts/charter/objective-refinement.txt
+  atualizar/nao-objetivos → prompts/charter/non-objective-refinement.txt
+  atualizar/restricoes-premissas → prompts/charter/constraint-assumption-refinement.txt
+  resolver/questao-aberta → prompts/charter/open-question-resolution.txt
+  pesquisar/discovery → prompts/charter/discovery-refinement.txt
+scope/
+  mapear/diagnostico → prompts/scope/project-intake-review.txt
+  mapear/projeto-existente → prompts/scope/existing-project-catalog.txt
+  migrar/documentacao-legada → prompts/scope/legacy-scope-migration.txt
+  atualizar/scope → prompts/scope/scope-refinement.txt
+  revisar/scope → prompts/scope/scope-review.txt
+  atualizar/fronteira → prompts/scope/boundary-context-refinement.txt
+  atualizar/integracao → prompts/scope/integration-refinement.txt
+  atualizar/tipo → prompts/scope/type-refinement.txt
+  atualizar/algoritmo → prompts/scope/algorithm-refinement.txt
+  atualizar/fluxo → prompts/scope/flow-refinement.txt
+  atualizar/persistencia → prompts/scope/persistence-refinement.txt
+implementation/
+  revisar/implementation → prompts/implementation/implementation-review.txt
+  migrar/documentacao-legada → prompts/implementation/legacy-implementation-migration.txt
+  atualizar/biblioteca → prompts/implementation/library-refinement.txt
+  analisar/dependencia → prompts/implementation/dependency-analysis.txt
+  atualizar/algoritmo-tecnico → prompts/implementation/algorithm-implementation.txt
+  atualizar/servico → prompts/implementation/service-refinement.txt
+  atualizar/aplicacao-cli → prompts/implementation/application-cli-refinement.txt
+src/
+  gerar/fonte → prompts/src/source-generation.txt
+  gerar/biblioteca → prompts/src/library-generation.txt
+  gerar/servico → prompts/src/service-generation.txt
+  gerar/aplicacao → prompts/src/application-generation.txt
+  gerar/script-build → prompts/src/build-script-generation.txt

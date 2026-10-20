@@ -2,6 +2,21 @@
 
 A CLI, seus testes e os dados locais estão diretamente em `src/`, conforme a organização solicitada para o A-Bioma Debian Package Builder.
 
+## Integração experimental OpenAI — testes locais
+
+A versão de teste implementa catálogo hierárquico, configuração segura via Secret Service, cadastro/sincronização/exclusão remota explícita dos quatro agentes, criação de branch **local** por tarefa e geração de DSL com changesets Markdown verificados por SHA. **Inferência paga e push remoto estão bloqueados** até implementação dos controles de orçamento e atualização da governança.
+
+```bash
+cd src
+go test ./...
+go run . openai prompts list
+go run . openai key status
+go run . openai agents status
+go run . openai agents sync --stage charter --model MODELO
+```
+
+Consulte [instruções para testes e limites](docs/OPENAI-CLI-TESTING.md), [contrato da DSL](docs/AGENTS-DSL-CONTRACT.md) e [árvore de comandos](prompts/commands.txt).
+
 ## Utilização
 
 ```sh
