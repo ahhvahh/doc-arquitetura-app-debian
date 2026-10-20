@@ -6,7 +6,6 @@ import (
  "encoding/hex"
  "encoding/json"
  "errors"
- "flag"
  "fmt"
  "io"
  "os"
