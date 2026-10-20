@@ -15,3 +15,7 @@ Esta documentação descreve o aplicativo migrado, não substitui a referência 
 - [Conexão GitHub por arquivo local no aplicativo](GITHUB-CONFIG.md) — suporte à CLI legado, não usa configuração global do Git.
 
 - [Configuração local de contexto e encerramento de sessões](LOCAL-CONFIG.md) — recursos CLI da versão 0.2.3.
+
+## Orçamento e limites da OpenAI (refinement)
+
+- [Cadastrar limites no projeto OpenAI, sessão do agente e aplicação Go](OPENAI-SPEND-LIMITS.md) — orientações operacionais e contrato de controle de gastos; **integração ainda não implementada**.

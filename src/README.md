@@ -22,6 +22,8 @@ O modo `sync` baixa a referência `doc-arquitetura/main` e a branch `develop` do
 
 Consulte [arquitetura](docs/ARCHITECTURE.md) e [plano de implementação](docs/IMPLEMENTATION-PLAN.md).
 
+Para cadastrar **limites de gastos na OpenAI** (hard limit mensal no projeto, limite de sessão do agente e orçamento local proposto), consulte [Orçamentos e limites da OpenAI](docs/OPENAI-SPEND-LIMITS.md). Os comandos de orçamento descritos nessa especificação **ainda não estão implementados**.
+
 ## Novos comandos locais
 
 Consulte [Modelos e DSL](docs/AGENT-COMMANDS.md) para instalar modelos GGUF, associar modelos a agentes, consultar a referência `main` e compilar DSL versionada.
