@@ -14,7 +14,6 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type Check struct{ ID, Severity, Kind, Arg, Message string }

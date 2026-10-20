@@ -4,12 +4,12 @@ import (
 	"bufio"
 	"bytes"
 	"context"
-	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"sort"
@@ -243,7 +243,6 @@ func (a *terminalApp) closeSession() error {
         return err
     }
     a.proposals=nil
-    a.contextFiles=nil
     fmt.Fprintf(a.out,"Sessão %s encerrada; workspace e histórico preservados, sem possibilidade de retomada pelo menu.\n",a.session.ID)
     return nil
 }
