@@ -29,15 +29,29 @@ var promptLabels=map[string]string{
  "service-refinement.md":"Alterar serviço",
  "application-cli-refinement.md":"Alterar aplicação CLI",
 }
-func (a *terminalApp) promptDir() string{
- return filepath.Join(refBase(a.paths),a.session.ReferenceSHA,normTree,a.session.Area,"prompts")
+// promptDir selects the centralized text prompt catalog when present,
+// falling back to the legacy layout while normative main is unchanged.
+func (a *terminalApp) promptDir() string {
+    base := filepath.Join(refBase(a.paths), a.session.ReferenceSHA, normTree)
+    centralized := filepath.Join(base, "prompts", a.session.Area)
+    if info, err := os.Stat(centralized); err == nil && info.IsDir() {
+        return centralized
+    }
+    return filepath.Join(base, a.session.Area, "prompts")
 }
 func (a *terminalApp) promptOptions() ([]promptOption,error) {
  entries,err:=os.ReadDir(a.promptDir());if err!=nil{return nil,err}
  result:=[]promptOption{}
  for _,entry:=range entries {
-   if entry.IsDir()||!strings.HasSuffix(entry.Name(),".md")||entry.Name()=="README.md"||entry.Name()=="PROTOCOL.md"||entry.Name()=="agente.md"{continue}
+   name := entry.Name()
+   extension := filepath.Ext(name)
+   if entry.IsDir() || (extension != ".md" && extension != ".txt") ||
+      name == "README.md" || name == "PROTOCOL.md" ||
+      name == "agente.md" || name == "agente.txt" {continue}
    label:=promptLabels[entry.Name()]
+   if label == "" {
+      label = promptLabels[strings.TrimSuffix(entry.Name(), filepath.Ext(entry.Name()))+".md"]
+   }
    if label==""{
      b,e:=os.ReadFile(filepath.Join(a.promptDir(),entry.Name()));if e!=nil{return nil,e}
      line:=strings.SplitN(string(b),"\n",2)[0];label=strings.TrimSpace(strings.TrimPrefix(line,"#"))
@@ -60,8 +74,9 @@ func (a *terminalApp) promptRead() (string,error) {
  if a.session.Prompt=="" {return "",nil}
  opts,err:=a.promptOptions();if err!=nil{return "",err}
  for _,opt:=range opts {
-    if opt.ID==a.session.Prompt {
-      b,err:=os.ReadFile(filepath.Join(a.promptDir(),a.session.Prompt))
+    if opt.ID==a.session.Prompt ||
+       strings.TrimSuffix(opt.ID, filepath.Ext(opt.ID)) == strings.TrimSuffix(a.session.Prompt, filepath.Ext(a.session.Prompt)) {
+      b,err:=os.ReadFile(filepath.Join(a.promptDir(),opt.ID))
       if err!=nil{return "",err}
       return string(b),nil
     }
@@ -73,7 +88,8 @@ func (a *terminalApp) showPrompts() error{
  fmt.Fprintf(a.out,"Prompts de %s, referência main SHA %s:\n",a.session.Area,a.session.ReferenceSHA)
  for i,v:=range opts{
    marker:=" "
-   if v.ID==a.session.Prompt{marker="*"}
+   if v.ID==a.session.Prompt ||
+      strings.TrimSuffix(v.ID,filepath.Ext(v.ID))==strings.TrimSuffix(a.session.Prompt,filepath.Ext(a.session.Prompt)){marker="*"}
    fmt.Fprintf(a.out,"%s %d. %s (%s)\n",marker,i+1,v.Label,v.ID)
  }
  fmt.Fprintln(a.out,"Use /prompt select para escolher ou /prompt reset para retirar a seleção.")

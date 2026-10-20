@@ -78,7 +78,7 @@ O comando `sync` prioriza `docs/` quando encontra as etapas nesse diretório; es
 
 ## Escolher prompts e reutilizar documentação no terminal
 
-Após selecionar um repositório e uma das etapas `charter`, `scope` ou `implementation`, o programa apresenta os prompts `.md` especializados da referência versionada **`ahhvahh/doc-arquitetura/main/ProjectCharter/1.0/<etapa>/prompts/`**. A seleção fica associada à sessão e é incluída na mensagem do modelo local com o AGENT-PROMPT da etapa.
+Após selecionar um repositório e uma das etapas `charter`, `scope` ou `implementation`, o programa apresenta os prompts `.md` especializados da referência versionada **`ahhvahh/doc-arquitetura/main/ProjectCharter/1.0/prompts/<etapa>/`**. A seleção fica associada à sessão e é incluída na mensagem do modelo local com o AGENT-PROMPT da etapa.
 
 ```text
 /prompts                    # catálogo da etapa
@@ -129,3 +129,7 @@ Catálogo complementar: `gemma3-1b` e `qwen3.5-4b` além de `qwen3.5-0.8b` e `qw
 - Menu **Encerrar sessão salva**: encerra outra sessão aberta sem precisar retomá-la.
 
 O Llama continua privado por socket Unix com um slot de inferência. Consulte [Configuração e sessões](LOCAL-CONFIG.md).
+
+## Compatibilidade do catálogo centralizado (preparação)
+
+Quando a referência normativa `main` possuir `ProjectCharter/1.0/prompts/<etapa>/*.txt`, o seletor lê somente o prompt `.txt` selecionado, sem concatenar automaticamente o índice nem os demais prompts. Enquanto `main` mantiver a árvore anterior, a CLI consulta `<etapa>/prompts/*.md` como fallback. Sessões antigas que guardaram o nome `.md` continuam resolvendo o prompt `.txt` homônimo. A estrutura centralizada está atualmente em `doc-arquitetura/develop`, não ainda em `main`.
