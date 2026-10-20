@@ -1,0 +1,150 @@
+{
+  "charter": [
+    {
+      "file": "README.md",
+      "type": "GUIDE",
+      "status": "refinement",
+      "title": "Charter de exemplo",
+      "detail": "Contexto resumido para verificar a DSL Charter."
+    },
+    {
+      "file": "PCH-001-contexto.md",
+      "type": "PCH",
+      "status": "refined",
+      "title": "Contexto e atores",
+      "detail": "Participantes e fronteira do produto de exemplo."
+    },
+    {
+      "file": "OBJ-001-resultado.md",
+      "type": "OBJ",
+      "status": "implemented",
+      "title": "Objetivo verificável",
+      "detail": "Resultado mensurável com evidência de conclusão."
+    },
+    {
+      "file": "CON-001-limite.md",
+      "type": "CON",
+      "status": "refinement",
+      "title": "Restrição operacional",
+      "detail": "Limite declarado com revisão documental pendente."
+    },
+    {
+      "file": "OPEN-001-decisoes.md",
+      "type": "OPEN",
+      "status": "backlog",
+      "title": "Decisões abertas",
+      "detail": "Ponto de decisão com estado de backlog."
+    }
+  ],
+  "scope": [
+    {
+      "file": "README.md",
+      "type": "GUIDE",
+      "status": "refinement",
+      "title": "Scope de exemplo",
+      "detail": "Resumo dos contratos funcionais de teste."
+    },
+    {
+      "file": "SCP-001-fronteira.md",
+      "type": "SCP",
+      "status": "refined",
+      "title": "Fronteira funcional",
+      "detail": "Atores e capacidades dentro do escopo aprovado."
+    },
+    {
+      "file": "TYPE-001-medida.md",
+      "type": "TYPE",
+      "status": "refined",
+      "title": "Tipo de medida",
+      "detail": "Valor mínimo 0, máximo 100 e precisão de uma unidade."
+    },
+    {
+      "file": "ALG-001-transformacao.md",
+      "type": "ALG",
+      "status": "implemented",
+      "title": "Regra funcional",
+      "detail": "Algoritmo de transformação com entrada e saída tipadas."
+    },
+    {
+      "file": "FLW-001-operacao.md",
+      "type": "FLW",
+      "status": "cancelled",
+      "title": "Fluxo cancelado",
+      "detail": "Fluxo alternativo mantido no histórico para teste."
+    }
+  ],
+  "implementation": [
+    {
+      "file": "README.md",
+      "type": "GUIDE",
+      "status": "refinement",
+      "title": "Implementation de exemplo",
+      "detail": "Resumo técnico das unidades de implementação."
+    },
+    {
+      "file": "LIB-001-biblioteca.md",
+      "type": "LIB",
+      "status": "refined",
+      "title": "Biblioteca principal",
+      "detail": "Contrato de biblioteca e entrada/saída tipadas."
+    },
+    {
+      "file": "DEP-001-dependencia.md",
+      "type": "DEP",
+      "status": "refinement",
+      "title": "Dependência externa",
+      "detail": "Versão e compatibilidade técnica em avaliação."
+    },
+    {
+      "file": "SVC-001-servico.md",
+      "type": "SVC",
+      "status": "implemented",
+      "title": "Serviço Linux",
+      "detail": "Lifecycle e observabilidade com evidências fictícias."
+    },
+    {
+      "file": "APP-001-aplicacao.md",
+      "type": "APP",
+      "status": "refined",
+      "title": "Aplicação CLI",
+      "detail": "Comandos e parâmetros da aplicação de teste."
+    }
+  ],
+  "src": [
+    {
+      "file": "README.md",
+      "type": "GUIDE",
+      "status": "refinement",
+      "title": "Source de exemplo",
+      "detail": "Resumo de código derivado de Implementation."
+    },
+    {
+      "file": "LIB-001-fonte.md",
+      "type": "LIB",
+      "status": "refined",
+      "title": "Código de biblioteca",
+      "detail": "Rastreabilidade DOC-REF e tipos concretos."
+    },
+    {
+      "file": "SVC-001-fonte.md",
+      "type": "SVC",
+      "status": "implemented",
+      "title": "Código de serviço",
+      "detail": "Inicialização e encerramento controlados."
+    },
+    {
+      "file": "APP-001-fonte.md",
+      "type": "APP",
+      "status": "refined",
+      "title": "Código da aplicação",
+      "detail": "Interface de comandos e integração técnica."
+    },
+    {
+      "file": "CMD-001-comando.md",
+      "type": "CMD",
+      "status": "refinement",
+      "title": "Código de comando",
+      "detail": "Parâmetros, retorno e testes de entrada."
+    }
+  ]
+}
