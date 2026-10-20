@@ -1,0 +1,98 @@
+name: Go tests and Charter validation
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize, ready_for_review, edited]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  go-tests:
+    name: Go unit tests, vet, build, and coverage
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.pull_request.head.ref == 'develop' &&
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: src
+        shell: bash
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Setup Go from src/go.mod
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: src/go.mod
+          cache: false
+      - name: Run Go vet
+        run: go vet ./...
+      - name: Run Go unit tests and collect coverage
+        run: |
+          mkdir -p test-results
+          set -o pipefail
+          CGO_ENABLED=1 go test -race -count=1 -covermode=atomic -coverprofile=test-results/coverage.out -json ./... | tee test-results/go-test.json
+      - name: Summarize coverage
+        if: always()
+        run: |
+          if [[ -s test-results/coverage.out ]]; then
+            go tool cover -func=test-results/coverage.out | tee test-results/coverage.txt
+            {
+              echo '### Go coverage'
+              echo '```'
+              tail -n 1 test-results/coverage.txt
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'No Go coverage profile was generated.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Check static Linux build
+        run: CGO_ENABLED=0 go build -o /tmp/doc-arquitetura ./
+      - name: Upload unit test evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: go-unit-test-evidence
+          path: |
+            src/test-results/go-test.json
+            src/test-results/coverage.out
+            src/test-results/coverage.txt
+          if-no-files-found: warn
+          retention-days: 30
+
+  charter-docs:
+    name: Charter documentation, links, and SVG badges
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.pull_request.head.ref == 'develop' &&
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Check Charter structure and references
+        shell: bash
+        run: |
+          mkdir -p ci-results
+          set -o pipefail
+          bash .github/scripts/validate-charter.sh 2>&1 | tee ci-results/charter-validation.log
+      - name: Upload Charter validation evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: charter-validation-evidence
+          path: ci-results/charter-validation.log
+          if-no-files-found: warn
+          retention-days: 30
