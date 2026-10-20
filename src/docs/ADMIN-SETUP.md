@@ -1,5 +1,7 @@
 # Configuração administrativa root — CLI/TUI e credenciais
 
+> **Atualização 2026-10-20:** este plano é histórico e ainda não implementado. O cliente atual não inclui Llama, GGUF, runtime de inferência ou socket de modelo; não use os caminhos abaixo como configuração atual. Qualquer inferência futura será especificada separadamente para OpenAI, com controle de gastos.
+
 > **Status: refinement — contrato aprovado conceitualmente, implementação ainda pendente.** Esta página descreve o comportamento desejado; o binário atual **não** tem o comando `admin`, não cria usuários/grupos nem gerencia credenciais.
 >
 > Referência normativa exclusivamente de leitura: `ahhvahh/doc-arquitetura@main/ProjectCharter/1.0`. Projeto aplicativo: `ahhvahh/doc-arquitetura-app-debian@develop`. Git no repositório-alvo: **branch de tarefa criada de `develop`**, sem alterar diretamente `main` nem `develop`.

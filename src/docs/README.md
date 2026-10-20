@@ -5,6 +5,8 @@
 
 Esta documentação descreve o aplicativo migrado, não substitui a referência normativa consultada em tempo de execução.
 
+- [Comandos e configuração](AGENT-COMMANDS.md) — fluxos atuais de DSL, agentes e preparação de tarefa.
+
 ## Evolução para execução em serviço
 
 - [Plano do serviço systemd isolado e autorização Unix](SERVICE-ISOLATION-PLAN.md) — **refinement, não implementado**.
@@ -14,7 +16,6 @@ Esta documentação descreve o aplicativo migrado, não substitui a referência 
 
 - [Conexão GitHub por arquivo local no aplicativo](GITHUB-CONFIG.md) — suporte à CLI legado, não usa configuração global do Git.
 
-- [Configuração local de contexto e encerramento de sessões](LOCAL-CONFIG.md) — recursos CLI da versão 0.2.3.
 
 ## Orçamento e limites da OpenAI (refinement)
 

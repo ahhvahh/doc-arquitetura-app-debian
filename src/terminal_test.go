@@ -156,3 +156,18 @@ func TestCloseSavedSessionConfirmation(t *testing.T) {
     if err:=readJSON(filepath.Join(root,"sessions","session-open.json"),&saved);err!=nil{t.Fatal(err)}
     if saved.ClosedAt==""{t.Fatal("confirmed closure not persisted")}
 }
+
+ 
+func TestTerminalChatReportsInferenceUnavailable(t *testing.T) {
+    var output bytes.Buffer
+    app := terminalApp{
+        in: bufio.NewReader(strings.NewReader("analisar documentação\n/exit\n")),
+        out: &output,
+        session: terminalSession{Repo: "https://github.com/owner/repo.git", Branch: "develop", Area: "charter"},
+    }
+    if err := app.chat(); err != nil { t.Fatal(err) }
+    if !strings.Contains(output.String(), "Análise automática local foi removida") ||
+       !strings.Contains(output.String(), "processamento OpenAI ainda não está disponível") {
+        t.Fatalf("chat must clearly report that no model inference occurs: %s", output.String())
+    }
+}

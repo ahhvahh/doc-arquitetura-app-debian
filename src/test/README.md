@@ -1,6 +1,6 @@
 # Testes por grupo
 
-O workflow apresenta 14 grupos independentes, além de inventário, vet/build e validação Charter. Cada job usa um runner Ubuntu novo; o executor isola diretórios XDG e temporários e remove credenciais do ambiente de testes. OpenAI usa HTTP simulado. Não é homologação com API real nem isolamento de rede.
+O workflow apresenta 12 grupos independentes, além de inventário, vet/build e validação Charter. Cada job usa um runner Ubuntu novo; o executor isola diretórios XDG e temporários e remove credenciais do ambiente de testes. OpenAI usa HTTP simulado. Não é homologação com API real nem isolamento de rede.
 
 ## Executar
 
@@ -31,8 +31,6 @@ No GitHub Actions, abra Functional test groups. Cada Tests / grupo tem resultado
 | changeset | Decodificar retorno, preservar seções, conferir SHA e rejeitar caminhos, operações e metadados inválidos. |
 | auth | Validar configuração GitHub, permissões e rejeição de symlinks; nenhuma credencial real. |
 | config | Validar caminhos, configuração de contexto e valores inválidos. |
-| models | Validar catálogo GGUF, integridade, associação e seleção persistente do modelo. |
-| runtime | Validar runtime com servidor e socket simulados, sem baixar modelos. |
 | terminal | Validar URLs, branches, arquivos permitidos, histórico e encerramento de sessões. |
 | backup | Validar origem/destino, snapshot Git local e integridade dos backups. |
 

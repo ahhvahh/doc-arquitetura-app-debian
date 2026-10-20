@@ -1,135 +1,33 @@
-# Modelos locais, referência normativa e DSL — CLI
+# Comandos e configuração
 
-Os comandos `models`, `reference` e `dsl` rodam sob o usuário que invocou o executável. Não exigem root e não instalam modelos no pacote Debian.
+A aplicação mantém comandos locais para DSL e sincronização, e comandos OpenAI para gerenciar agentes e preparar tarefas.
 
-## Modelos
+## Referência e DSL
 
-```sh
-doc-arquitetura models catalog
-doc-arquitetura models download qwen3.5-0.8b
-doc-arquitetura models download qwen3-1.7b
-doc-arquitetura models list
-doc-arquitetura models assign triagem qwen3.5-0.8b
-doc-arquitetura models assign analise qwen3-1.7b
-# O motor será iniciado sob demanda no terminal (não use models serve)
-# Porta/contexto opcionais:
-# Configure DOC_ARQUITETURA_LLAMA_CONTEXT=4096, se necessário
-```
-
-`models download` consulta a API do Hugging Face para obter o SHA da revisão da fonte, fixa essa revisão na URL de download, verifica a assinatura GGUF e grava SHA-256, origem, tamanho e revisão. Um checksum **independente** pode ser exigido com `--sha256 HASH`; sem essa opção, o checksum registrado serve para detectar alterações locais, mas não prova autenticidade da fonte. `models list` verifica os arquivos instalados. Download interrompido deve ser repetido; retomada por Range ainda não é suportada. `llama-server` é fornecido pelo pacote e iniciado como subprocesso privado via socket Unix. `models assign` registra a associação do agente com um modelo; o pipeline do MVP ainda não inicia agentes automaticamente nem aplica essa associação a `review-bundle`.
-
-## Referência e compilação DSL
-
-```sh
+```bash
 doc-arquitetura reference update
 doc-arquitetura reference status
-doc-arquitetura dsl compile
 doc-arquitetura dsl update
 doc-arquitetura dsl status
 ```
 
-Fonte imutável: `https://github.com/ahhvahh/doc-arquitetura.git`, branch `main`, pasta `ProjectCharter/1.0`. `reference update` consulta HEAD remoto, reutiliza cache íntegro ou clona uma cópia versionada. O SHA real obtido da clonagem é registrado, inclusive se a branch mudar enquanto é baixada. Necessita `git` e autenticação Git pré-configurada quando o repositório é privado. O comando `dsl compile` usa a função de conversão documental já existente no MVP e compila **todos os arquivos Markdown** sob `ProjectCharter/1.0`, inclusive Charter, Scope, Implementation e prompts. Grava `reference.pcdsl` e `manifest.json` contendo SHA de referência, checksum do bundle, contagem e horário. Só ativa a versão compilada após sucesso; caso falhe, a anterior permanece ativa. A compilação **não comprova equivalência semântica nem completude da auditoria**.
+`sync` clona a referência normativa `main` e a branch `develop` do projeto informado e gera os arquivos DSL para revisão local. `convert` converte Markdown local em DSL.
 
-`dsl update` é a sequência `reference update` + `dsl compile`. `dsl status` verifica o checksum e compara com a referência **local**. `reference status` também consulta o HEAD remoto e informa quando a referência local está desatualizada.
+## Agentes OpenAI e tarefas
 
-## Diretórios
-
-Padrões por usuário (XDG):
-
-| Dados | Diretório |
-|---|---|
-| Modelos | `~/.local/share/doc-arquitetura/models/` |
-| Configuração de agentes | `~/.config/doc-arquitetura/agents.json` |
-| Git clone normativo | `~/.cache/doc-arquitetura/reference/<sha>/` |
-| Bundle compilado | `~/.cache/doc-arquitetura/dsl/<sha>/` |
-| Estado e relatórios futuros | `~/.local/state/doc-arquitetura/` |
-
-Aceita `DOC_ARQUITETURA_DATA_DIR`, `DOC_ARQUITETURA_CACHE_DIR`, `DOC_ARQUITETURA_CONFIG_DIR`, `DOC_ARQUITETURA_STATE_DIR`, `DOC_ARQUITETURA_TEMP_DIR`, além das variáveis XDG convencionais. Diretórios passados por variáveis precisam ser absolutos. O diretório temporário configurado está reservado para a evolução do workspace de análises; o comando legado `sync` ainda usa `-workspace` (padrão `./workspace`).
-
-## Limitações
-
-- Runtime `llama.cpp` é compilado e incluído no `.deb`; os modelos GGUF são externos.
-- A aplicação gerencia um subprocesso de inferência por sessão, sem daemon systemd ou porta TCP.
-- O comando `review-bundle` ainda usa a limitação de contexto do MVP.
-- Testes locais não dependem de rede; downloads reais e inferência devem ser validados no host de instalação.
-- Não editar a branch `main` do repositório normativo.
-## Chat documental no terminal (MVP)
-
-```sh
-doc-arquitetura
-doc-arquitetura terminal --repo https://github.com/OWNER/REPO --branch develop --area scope 
+```bash
+doc-arquitetura openai key set
+doc-arquitetura openai agents status
+doc-arquitetura openai prompts list --stage charter
+doc-arquitetura openai analyze prepare --repo https://github.com/OWNER/REPO --stage charter --operation mapear --action diagnostico --request "Mapear a documentação existente"
 ```
 
-O menu descobre branches remotas e permite escolher Charter, Scope ou Implementation. Os prompts são carregados da referência normativa `main` versionada pelo SHA da sessão. O agente envia propostas JSON para documentos Markdown na etapa escolhida; respostas da LLM jamais são comandos shell/Git executáveis.
+A gestão remota de agentes requer uma chave OpenAI e só faz chamadas à API com `--apply`. A preparação de análise clona `develop`, cria uma branch local e gera a DSL e a tarefa. Ainda não faz inferência OpenAI nem publica alterações.
 
-Comandos no chat: `/help`, `/files`, `/status`, `/diff`, `/apply`, `/validate`, `/commit`, `/push`, `/exit`. Edições locais exigem confirmação via `/apply`. Commit e push possuem confirmações independentes. O push depende de confirmação de que `origin/develop` continua no SHA original e não usa force. Se a branch selecionada não for `develop`, a sessão é somente leitura e os comandos de escrita retornam erro.
+## Processamento de modelos
 
-**Limitações:** a validação antes do commit cobre alterações restritas a Markdown na etapa escolhida, H1, badges e checagem `git diff --check`; não substitui revisão normativa completa de Charter, Scope e Implementation. Arquivos maiores que o contexto admitido não são enviados integralmente e não podem ser substituídos pelo agente. Testes de integração com GitHub remoto e modelos reais não realizados nesta entrega.
+O catálogo GGUF, downloads Hugging Face, execução local de llama.cpp, benchmark e configurações locais de contexto foram removidos. Os comandos antigos `models`, `model`, `config set-context` e `review-bundle` não fazem mais parte da CLI. O pacote Debian não compila nem instala llama.cpp e não depende de bibliotecas C++ para esse runtime.
 
-## Destino obrigatório da documentação do projeto-alvo
+O antigo chat terminal não envia pedidos a um modelo. Para análise remota, ainda é necessário implementar a inferência OpenAI com seus limites de gasto e saída PCDSL-CHANGESET; até lá, use o comando de preparação para validar clones, prompts e DSL sem inferência.
 
-O repositório normativo é `ahhvahh/doc-arquitetura`, branch **main**, diretório **`ProjectCharter/1.0/`**. Esse caminho é a **origem das regras**, e **não deve ser reproduzido no projeto-alvo**.
-
-No projeto-alvo, os documentos ficam diretamente em `/docs/charter/`, `/docs/scope/`, `/docs/implementation/` e `/docs/assets/`, com índice em `/docs/README.md`. Nunca gere o nível intermediário `docs/ProjectCharter/1.0/`. O aplicativo aplica essa regra no prompt de sistema e na validação do caminho proposto pelo modelo; `main` do projeto-alvo nunca é editada.
-
-Se uma etapa possuir documentos nas estruturas legadas `docs/ProjectCharter/1.0/`, `docs/01-Project_Charter/` ou `ProjectCharter/1.0/`, o terminal avisa e bloqueia o commit até que os documentos sejam migrados com matriz origem → destino, links corrigidos e autorização explícita. **A migração automática ainda não está implementada**. A análise e a apresentação de propostas não removem arquivos legados.
-
-O comando `sync` prioriza `docs/` quando encontra as etapas nesse diretório; estruturas legadas são lidas como fallback para diagnóstico. A referência normativa do comando `sync` aceita somente `--norm-ref main`.
-
-## Escolher prompts e reutilizar documentação no terminal
-
-Após selecionar um repositório e uma das etapas `charter`, `scope` ou `implementation`, o programa apresenta os prompts `.md` especializados da referência versionada **`ahhvahh/doc-arquitetura/main/ProjectCharter/1.0/prompts/<etapa>/`**. A seleção fica associada à sessão e é incluída na mensagem do modelo local com o AGENT-PROMPT da etapa.
-
-```text
-/prompts                    # catálogo da etapa
-/prompt select              # selecionar um prompt
-/prompt show                # ver prompt selecionado
-/prompt reset               # limpar seleção
-/backup plan                # listar arquivos elegíveis e tamanhos
-/backup add docs/legado     # incluir uma fonte documental adicional
-/backup create              # gerar snapshot confirmado
-/migration plan             # mostrar destinos sugeridos e conflitos
-/diff                       # mostrar alterações propostas
-/apply                      # aprovar edição dos documentos ativos
-/validate
-/commit
-/push
-```
-
-**Backup obrigatório:** `/docs/backup/<UTC>-<sha-base-curto>/`, com `manifest.json` e `original/<caminho relativo de origem>`. A cópia preserva bytes, caminhos, hashes SHA-256 e referência do commit-base. A ferramenta só cria backup após confirmação expressa e quando a branch é `develop` e o workspace está limpo. A verificação do manifesto/hash impede que o agente edite o histórico. O diretório é incluído no commit autorizado, mas excluído da compilação DSL do projeto e dos gates de documentação ativa. Limites iniciais: 300 arquivos, 4 MiB por arquivo e 32 MiB por snapshot.
-
-A função de inventário inclui as pastas canônicas e legadas conhecidas da etapa, além das fontes adicionadas pelo usuário. **O operador deve conferir se existem segredos/dados sensíveis antes de aprovar o backup ou push**. Migração e substituição de documentos são propostas pelo agente especializado; sem snapshot aprovado, `/apply` recusa propostas de prompt `legacy-*`. `/migration plan` não move nem apaga automaticamente os originais; a limpeza do legado exige operação própria futura e autorização independente.
-
-A referência normativa é sempre `main` (somente leitura). Um prompt novo publicado apenas em `doc-arquitetura/develop` não aparece até ser promovido à `main`.
-
-## Modelo por sessão
-
-Após iniciar o projeto GitHub, escolha um modelo instalado, baixe um do catálogo ou continue sem inferência. A escolha persiste por sessão e pode ser alterada com `/model select`; `/model` mostra o estado e `/model clear` limpa a seleção. É preciso iniciar o `llama-server` separadamente com o modelo escolhido. Consulte [o fluxo completo](MODEL-SELECTION.md).
-
-
-## Diagnóstico do chat e velocidade de inferência
-
-Se o agente não responder, use `/model check`: o subprocesso `llama-server` privado será iniciado automaticamente na primeira solicitação, sem TCP. Use `/model check` para confirmar que a API responde e que o modelo realmente carregado corresponde à sessão. Para medir o desempenho CPU local, execute `/benchmark`; ele imprime tokens/s de geração, tokens/s do prompt e tempo total quando disponíveis.
-
-A escolha de uma branch diferente de `develop` agora enfatiza que a sessão é somente leitura. Os documentos legados de Charter disponíveis em `docs/01-Project_Charter/charter/` podem ser consultados em diagnóstico, mesmo usando um prompt não migratório; a aplicação não confunde esse caminho com o destino canônico `docs/charter/`.
-
-Catálogo complementar: `gemma3-1b` e `qwen3.5-4b` além de `qwen3.5-0.8b` e `qwen3-1.7b`. Consulte [Seleção de modelo](MODEL-SELECTION.md).
-
-
-**Integração privada atual:** consulte [Inferência local privada](PRIVATE-INFERENCE.md) para build/revisão/lifecycle.
-
-## Configuração local e encerramento de sessão (v0.2.3)
-
-- `doc-arquitetura config show`: exibe local e quantidade efetiva de tokens.
-- `doc-arquitetura config set-context 16384`: grava em `~/.config/doc-arquitetura/config.json` com modo 0600, separado do arquivo GitHub.
-- `/context`: consulta o contexto dentro do chat.
-- `/context set 16384`: grava e encerra o runtime, que reinicia com novo contexto na próxima inferência.
-- `/exit`: apenas sai do chat e mantém a sessão retomável.
-- `/session close`: confirma encerramento definitivo da sessão ativa, preservando o workspace e histórico.
-- Menu **Encerrar sessão salva**: encerra outra sessão aberta sem precisar retomá-la.
-
-O Llama continua privado por socket Unix com um slot de inferência. Consulte [Configuração e sessões](LOCAL-CONFIG.md).
-
-## Compatibilidade do catálogo centralizado (preparação)
-
-Quando a referência normativa `main` possuir `ProjectCharter/1.0/prompts/<etapa>/*.txt`, o seletor lê somente o prompt `.txt` selecionado, sem concatenar automaticamente o índice nem os demais prompts. Enquanto `main` mantiver a árvore anterior, a CLI consulta `<etapa>/prompts/*.md` como fallback. Sessões antigas que guardaram o nome `.md` continuam resolvendo o prompt `.txt` homônimo. A estrutura centralizada está atualmente em `doc-arquitetura/develop`, não ainda em `main`.
+O programa continua exigindo Git para clonar os repositórios. A CLI não armazena modelos GGUF.

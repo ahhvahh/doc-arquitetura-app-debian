@@ -12,11 +12,11 @@ fi
 sandbox_dir=$(mktemp -d /tmp/doc-tests.XXXXXXXX)
 trap 'rm -rf "$sandbox_dir"' EXIT
 unset OPENAI_API_KEY GH_TOKEN GITHUB_TOKEN
-unset DOC_ARQUITETURA_CONFIG_DIR DOC_ARQUITETURA_DATA_DIR DOC_ARQUITETURA_CACHE_DIR DOC_ARQUITETURA_STATE_DIR DOC_ARQUITETURA_TEMP_DIR DOC_ARQUITETURA_DSL DOC_ARQUITETURA_LLAMA_CONTEXT DOC_ARQUITETURA_LLAMA_BIN
-export XDG_CONFIG_HOME="$sandbox_dir/config" XDG_DATA_HOME="$sandbox_dir/data"
+unset DOC_ARQUITETURA_CONFIG_DIR DOC_ARQUITETURA_CACHE_DIR DOC_ARQUITETURA_STATE_DIR DOC_ARQUITETURA_TEMP_DIR DOC_ARQUITETURA_DSL
+export XDG_CONFIG_HOME="$sandbox_dir/config"
 export XDG_CACHE_HOME="$sandbox_dir/cache" XDG_STATE_HOME="$sandbox_dir/state"
 export TMPDIR="$sandbox_dir/tmp" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1
-mkdir -p "$XDG_CONFIG_HOME" "$XDG_DATA_HOME" "$XDG_CACHE_HOME" "$XDG_STATE_HOME" "$TMPDIR"
+mkdir -p "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME" "$XDG_STATE_HOME" "$TMPDIR"
 go test -list '^Test' ./... > "$sandbox_dir/discovered"
 grep '^Test' "$sandbox_dir/discovered" | LC_ALL=C sort -u > "$sandbox_dir/actual"
 jq -r '.[].tests[] | split("/")[0]' "$catalog" | LC_ALL=C sort -u > "$sandbox_dir/expected"

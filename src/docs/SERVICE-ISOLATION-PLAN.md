@@ -1,5 +1,7 @@
 # Arquitetura proposta — Serviço documental isolado
 
+> **Atualização 2026-10-20:** proposta histórica, não implementada e superada para inferência local. llama.cpp, GGUF e sockets de modelo foram removidos do cliente e do pacote Debian. Não construir esse runtime com base neste plano. A inferência futura será especificada para OpenAI, incluindo controles de gastos.
+
 > Estado: **refinement / proposta técnica**. Esta especificação não afirma que o daemon ou a segurança multiusuário já estejam implementados.
 > Referência normativa de leitura: `ahhvahh/doc-arquitetura`, branch `main`, diretório `ProjectCharter/1.0`.
 > Projeto aplicativo: `ahhvahh/doc-arquitetura-app-debian`, desenvolvimento somente em `develop`. **Nenhuma escrita em `main`.**

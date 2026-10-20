@@ -6,11 +6,8 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
-	"flag"
 	"fmt"
 	"io"
-	"net/http"
-	"net/url"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -22,24 +19,6 @@ import (
 const normGitURL = "https://github.com/ahhvahh/doc-arquitetura.git"
 const normTree = "ProjectCharter/1.0"
 
-type modelSpec struct{ ID, Repo, File, Purpose string }
-
-var modelCatalog = []modelSpec{
-	{"qwen3.5-0.8b", "ggml-org/Qwen3.5-0.8B-GGUF", "Qwen3.5-0.8B-Q4_0.gguf", "triagem, classificacao e extracao preliminar"},
-	{"qwen3-1.7b", "bartowski/Qwen_Qwen3-1.7B-GGUF", "Qwen_Qwen3-1.7B-Q4_K_M.gguf", "analise semantica, contratos e inconsistencias"},
-	{"gemma3-1b", "ggml-org/gemma-3-1b-it-GGUF", "gemma-3-1b-it-Q4_K_M.gguf", "revisao textual leve e organizacao de documentos"},
-	{"qwen3.5-4b", "lmstudio-community/Qwen3.5-4B-GGUF", "Qwen3.5-4B-Q4_K_M.gguf", "analise tecnica detalhada e migracao documental (mais lento)"},
-}
-
-type modelRecord struct {
-	ID          string `json:"id"`
-	Repository  string `json:"repository"`
-	Revision    string `json:"revision"`
-	File        string `json:"file"`
-	SHA256      string `json:"sha256"`
-	Size        int64  `json:"size"`
-	InstalledAt string `json:"installed_at"`
-}
 type refRecord struct {
 	SHA       string `json:"sha"`
 	Source    string `json:"source"`
@@ -52,7 +31,7 @@ type dslRecord struct {
 	CompiledAt   string `json:"compiled_at"`
 }
 
-type appPaths struct{ Data, Cache, Config, State, Temp string }
+type appPaths struct{ Cache, Config, State, Temp string }
 
 func appHome() (appPaths, error) {
 	home, e := os.UserHomeDir()
@@ -69,7 +48,6 @@ func appHome() (appPaths, error) {
 		return filepath.Join(home, def, "doc-arquitetura")
 	}
 	p := appPaths{
-		Data:   choose("DOC_ARQUITETURA_DATA_DIR", "XDG_DATA_HOME", ".local/share"),
 		Cache:  choose("DOC_ARQUITETURA_CACHE_DIR", "XDG_CACHE_HOME", ".cache"),
 		Config: choose("DOC_ARQUITETURA_CONFIG_DIR", "XDG_CONFIG_HOME", ".config"),
 		State:  choose("DOC_ARQUITETURA_STATE_DIR", "XDG_STATE_HOME", ".local/state"),
@@ -78,7 +56,7 @@ func appHome() (appPaths, error) {
 	if s := os.Getenv("DOC_ARQUITETURA_TEMP_DIR"); s != "" {
 		p.Temp = s
 	}
-	for _, v := range []string{p.Data, p.Cache, p.Config, p.State, p.Temp} {
+	for _, v := range []string{p.Cache, p.Config, p.State, p.Temp} {
 		if !filepath.IsAbs(v) {
 			return appPaths{}, fmt.Errorf("diretorio precisa ser absoluto: %s", v)
 		}
@@ -135,228 +113,6 @@ func shaFile(path string) (string, int64, error) {
 		return "", 0, e
 	}
 	return hex.EncodeToString(h.Sum(nil)), n, nil
-}
-func safeToken(s string) bool { return regexp.MustCompile(`^[a-z][a-z0-9._-]{0,49}$`).MatchString(s) }
-func getModel(name string) (modelSpec, error) {
-	for _, m := range modelCatalog {
-		if m.ID == name {
-			return m, nil
-		}
-	}
-	return modelSpec{}, fmt.Errorf("modelo desconhecido: %s; consulte 'models catalog'", name)
-}
-func modelPath(p appPaths, id string) string { return filepath.Join(p.Data, "models", id+".gguf") }
-func modelMeta(p appPaths, id string) string { return filepath.Join(p.Data, "models", id+".json") }
-func loadModel(p appPaths, id string) (modelRecord, error) {
-	var m modelRecord
-	if !safeToken(id) {
-		return m, errors.New("identificador invalido")
-	}
-	if e := readJSON(modelMeta(p, id), &m); e != nil {
-		return m, e
-	}
-	if m.ID != id {
-		return m, errors.New("metadados do modelo inconsistentes")
-	}
-	return m, nil
-}
-func verifyModel(p appPaths, id string) (modelRecord, error) {
-	m, e := loadModel(p, id)
-	if e != nil {
-		return m, e
-	}
-	path := modelPath(p, id)
-	sum, size, e := shaFile(path)
-	if e != nil {
-		return m, e
-	}
-	if sum != m.SHA256 || size != m.Size {
-		return m, errors.New("modelo nao passou na verificacao SHA-256")
-	}
-	f, e := os.Open(path)
-	if e != nil {
-		return m, e
-	}
-	defer f.Close()
-	buf := make([]byte, 4)
-	if _, e = io.ReadFull(f, buf); e != nil {
-		return m, e
-	}
-	if string(buf) != "GGUF" {
-		return m, errors.New("arquivo nao e GGUF")
-	}
-	return m, nil
-}
-func hfRevision(client *http.Client, repo string) (string, error) {
-	req, e := http.NewRequest("GET", "https://huggingface.co/api/models/"+repo, nil)
-	if e != nil {
-		return "", e
-	}
-	resp, e := client.Do(req)
-	if e != nil {
-		return "", e
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != 200 {
-		return "", fmt.Errorf("Hugging Face API HTTP %d", resp.StatusCode)
-	}
-	var v struct {
-		SHA string `json:"sha"`
-	}
-	if e = json.NewDecoder(io.LimitReader(resp.Body, 4<<20)).Decode(&v); e != nil {
-		return "", e
-	}
-	if !regexp.MustCompile(`^[a-f0-9]{40}$`).MatchString(v.SHA) {
-		return "", errors.New("revisao Hugging Face invalida")
-	}
-	return v.SHA, nil
-}
-func downloadModel(p appPaths, id, expectedSHA string) error {
-	spec, e := getModel(id)
-	if e != nil {
-		return e
-	}
-	if expectedSHA != "" && !regexp.MustCompile(`^[a-fA-F0-9]{64}$`).MatchString(expectedSHA) {
-		return errors.New("--sha256 exige 64 caracteres hexadecimais")
-	}
-	if _, e := verifyModel(p, id); e == nil {
-		fmt.Println("Modelo ja instalado e verificado:", modelPath(p, id))
-		return nil
-	}
-	dir := filepath.Join(p.Data, "models")
-	if e := mkdirPrivate(dir); e != nil {
-		return e
-	}
-	client := &http.Client{Timeout: 2 * time.Hour}
-	revision, e := hfRevision(client, spec.Repo)
-	if e != nil {
-		return e
-	}
-	u := "https://huggingface.co/" + spec.Repo + "/resolve/" + revision + "/" + url.PathEscape(spec.File)
-	req, e := http.NewRequest("GET", u, nil)
-	if e != nil {
-		return e
-	}
-	resp, e := client.Do(req)
-	if e != nil {
-		return e
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != 200 {
-		return fmt.Errorf("download HTTP %d", resp.StatusCode)
-	}
-	f, e := os.CreateTemp(dir, ".download-*.gguf")
-	if e != nil {
-		return e
-	}
-	defer os.Remove(f.Name())
-	if e = f.Chmod(0600); e != nil {
-		f.Close()
-		return e
-	}
-	h := sha256.New()
-	n, e := io.Copy(io.MultiWriter(f, h), io.LimitReader(resp.Body, 16<<30))
-	if e != nil {
-		f.Close()
-		return e
-	}
-	if e = f.Sync(); e != nil {
-		f.Close()
-		return e
-	}
-	if e = f.Close(); e != nil {
-		return e
-	}
-	if n < 8 {
-		return errors.New("arquivo GGUF pequeno demais")
-	}
-	probe, e := os.Open(f.Name())
-	if e != nil {
-		return e
-	}
-	magic := make([]byte, 4)
-	_, e = io.ReadFull(probe, magic)
-	probe.Close()
-	if e != nil {
-		return e
-	}
-	if string(magic) != "GGUF" {
-		return errors.New("arquivo baixado nao e GGUF")
-	}
-	sum := hex.EncodeToString(h.Sum(nil))
-	if expectedSHA != "" && !strings.EqualFold(sum, expectedSHA) {
-		return fmt.Errorf("checksum inesperado: %s", sum)
-	}
-	rec := modelRecord{ID: id, Repository: spec.Repo, Revision: revision, File: spec.File, SHA256: sum, Size: n, InstalledAt: time.Now().UTC().Format(time.RFC3339)}
-	if e = os.Rename(f.Name(), modelPath(p, id)); e != nil {
-		return e
-	}
-	if e = writeJSONAtomic(modelMeta(p, id), rec); e != nil {
-		return e
-	}
-	fmt.Printf("Instalado %s (%d bytes, SHA-256 %s, revisao %s)\n", id, n, sum, revision)
-	return nil
-}
-func modelAssignmentsPath(p appPaths) string { return filepath.Join(p.Config, "agents.json") }
-func assignModel(p appPaths, agent, id string) error {
-	if !safeToken(agent) {
-		return errors.New("nome de agente invalido")
-	}
-	if _, e := verifyModel(p, id); e != nil {
-		return fmt.Errorf("instale e verifique o modelo primeiro: %w", e)
-	}
-	v := map[string]string{}
-	if e := readJSON(modelAssignmentsPath(p), &v); e != nil && !os.IsNotExist(e) {
-		return e
-	}
-	v[agent] = id
-	if e := writeJSONAtomic(modelAssignmentsPath(p), v); e != nil {
-		return e
-	}
-	fmt.Printf("Agente %s => %s\n", agent, id)
-	return nil
-}
-func modelsCommand(p appPaths, args []string) error {
-	if len(args) == 0 {
-		return errors.New("uso: models <catalog|download|list|assign|serve>")
-	}
-	sub, args := args[0], args[1:]
-	switch sub {
-	case "catalog":
-		for _, m := range modelCatalog {
-			fmt.Printf("%-16s %-40s %s\n", m.ID, m.Repo, m.Purpose)
-		}
-		return nil
-	case "download":
-		f := flag.NewFlagSet("models download", flag.ContinueOnError)
-		sha := f.String("sha256", "", "checksum SHA-256 esperado (opcional)")
-		if e := f.Parse(args); e != nil {
-			return e
-		}
-		if f.NArg() != 1 {
-			return errors.New("uso: models download [--sha256 HEX] <modelo>")
-		}
-		return downloadModel(p, f.Arg(0), *sha)
-	case "list":
-		for _, spec := range modelCatalog {
-			m, e := verifyModel(p, spec.ID)
-			if e == nil {
-				fmt.Printf("INSTALLED %-17s %d bytes SHA-256 %s\n", m.ID, m.Size, m.SHA256)
-			} else {
-				fmt.Printf("MISSING   %-17s (%v)\n", spec.ID, e)
-			}
-		}
-		return nil
-	case "assign":
-		if len(args) != 2 {
-			return errors.New("uso: models assign <agente> <modelo>")
-		}
-		return assignModel(p, args[0], args[1])
-	case "serve":
-        return errors.New("models serve foi substituído pelo runtime privado gerenciado pelo aplicativo. Execute 'doc-arquitetura', escolha o modelo e use /model start ou inicie uma análise.")
-	default:
-		return fmt.Errorf("comando models desconhecido: %s", sub)
-	}
 }
 func gitOutput(ctx context.Context, dir string, args ...string) (string, error) {
 	cmd := exec.CommandContext(ctx, "git", args...)
@@ -568,15 +324,13 @@ func dslStatus(p appPaths) error {
 }
 func managedCommand(args []string) error {
 	if len(args) < 2 {
-		return errors.New("uso: <models|reference|dsl> <subcomando> [opcoes]")
+		return errors.New("uso: <reference|dsl> <subcomando> [opcoes]")
 	}
 	p, e := appHome()
 	if e != nil {
 		return e
 	}
 	switch args[0] {
-	case "models":
-		return modelsCommand(p, args[1:])
 	case "reference":
 		if len(args) != 2 {
 			return errors.New("uso: reference <update|status>")

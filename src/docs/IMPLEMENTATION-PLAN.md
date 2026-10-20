@@ -1,3 +1,5 @@
+> **Nota de atualização (2026-10-20):** o item histórico de Llama local foi descontinuado. O cliente e o pacote Debian não executam inferência local; a chamada de inferência OpenAI permanece pendente. Itens concluídos abaixo registram entregas passadas, não indicam que o modelo local ainda exista no código atual.
+
 # Plano de implementacao DSL/1.0
 
 ## MVP registrado

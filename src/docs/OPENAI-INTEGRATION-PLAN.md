@@ -63,7 +63,7 @@ O conteúdo persistente não incorpora os 34 prompts. Armazenar localmente apena
 1. `/docs/charter`: validar status, resolver OPEN-001 (cofre/segredos), OPEN-002 (compactação e custos), OPEN-003 (task branches versus norma que exige develop) e OPEN-004 (projetos OpenAI/hard limits). Auditar a política de autorização e os objetivos.
 2. `/docs/scope`: descrever atores e FLWs `configurar credencial`, `sincronizar agente`, `listar/selecionar prompt`, `preflight de custo`, `analisar projeto`, `propor changeset`, `aprovar e validar` e contratos TYPE/INT/ALG para payloads, quotas e estados.
 3. `/docs/implementation`: definir APP/CMD para CLI, LIB para cliente OpenAI e montagem DSL, DEP para armazenamento de segredos e persistência de metadata, testes de segurança e mocks HTTP, Services só se realmente necessários.
-4. `/src`: implementar a partir de unidades refinadas, preservando runtime llama.cpp existente e incluindo DOC-REFs de Implementation nos módulos pertinentes. Testes no GitHub Actions sem chaves e sem requisições pagas.
+4. `/src`: implementar a partir de unidades refinadas, sem dependência de runtime de inferência local e incluindo DOC-REFs de Implementation nos módulos pertinentes. Testes no GitHub Actions sem chaves e sem requisições pagas.
 
 ## Matriz inicial de testes automatizados
 

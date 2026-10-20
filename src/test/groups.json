@@ -75,34 +75,9 @@
     ]
   },
   "config": {
-    "expected": "Validar caminhos, configuração de contexto e valores inválidos.",
+    "expected": "Validar os caminhos XDG/configuração geral da aplicação.",
     "tests": [
-      "TestConfiguredLlamaContextPreference",
-      "TestConfiguredLlamaContextRejectsBadFile",
-      "TestConfiguredLlamaContextRejectsInsecureFiles",
-      "TestConfiguredLlamaContextRejectsInvalidEnvironment",
-      "TestPathsRespectOverrides",
-      "TestBadToken"
-    ]
-  },
-  "models": {
-    "expected": "Validar catálogo GGUF, integridade, associação e seleção persistente do modelo.",
-    "tests": [
-      "TestModelValidationAndAssignment",
-      "TestModelCatalogGGUFFilenames",
-      "TestAdditionalReviewModelsInCatalog",
-      "TestModelMenuEmptyCatalog",
-      "TestModelMenuSelectAndPersist",
-      "TestModelMenuRejectMissingAndCorrupt",
-      "TestModelMenuSkipWithoutInstall"
-    ]
-  },
-  "runtime": {
-    "expected": "Validar runtime com servidor e socket simulados, sem baixar modelos.",
-    "tests": [
-      "TestActiveModelMatching",
-      "TestManagedUnixSocketEndpoints",
-      "TestPrivateRuntimeExecutableOverride"
+      "TestPathsRespectOverrides"
     ]
   },
   "terminal": {
@@ -117,7 +92,8 @@
       "TestBackupPathNotAgentEditable",
       "TestCharterLegacyContextForOrdinaryReview",
       "TestCloseSessionRetainsWorkspaceAndHistory",
-      "TestCloseSavedSessionConfirmation"
+      "TestCloseSavedSessionConfirmation",
+      "TestTerminalChatReportsInferenceUnavailable"
     ]
   },
   "backup": {

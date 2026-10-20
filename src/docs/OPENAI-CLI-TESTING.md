@@ -108,3 +108,7 @@ Quando autorizado, o resultado fica **somente no clone local** e a aplicação g
 - [Árvore de prompts](../prompts/commands.txt)
 - [Contrato e retorno DSL](AGENTS-DSL-CONTRACT.md)
 - [Limites de gasto](OPENAI-SPEND-LIMITS.md)
+
+## Inferência local removida
+
+O executável e o pacote não incluem llama.cpp, catálogo/download GGUF, chat local, benchmarks ou configuração de contexto. `terminal` permanece para inspeção e ações documentais locais; mensagens livres não são enviadas a nenhum modelo. A inferência OpenAI ainda não está implementada e permanece bloqueada pelos controles de gasto pendentes. Use `openai analyze prepare` para validar a preparação sem custos.

@@ -80,7 +80,7 @@ Para publicação, confirmar novamente branch alvo e SHA base, usar `git push or
 - Falha de rede, reinício systemd ou perda do console não altera `main` ou `develop`.
 - Todos os eventos apresentam `stage_elapsed_ms` e `task_elapsed_ms`; `percent` pode ser nulo.
 - Sem token de GitHub de serviço com permissão adequada, o push fica `BLOCKED`, sem tentativa de tomar credenciais do usuário.
-- **Pendente para refinamento:** mecanismo oficial de credenciais GitHub no daemon; política de administração/approvação entre operadores; retenção de eventos, diffs e históricos; migração dos GGUF existentes do diretório do usuário para o diretório privado do serviço; limites e política de concorrência/retry. Esses pontos precisam de decisão antes de implementar operações remotas efetivas.
+- **Pendente para refinamento:** mecanismo oficial de credenciais GitHub no daemon; política de administração/aprovação entre operadores; retenção de eventos, diffs e históricos; limites e política de concorrência/retry. A proposta de migrar GGUF e runtime local foi retirada; qualquer inferência futura deverá seguir contratos OpenAI separados. Esses pontos precisam de decisão antes de implementar operações remotas efetivas.
 
 
 ## 5. Controle administrativo de acesso
