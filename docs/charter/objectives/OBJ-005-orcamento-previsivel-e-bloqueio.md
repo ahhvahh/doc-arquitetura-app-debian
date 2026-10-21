@@ -56,3 +56,8 @@ Quando houver tarefas organizadas por serviço Linux, a exigência de autorizaç
 O uso de quatro projetos OpenAI segregados por especialização permanece previsto; a definição de identidade do usuário **não substitui** a verificação de credenciais, contexto de consumo, limite local e proteção remota por projeto de [CON-004](../conditions/CON-004-orcamento-obrigatorio.md). Sem comprovação de identidade ou autorização, a chamada paga deve permanecer bloqueada.
 
 Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md) e [CON-002](../conditions/CON-002-protecao-credenciais.md). Nenhum mecanismo de execução ou faturamento é homologado por esta decisão.
+
+## Orçamento de novas correções e avaliações — decisão 12
+Cada correção que demande geração por LLM ou repetição de avaliação requer **estimativa de custo e autorização financeira própria**, sem presumir autorização ilimitada para sucessivas tentativas.
+
+A política de bloqueio financeiro da [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md) e da [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) vale para todas as novas chamadas. Sem proteção remota suficiente comprovada, credencial válida ou orçamento autorizado, a revisão adicional não é executada e o resultado continua **não validado**. Essa restrição não permite desconsiderar o procedimento da [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).

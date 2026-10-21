@@ -14,7 +14,7 @@ A compressão sintática existente ainda não possui prova de equivalência sem�
 A publicação manual da DSL em armazenamento consultável pode ser experimentada independentemente da inferência, conforme [OBJ-006](../objectives/OBJ-006-publicacao-manual-base-normativa.md). Upload e indexação bem-sucedidos não comprovam cobertura da norma, fidelidade semântica ou redução real de tokens. Essas dúvidas continuam bloqueadoras da inferência em produção.
 
 ## Próxima ação
-Estabelecer evidências verificáveis para integridade estrutural, revisão crítica por segundo LLM e decisão humana; medir a fidelidade e os custos reais das avaliações, testar recuperação do original e impedimentos de publicação/commit quando houver falha. Não presumir equivalência semântica automática por concordância entre modelos.
+Estabelecer evidências para integridade estrutural, avaliação por segundo LLM, **correção e reavaliação obrigatórias quando houver divergência relevante**, e posterior decisão humana; medir fidelidade, custos das tentativas e recuperação do original. Sem condições financeiras ou de segurança para reavaliar, bloquear o aceite. A concordância dos modelos não prova equivalência semântica.
 ## Destino previsto
 Scope de extração, rastreabilidade e validação; Implementation de armazenamento e transporte.
 
@@ -58,6 +58,22 @@ Relações: [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md)
 - **Orçamento:** a revisão secundária também é uma operação de inferência e obedece a [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](OPEN-004-projeto-openai-e-hard-limit.md). Sem proteção remota comprovada ou autorização financeira exigida para chamada paga, **não executar a revisão paga nem considerar o fluxo de validação concluído**.
 - **Governança Git:** a aprovação humana final de qualidade não substitui a autorização explícita para integração à `develop`; commits em branch de sessão continuam condicionados à [OPEN-003](OPEN-003-politica-de-branches.md). Nenhuma gravação fora de `develop` é autorizada por esta decisão.
 
-**Pendências de comprovação:** critérios de equivalência Markdown → DSL → Markdown, parâmetros de qualidade e escala, comportamento para discordâncias, limites numéricos de tokens, validação dos modelos elegíveis e testes de custos/segurança. Definições técnicas pertencem a Scope/Implementation após os gates. Manter a OPEN em `refinement` enquanto tais evidências faltarem.
+**Pendências de comprovação:** critérios de equivalência Markdown → DSL → Markdown, parâmetros de qualidade e escala, classificação da relevância das divergências e limite de tentativas, limites numéricos de tokens, validação dos modelos elegíveis e testes de custos/segurança. O tratamento de divergências relevantes está definido na decisão 12 abaixo. Definições técnicas pertencem a Scope/Implementation após os gates. Manter a OPEN em `refinement` enquanto tais evidências faltarem.
 
 **Relações canônicas:** [OBJ-003 — Alterações verificáveis](../objectives/OBJ-003-propostas-de-alteracoes-verificaveis.md), [OBJ-004 — Evidências de testes](../objectives/OBJ-004-evidencias-de-testes-automatizados.md), [OBJ-007 — Avaliação de modelos](../objectives/OBJ-007-comparacao-controlada-de-modelos.md).
+
+## Decisão 12 — Correção obrigatória e reavaliação antes do aceite (2026-10-21)
+**Origem:** opção A aprovada explicitamente pelo responsável, para documentação somente no Charter de `develop`.
+
+**Resultado da triagem:** regra de qualidade aceita como intenção de produto, **sem implementação nem fidelidade semântica homologada**.
+
+- Toda divergência **relevante** identificada pela segunda análise por LLM exige **corrigir a proposta** antes de encaminhá-la à revisão humana de aceite.
+- Após a correção, **reexecutar a validação estrutural e a análise crítica por outro modelo de linguagem, distinto do gerador**, sobre a **nova versão** da proposta. A avaliação anterior não vale para conteúdo diferente.
+- Enquanto persistir divergência relevante, omissão ou contradição sem solução, **não declarar a alteração validada, não gerar commit de resultado validado e não permitir sua integração Git**. A revisão humana final só ocorre depois de tratar e reavaliar a divergência.
+- **Falhas estruturais, alterações fora do escopo, perda de informação, links quebrados ou violações normativas** permanecem bloqueadoras independentemente de quaisquer pareceres de LLM ou autorização humana.
+- Se não for possível corrigir, comprovar adequação, obter nova avaliação, ou satisfazer as condições financeiras e de segurança, **registrar o bloqueio e preservar a rastreabilidade** sem contornar a verificação exigida.
+- Cada nova geração ou avaliação potencialmente paga requer **autorização financeira e orçamento aplicáveis**, além da **proteção remota comprovada** exigida em [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](OPEN-004-projeto-openai-e-hard-limit.md); a decisão de corrigir não autoriza gastos adicionais automaticamente.
+- Registrar por tentativa as versões do conteúdo, a origem da divergência, o reparo, o segundo parecer, as evidências estruturais, as métricas e os custos previstos e medidos, sem presumir que consenso entre modelos significa fidelidade semântica.
+- A revisão e a decisão humanas finais continuam obrigatórias; **aprovar integração à `develop` exige autorização humana distinta**. Branch e commits automáticos de sessão só serão permitidos após resolver [OPEN-003](OPEN-003-politica-de-branches.md) na norma externa.
+
+**Pendências:** critérios para definir relevância, limite de tentativas de correção, medidas quantitativas de fidelidade/qualidade e homologação do conversor DSL ainda carecem de decisão e evidências. Contratos técnicos pertencem a Scope/Implementation. Manter a `OPEN-002` em `refinement`.

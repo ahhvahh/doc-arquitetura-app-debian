@@ -39,4 +39,9 @@ O fluxo de avaliação de uma alteração documental incluirá o parecer de **mo
 
 Identificar tanto o modelo gerador quanto o avaliador, suas versões, consumo/custo e eventuais divergências. A concordância entre eles não comprova automaticamente fidelidade semântica nem supera falhas detectadas por validação estrutural. A chamada do avaliador também está sujeita a [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md).
 
-A política de aceite diante de pareceres divergentes e os critérios quantitativos ainda exigem refinamento em [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+A política para divergências relevantes foi escolhida em [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md): corrigir e reavaliar antes do aceite humano. Os parâmetros quantitativos e os critérios para identificar relevância ainda exigem refinamento.
+
+## Reavaliação da proposta corrigida — decisão 12
+Pareceres discordantes relevantes obrigam nova revisão da **versão corrigida**, incluindo testes estruturais e parecer independente de LLM diferente do gerador, com origem, versões e custos rastreáveis. Discordância relevante não resolvida impede considerar o resultado apto a aceite humano ou integração Git. A concordância dos modelos não substitui validação normativa ou estrutural.
+
+Relação: [OPEN-002 — Tratamento de divergências](../open-questions/OPEN-002-fidelidade-e-custo.md).

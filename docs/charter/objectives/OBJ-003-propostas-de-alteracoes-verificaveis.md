@@ -51,3 +51,10 @@ Para a primeira entrega pretendida, cada proposta documental deve passar por **v
 - A autorização humana do resultado é distinta da autorização para integrar à `develop`; a política de commits automáticos em branch de sessão permanece dependente da [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
 
 Relações: [OPEN-002 — Decisão 10](../open-questions/OPEN-002-fidelidade-e-custo.md) e [OBJ-004 — Verificações](OBJ-004-evidencias-de-testes-automatizados.md). Isso não atesta implementação ou fidelidade homologada.
+
+## Tratamento de divergências críticas na validação — decisão 12
+Uma divergência relevante apontada pelo segundo LLM exige correção da proposta e **nova passagem pela validação estrutural e avaliação crítica de outro LLM**, antes de permitir a revisão humana de aceite. **Propostas com divergência relevante pendente não podem ser consideradas validadas nem gerar commit de resultado validado**.
+
+Falhas estruturais, violações normativas e alterações fora de escopo permanecem bloqueadoras, ainda que os modelos concordem. Ausência de reavaliação, recursos financeiros autorizados ou evidências mantém o trabalho bloqueado, com histórico preservado.
+
+A aprovação de integração Git permanece humana e separada; a execução de commits em branches de sessão ainda depende da resolução de [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
