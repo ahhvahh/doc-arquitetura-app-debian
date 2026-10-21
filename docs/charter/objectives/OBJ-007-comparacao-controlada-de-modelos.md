@@ -57,3 +57,10 @@ O ciclo está limitado, pela decisão 14, a **quatro correções com reavaliaç�
 Cada comparação deverá identificar a avaliação inicial e os pareceres das **até quatro correções subsequentes**, sem confundir quatro correções com quatro chamadas de API no total. Uma iteração pode envolver a geração e a revisão secundária, ambas sujeitas à autorização financeira apropriada.
 
 Registrar a conclusão antecipada quando a proposta passar nas verificações ou o bloqueio sem quinta correção quando o máximo se esgotar. A validade semântica continua não homologada. Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Limitação de contexto e separação de baselines — decisão 16
+A insuficiência de janela de contexto é motivo de **interrupção documentada**, não de compactação oculta nem de troca automática de modelo/provedor. A escolha aprovada é solicitar ao operador que **redefina expressamente a tarefa e a baseline**, identificando o que deixa de estar coberto pela nova análise.
+
+Resultados produzidos com baselines, conteúdo ou escopos diferentes **não devem ser comparados como equivalentes** sem explicitar a alteração. Registrar a tentativa interrompida, a decisão de redefinição, modelos autorizados, contexto cabível e custos das novas chamadas, se realizadas, respeitando [OBJ-005](OBJ-005-orcamento-previsivel-e-bloqueio.md).
+
+Permanecem válidas as quatro correções máximas por tarefa e as barreiras normativas, estruturais, financeiras e de aprovação humana de [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).

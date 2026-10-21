@@ -84,3 +84,10 @@ O fluxo de trabalho pretendido para a aplicação passa a considerar o **reposit
 - **Aprovação para abrir PR não é aprovação para mesclar.** Mesmo com checks concluídos, integração à `develop` depende de decisão humana específica e das proteções efetivas da branch.
 
 O procedimento está **bloqueado para execução remota por agentes**, porque a [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md) registra conflito com a referência normativa atual. Não autoriza operação Git fora de `develop`, criação de PR, alteração da norma ou execução de workflow nesta etapa.
+
+## Redefinição autorizada quando o contexto integral não cabe — decisão 16
+Quando o material original completo mais a última proposta e o parecer não couber no contexto comprovadamente disponível, o trabalho **não pode continuar nem ser publicado como validado**. A aplicação deverá comunicar a limitação e aguardar **redefinição explícita do escopo e de nova baseline pelo operador**, sem trocar o modelo, resumir ou truncar informações silenciosamente.
+
+A tarefa redefinida deve possuir identidade e baseline próprias, com relação auditável à tentativa interrompida. A redefinição não transforma o resultado anterior em válido e não pode reiniciar automaticamente o teto de **quatro ciclos de correção** da mesma tarefa. Uma tarefa nova é submetida novamente a validação estrutural, avaliação crítica de LLM distinto e autorização humana final.
+
+A aprovação de nova tarefa não equivale a autorização financeira de inferências nem de integração Git; a [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md) continua bloqueando operações em branches de sessão na norma atual. Relação: [OPEN-002 — Decisão 16](../open-questions/OPEN-002-fidelidade-e-custo.md).

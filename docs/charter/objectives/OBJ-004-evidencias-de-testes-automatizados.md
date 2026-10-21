@@ -50,3 +50,10 @@ A funcionalidade futura deverá prever uma **Pull Request por sessão encerrada 
 **Verificações mínimas como objetivo de qualidade:** o resultado da PR deve tornar observável a conformidade da organização de arquivos e do escopo documental selecionado, vínculos/links, status e IDs, referência normativa correta e versionada, integridade de mudanças, ausência de segredos expostos e testes aplicáveis ao repositório. Evidências vinculadas à sessão e ao diff devem permitir identificar a causa de reprovação.
 
 **Critério de proteção:** um check obrigatório falho, ausente ou indeterminado **impede a integração**. A proteção depende não só da execução de GitHub Actions, mas também da comprovação das configurações que **exigem** os checks para mesclar em `develop`, além da **autorização humana independente de merge**. Não presumir que checks, branch protection ou regras de revisão estejam implementados; sua definição técnica pertence a etapas futuras.
+
+## Evidências de parada por insuficiência de contexto — decisão 16
+Os critérios de qualidade deverão abranger um caso em que a documentação integral com seus complementos **não caiba na janela autorizada**, comprovando **ausência de chamada**, ausência de truncamento silencioso e bloqueio do aceite do resultado.
+
+O operador deve poder ver a insuficiência e a distinção entre a **tarefa interrompida** e uma **nova tarefa explicitamente redefinida**, com origem, baselines e cobertura identificáveis. Testes negativos devem rejeitar reinicialização automática do mesmo ciclo para contornar as quatro correções, adoção de modelo alternativo sem aprovação, uso de orçamento anterior e promoção de conteúdo não validado.
+
+Uma redefinição autorizada volta ao fluxo completo de validação documental e revisão humana, sem presumir homologação da equivalência semântica. Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
