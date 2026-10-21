@@ -49,3 +49,10 @@ A decisão do responsável é **não utilizar provedores para inferência paga s
 O orçamento autorizado de uma revisão documental deverá considerar separadamente a inferência geradora e a **segunda avaliação por modelo distinto**, incluindo estimativa e medição de custos/tokens para ambas as chamadas quando aplicáveis.
 
 A revisão secundária **não é isenta** da política de bloqueio da [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md): sem proteção remota suficiente comprovada, limite local ou autorização exigida, negar a inferência paga. A indisponibilidade financeira do segundo avaliador impede declarar concluído o fluxo de validação dupla; não justifica publicar sem revisão.
+
+## Atribuição financeira ao usuário autorizado — decisão 11
+Quando houver tarefas organizadas por serviço Linux, a exigência de autorização financeira permanece vinculada ao **usuário responsável pela inferência** e à identidade de provedor/projeto e especialização aplicáveis. O organizador não pode usar permissão de outro usuário ou credencial de serviço para contornar bloqueios.
+
+O uso de quatro projetos OpenAI segregados por especialização permanece previsto; a definição de identidade do usuário **não substitui** a verificação de credenciais, contexto de consumo, limite local e proteção remota por projeto de [CON-004](../conditions/CON-004-orcamento-obrigatorio.md). Sem comprovação de identidade ou autorização, a chamada paga deve permanecer bloqueada.
+
+Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md) e [CON-002](../conditions/CON-002-protecao-credenciais.md). Nenhum mecanismo de execução ou faturamento é homologado por esta decisão.

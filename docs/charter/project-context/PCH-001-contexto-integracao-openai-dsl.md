@@ -61,3 +61,12 @@ Relações: [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md)
 - **ACT-003 — Repositório-alvo:** a visão futura prevê uma branch por sessão, com commits produzidos pela aplicação após validação e integrados somente após aprovação humana; essa interação ainda depende da resolução normativa de [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
 
 As métricas de inferência permanecem sob controle local e devem ser recuperáveis em JSON por consumidores autorizados, conforme [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md). Não existe autorização atual para criar ou atualizar branches diferentes de `develop`.
+
+## Contexto de serviço coordenador e isolamento de identidade — decisão 11 (2026-10-21)
+Na evolução pretendida, o serviço Linux funciona como **organizador das solicitações dos operadores**, sem obter autoridade para consultar cofres pessoais, transferir segredos entre usuários ou realizar uma inferência em nome de outro usuário.
+
+- **ACT-001 — Operador:** cada tarefa tem um usuário responsável identificado; somente seu contexto autorizado pode executar inferências, acessar suas próprias credenciais e consumir orçamento mediante a autorização financeira exigida.
+- **ACT-002 — Serviço externo de inferência:** recebe exclusivamente a requisição autorizada a partir do contexto de execução do usuário responsável, não do cofre de outro operador.
+- **Serviço coordenador previsto:** organiza a fila e o acompanhamento, não representa uma nova fonte autônoma de autorização de inferência ou de consumo pago.
+
+A política aprovada não presume que o serviço ou o mecanismo de isolamento já existam. Devem ser verificados em etapas posteriores, conforme [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [CON-002](../conditions/CON-002-protecao-credenciais.md) e [CON-004](../conditions/CON-004-orcamento-obrigatorio.md).
