@@ -103,3 +103,8 @@ A sessão mantém **repositório escolhido, nível de documentação, ID, histó
 - Divergência relevante exige correção e nova avaliação, limitadas a **quatro correções por inferência/tarefa inicialmente autorizada**; mudar configuração em inferências posteriores não concede um quinto ciclo de reparo disfarçado para a mesma tarefa bloqueada.
 
 Os commits automáticos na branch de sessão, a criação de PR após o encerramento aprovado e a revisão humana específica antes de integrar à `develop` são **comportamentos futuros**, não permissões vigentes, conforme [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). Relação de fidelidade: [OPEN-002 — decisão 17](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Retomada da sessão após checks reprovados — decisão 18
+Uma reprovação dos checks obrigatórios da PR **não encerra definitivamente a sessão**: o operador poderá reabri-la para correção, preservando a identidade da sessão, a branch prevista e a mesma PR. Somente resultados documentais validados podem gerar novos commits na implementação futura. Após cada atualização, os checks são repetidos; para encerrar novamente exige-se **nova aprovação humana**, e o merge exige **autorização humana independente**.
+
+O limite de quatro correções **por inferência/tarefa**, os controles financeiros e a revisão independente não são dispensados por essa retomada. A criação de branches e a atualização de PRs continuam bloqueadas para agentes pela norma atual. Relação: [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).

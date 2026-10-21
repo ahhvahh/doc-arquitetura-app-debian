@@ -66,3 +66,8 @@ Os cenários de teste deverão verificar conversão sem perda de **títulos, se�
 Confirmar que mudar modelo, contexto ou prompt entre inferências da mesma sessão **não altera a identidade da sessão nem apaga configurações anteriores**, não contorna autorização financeira nem reinicia automaticamente os quatro ciclos de correção da tarefa. O teste deve preservar como bloqueadas chamadas inviáveis por capacidade de contexto ou falta de proteção remota.
 
 Os critérios de homologação da gramática e da fidelidade pertencem à [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md). Não declarar testes, conversor ou proteção Git existentes por esta decisão.
+
+## Evidências da retomada após reprovação de PR — decisão 18
+A futura validação deve demonstrar: falha de check impede merge; sessão retorna a **em correção** sem perder ID, histórico ou PR; novas inferências e commits são aceitos **somente após validação**; os checks obrigatórios são reexecutados sobre o novo SHA; aprovação anterior de encerramento não substitui a **nova aprovação humana**; autorização de merge é separada. Reprovação persistente mantém o bloqueio.
+
+Testar também que retomada não apaga custos, não dispensa segregação de credenciais, revisão independente nem permite mais de quatro correções automáticas **na mesma inferência/tarefa**. Não presumir que workflows, proteção de branch ou a funcionalidade estejam implementados. Relação: [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
