@@ -58,3 +58,8 @@ Verificar separadamente em OpenAI, Anthropic e Google Gemini as APIs disponívei
 - A proteção de credenciais e a política de orçamento são obrigatórias para os três serviços, conforme [CON-002](../conditions/CON-002-protecao-credenciais.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md).
 
 **Pendências bloqueadoras:** realizar verificação documentada individual de disponibilidade, segurança, condições de uso, tarifas e métricas de cada serviço antes da liberação de inferência paga. Nomes específicos de modelos, interfaces técnicas e contratos pertencem a Scope/Implementation; este registro não os antecipa.
+
+## Condição financeira da primeira entrega — decisão 09
+**OpenAI, Anthropic e Google Gemini** permanecem como os três provedores previstos, porém **nenhum é automaticamente elegível à inferência paga**. Antes de habilitar qualquer provedor/modelo, exigir comprovação individual de mecanismo remoto bloqueante suficiente, além dos limites locais de orçamento e da autorização de gasto.
+
+Alertas ou quotas apenas informativas não satisfazem o requisito. Na OpenAI, as evidências devem ser verificadas também para cada um dos quatro projetos independentes das especializações. Se algum serviço não oferecer proteção remota adequada, sua ativação paga fica bloqueada até nova decisão e comprovação, sem presumir que a API oferece hard limit. Relação: [OPEN-004 — Política aprovada](OPEN-004-projeto-openai-e-hard-limit.md).

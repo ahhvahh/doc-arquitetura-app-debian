@@ -6,15 +6,15 @@
 O uso de modelos remotos gera cobrança variável por tokens e ferramentas, em dólares. Sem prévia de consumo e barreiras independentes, uma análise extensa pode exceder o orçamento do operador.
 
 ## Resultado esperado
-Cada inferência paga apresenta estimativas de entrada, saída e custo em reais, solicita autorização explícita e aplica as políticas de orçamento por agente e globais antes de transmitir o pedido, com controle complementar no serviço OpenAI.
+Cada inferência paga apresenta estimativas de entrada, saída e custo em reais, solicita autorização financeira explícita e respeita os limites locais por especialização e globais **e a proteção remota comprovadamente bloqueante do provedor/projeto aplicável**. Se qualquer camada obrigatória não estiver verificada, a inferência paga não é iniciada.
 
 ## Critérios verificáveis
-- Nenhuma inferência inicia quando faltam modelo, tarifa atual, cotação, orçamento autorizado ou identificação do agente/projeto OpenAI.
+- Nenhuma inferência paga inicia quando faltam modelo, tarifa atual, cotação, orçamento autorizado, identificação do provedor/projeto aplicável ou evidência válida de proteção remota suficiente e efetiva.
 - A aplicação apresenta valor estimado e reserva conservadora por inferência, incluindo saída e possível raciocínio, e exige confirmação do operador.
 - Limites por operação, agente/dia, agente/mês e globais não podem ser excedidos por reservas simultâneas aprovadas pela aplicação.
 - Uma sessão nova e independente recebe limite monetário quando a API disponibiliza esse recurso; ausência de configuração bloqueia uso desse modo.
-- A configuração administrativa do hard limit por projeto OpenAI é distinta do limite local e deve ser documentada e verificada antes da primeira operação de produção.
-- O registro de consumo posterior identifica diferença entre orçamento reservado e cobrança medida, sem alegar limite absoluto na fatura da OpenAI.
+- Para a integração OpenAI, manter quatro projetos separados — Charter, Scope, Implementation e Source — e exigir verificação individual da eficácia e abrangência do mecanismo remoto de bloqueio financeiro de cada projeto habilitado; a configuração administrativa de orçamento ou alerta não demonstra, por si só, um hard limit.
+- O registro de consumo posterior identifica diferenças entre orçamento reservado e cobrança medida, sem alegar garantia absoluta sobre faturas externas; a ausência ou perda da proteção remota comprovada torna novas inferências pagas indisponíveis.
 - Nenhuma chave ou segredo de pagamento aparece em logs, DSL, Git ou relatórios de CI.
 
 ## Relações
@@ -33,3 +33,14 @@ Relações: [OBJ-007](OBJ-007-comparacao-controlada-de-modelos.md), [OBJ-008](OB
 A política de orçamentos locais aplica-se a todos os provedores remotos admitidos, sem confundir a arquitetura própria de projetos OpenAI com recursos inexistentes em outros serviços. Antes de cada inferência paga, conferir tarifa e estimativas e exigir autorização financeira conforme a [CON-004](../conditions/CON-004-orcamento-obrigatorio.md). A aprovação futura de merge não substitui a autorização de despesa.
 
 A comparação deverá conservar indicadores nativos do provedor e métricas reconciliáveis no histórico local; valores indisponíveis continuam desconhecidos.
+
+## Política aprovada — bloquear chamadas pagas sem proteção remota (decisão 09)
+A decisão do responsável é **não utilizar provedores para inferência paga sem proteção remota suficiente e verificada**. Aplica-se a **OpenAI, Anthropic e Google Gemini**, além de quaisquer provedores futuramente aprovados. Estimativa, teto local, alerta remoto ou aceite do usuário, isoladamente, não liberam operação remunerada.
+
+**Critérios esperados de verificação:**
+- Demonstrar para cada provedor e identidade/projeto de faturamento utilizado que existe mecanismo remoto efetivo e bloqueante, com alcance compatível com o orçamento aprovado; **desconhecido = bloqueado**.
+- Comprovar também preço, câmbio, saldo/reserva local, autorização por inferência e identidade de cobrança segregada quando exigida.
+- Suspender novas chamadas pagas quando a evidência do controle expirar, se tornar incompatível ou não puder ser verificada.
+- Diferenciar testes comprovadamente gratuitos de inferências sujeitas à cobrança; não presumir gratuidade.
+
+**A organização de quatro projetos OpenAI independentes da decisão 04 permanece vigente**. Somente as garantias que forem efetivamente verificadas poderão ser afirmadas. Relações: [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).

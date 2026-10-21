@@ -6,7 +6,7 @@
 - [OPEN-002 — Fidelidade e custo](OPEN-002-fidelidade-e-custo.md)
 - [OPEN-003 — Política de branches](OPEN-003-politica-de-branches.md)
 
-- [OPEN-004 — Limites remotos por projeto OpenAI](OPEN-004-projeto-openai-e-hard-limit.md)
+- [OPEN-004 — Bloqueio de inferências pagas sem proteção remota comprovada](OPEN-004-projeto-openai-e-hard-limit.md)
 
 ## Questões de modelos e histórico
 - [OPEN-005 — OpenAI, Anthropic e Google Gemini previstos; viabilidade pendente](OPEN-005-estrategia-de-provedores-e-modelos.md)
