@@ -3,24 +3,25 @@
 ![Tipo: OPEN](../../assets/documentation-style/badges/badge-type-open.svg) ![Status: refinement](../../assets/documentation-style/badges/badge-status-refinement.svg) ![Versão: v1](../../assets/documentation-style/badges/badge-version-v1.svg)
 
 ## Tipo
-Decisão sobre modalidade de inferência aceita; seleção inicial de serviços e validação de viabilidade ainda pendentes.
+Decisão de produto aprovada sobre modalidade remota e três provedores previstos; validação da viabilidade e homologação ainda pendentes.
 
 ## Questão
-**Modalidade decidida:** múltiplos provedores remotos (opção B). Resta escolher quais provedores e modelos serão habilitados na primeira entrega e comprovar as condições mínimas de uso, custo e segurança.
+**Modalidade decidida:** múltiplos provedores remotos (opção B). **Provedores previstos para a primeira entrega:** OpenAI, Anthropic e Google Gemini (opção C da seleção de provedores). A disponibilidade e os controles específicos de cada um ainda precisam ser comprovados antes da habilitação.
 
 ## Contexto e origem
 O responsável quer experimentar LLMs de capacidades distintas. O protótipo possui integração administrativa com OpenAI e sua documentação informa a remoção do antigo processamento local e de benchmarks. Essa implementação anterior não determina automaticamente o escopo futuro.
 
 ## Impacto
-**Bloqueadora parcial:** a escolha da modalidade está decidida; a viabilidade dos provedores concretos e os controles necessários ainda bloqueiam a homologação da inferência paga e o fechamento da baseline multimodelo.
+**Bloqueadora parcial:** a modalidade e os três provedores pretendidos foram escolhidos; a homologação depende de verificar disponibilidade, preços, métricas, identificação de modelos, credenciais, segurança e controles de gastos para cada serviço, sem presumir que capacidades entre eles sejam equivalentes.
 
-## Alternativas a decidir
-- Múltiplos modelos do provedor já previsto antes de ampliar integrações.
-- Mais de um provedor remoto desde a primeira entrega.
-- Inclusão de modelos locais em fase específica mediante avaliação de viabilidade.
+## Alternativas avaliadas
+- Utilizar inicialmente apenas modelos OpenAI: não escolhida.
+- Trabalhar com múltiplos provedores remotos: modalidade escolhida na decisão 06.
+- Incluir execução local de LLMs na primeira entrega: fora do escopo conforme NOBJ-002.
+- **Seleção nominal aprovada:** OpenAI, Anthropic e Google Gemini para a primeira entrega, condicionada à verificação de viabilidade.
 
 ## Próxima ação verificável
-Definir a primeira seleção de provedores e modalidades, verificar disponibilidade, identificação de versão, informações de uso/tokens, preços e controles de gasto de cada serviço. Somente após decisão detalhar integrações em Scope.
+Verificar separadamente em OpenAI, Anthropic e Google Gemini as APIs disponíveis, os modelos/versões elegíveis, informações de uso e tokens, tarifas/moedas, limites e ferramentas de monitoramento de gastos, proteção de credenciais, condições de tratamento de conteúdo e compatibilidade com as especializações normativas. Registrar evidências e bloqueios por serviço antes de habilitar inferências pagas; detalhar os contratos somente em Scope/Implementation.
 
 ## Relações
 - [OBJ-001 — Especializações](../objectives/OBJ-001-agentes-documentais-especializados.md)
@@ -38,4 +39,22 @@ Definir a primeira seleção de provedores e modalidades, verificar disponibilid
 - Manter autorização financeira, proteção de credenciais e bloqueio de operações fora do orçamento; a existência de limites remotos e a disponibilidade das métricas devem ser verificadas por provedor, sem pressupor equivalência com OpenAI.
 - Não atribuir aos modelos permissão para aplicar mudanças Git autonomamente. A política de sessão/branch e de integração será tratada em [OPEN-003](OPEN-003-politica-de-branches.md).
 
-**Próxima decisão:** quais provedores concretos serão inicialmente aceitos e com quais evidências de uso, preços, segurança e monitoramento de despesas. Contratos de integração e nomes de modelos específicos serão objeto de Scope depois do gate. Manter este documento em `refinement` até concluir os critérios necessários.
+**Decisão posterior:** a seleção nominal dos provedores foi feita na decisão 08 abaixo. Ainda são pendentes as evidências de uso, preços, segurança, métricas e monitoramento de despesas. Contratos de integração e modelos/versões específicos serão avaliados nas etapas seguintes. Manter este documento em `refinement` até concluir os critérios necessários.
+
+## Decisão 08 — Três provedores remotos previstos (2026-10-21)
+
+**Origem verificável:** responsável escolheu explicitamente a **opção C: OpenAI + Anthropic + Google Gemini**, autorizando o registro no Charter do repositório-alvo na branch `develop`.
+
+**Resultado da triagem:** seleção nominal **aceita como intenção de produto**, sem comprovação de disponibilidade técnica, integração implementada, tarifas, métricas ou garantias comerciais.
+
+- **OpenAI:** provedor remoto previsto para a primeira entrega.
+- **Anthropic:** provedor remoto previsto para a primeira entrega.
+- **Google Gemini:** provedor remoto previsto para a primeira entrega.
+- As quatro especializações Charter, Scope, Implementation e Source mantêm sua finalidade normativa, independentemente do provedor e do modelo escolhido.
+- Cada serviço só poderá ser habilitado após comprovar sua utilização autorizada, identificação do modelo e versão, estimativas e medições de uso/tokens quando disponibilizadas, preços/câmbio, medidas de segurança e controle efetivo de despesas.
+- Se algum serviço não atender a requisitos obrigatórios, **bloquear sua ativação** e registrar a lacuna; sua substituição ou retirada do objetivo inicial depende de nova decisão do responsável, não de inferência automática.
+- Não presumir equivalência de tokenização, métricas, faturamento, capacidades de pesquisa ou limites financeiros entre provedores.
+- A comparação entre provedores deve conservar a procedência de métricas e os mesmos contextos de tarefa, conforme [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md) e [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md).
+- A proteção de credenciais e a política de orçamento são obrigatórias para os três serviços, conforme [CON-002](../conditions/CON-002-protecao-credenciais.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md).
+
+**Pendências bloqueadoras:** realizar verificação documentada individual de disponibilidade, segurança, condições de uso, tarifas e métricas de cada serviço antes da liberação de inferência paga. Nomes específicos de modelos, interfaces técnicas e contratos pertencem a Scope/Implementation; este registro não os antecipa.
