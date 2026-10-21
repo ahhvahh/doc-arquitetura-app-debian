@@ -3,7 +3,7 @@
 ![Tipo: CON](../../assets/documentation-style/badges/badge-type-con.svg) ![Status: refinement](../../assets/documentation-style/badges/badge-status-refinement.svg) ![Versão: v1](../../assets/documentation-style/badges/badge-version-v1.svg)
 
 ## Restrição
-Credenciais de acesso à OpenAI, Anthropic, Google Gemini, GitHub e demais serviços autorizados não podem ser transmitidas como contexto documental nem gravadas em commits, logs, argumentos da CLI, exportações ou arquivos de documentação. O acesso deve respeitar o cofre Linux segregado por identidade de usuário; nenhuma instância de serviço pode substituir essa segregação.
+Credenciais de acesso à OpenAI, à AWS/Amazon Bedrock, ao GitHub e aos eventuais serviços autorizados futuramente não podem ser transmitidas como contexto documental nem gravadas em commits, logs, argumentos da CLI, exportações ou arquivos de documentação. O acesso deve respeitar o cofre Linux segregado por identidade de usuário; nenhuma instância de serviço pode substituir essa segregação.
 ## Origem verificável
 Exigência de segurança necessária ao cadastro de chave solicitado pelo responsável.
 ## Motivo e impacto

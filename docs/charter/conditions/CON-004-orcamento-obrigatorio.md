@@ -32,7 +32,7 @@ A aprovação humana do merge à `develop` não autoriza, por si só, a realiza�
 ## Política de falha fechada — decisão 09 (2026-10-21)
 **Origem:** opção A escolhida pelo responsável em [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md).
 
-Para **OpenAI, Anthropic e Google Gemini**, operações **pagas** exigem duas condições cumulativas: (1) orçamento local válido e autorizado e (2) **proteção remota verificada e suficiente para interromper consumo remunerado acima do limite aplicável**. A falta de qualquer delas determina o bloqueio antes da requisição.
+Para **as integrações vigentes OpenAI e agentes Amazon Bedrock (AWS)** — e qualquer provedor adicionado no futuro —, operações **pagas** exigem duas condições cumulativas: (1) orçamento local válido e autorizado e (2) **proteção remota verificada e suficiente para interromper consumo remunerado acima do limite aplicável**. A falta de qualquer delas determina o bloqueio antes da requisição.
 
 - Não admitir limite apenas local, alerta sem corte de chamadas ou declaração não comprovada de hard limit como substituto da proteção remota.
 - Verificar a efetividade do mecanismo do provedor e o contexto de abrangência/identidade administrativa; aplicar em **cada um dos quatro projetos OpenAI independentes** que sejam habilitados.
@@ -40,4 +40,4 @@ Para **OpenAI, Anthropic e Google Gemini**, operações **pagas** exigem duas co
 - Testes simulados ou **comprovadamente sem cobrança** não equivalem a permissão para produzir custos.
 - Evidências da análise de viabilidade, garantias comerciais reais e meios técnicos de comprovação devem ser aprofundados no Discovery pertinente e depois no Scope/Implementation, sem antecipar mecanismo nesta restrição.
 
-**Impacto:** a seleção nominal dos três provedores continua registrada, mas nenhum é declarado apto a operar inferência paga por esta decisão. Relações: [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).
+**Impacto:** a lista histórica de três provedores foi substituída pela decisão 22 de [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md); nenhuma das duas integrações atualmente previstas (OpenAI/AWS) é declarada apta a operar chamadas pagas por esta decisão. Relações: [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).

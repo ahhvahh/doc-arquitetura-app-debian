@@ -17,7 +17,7 @@ Permitir que uma mesma tarefa de Charter, Scope, Implementation ou Source seja a
 - A aceitação final das alterações cabe ao operador, independentemente do modelo mais barato.
 
 ## Limites
-A seleção de **OpenAI, Anthropic e Google Gemini** como provedores previstos foi registrada em [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md). Sua viabilidade e os modelos específicos permanecem pendentes de verificação. A escala de qualidade depende de [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md). Modelos executados localmente não fazem parte da primeira entrega.
+A seleção anterior de **OpenAI, Anthropic e Google Gemini** foi **substituída pela decisão 22**, que prevê somente a **integração direta OpenAI** e a **integração com agentes Amazon Bedrock (AWS)** na primeira entrega, conforme [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md). Sua viabilidade, a oferta AWS concreta e os modelos específicos permanecem pendentes de verificação. A escala de qualidade depende de [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md). Modelos executados localmente não fazem parte da primeira entrega.
 
 ## Relações
 - [OBJ-001 — Agentes](OBJ-001-agentes-documentais-especializados.md)
@@ -30,6 +30,8 @@ A primeira entrega pretendida permitirá executar ao menos uma mesma tarefa em d
 A aceitação de um resultado documental e a autorização de seu merge são decisões humanas distintas da inferência e dos commits intermediários condicionados à [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). A lista nominal pretendida está em [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md) e ainda depende de homologação independente de cada serviço.
 
 ## Comparabilidade prevista dos três provedores (decisão 08)
+**Registro histórico substituído pela decisão 22:** a meta atual passou a abranger apenas as integrações OpenAI e agentes AWS.
+
 Para a primeira entrega, o objetivo é permitir a comparação controlada dos modelos selecionados de **OpenAI, Anthropic e Google Gemini**, desde que cada serviço seja previamente considerado apto. O operador deverá poder identificar o provedor de cada resultado e compará-lo com a mesma tarefa, referência normativa e baseline documental.
 
 **Verificações esperadas:** registrar pelo menos uma tentativa rastreável por provedor habilitado, identificar indisponibilidades e diferenças de contagem de tokens, custo e duração; não tratar métricas ausentes como zero. Não declarar os três provedores disponíveis antes da validação individual.
@@ -71,8 +73,13 @@ O modelo revisor distinto do gerador deverá apresentar divergências classifica
 O parecer editorial isolado não obriga outra inferência; permanece visível na revisão humana. Divergência material exige correção com nova avaliação e respeito ao teto de **quatro correções por tarefa** e às autorizações financeiras individuais. Uma classificação sem fundamento suficiente não comprova aceitação. Relação: [OPEN-002 — decisão 20](../open-questions/OPEN-002-fidelidade-e-custo.md).
 
 ## Comparação e disponibilidade em entrega parcial — decisão 21
-O objetivo mantém **OpenAI, Anthropic e Google Gemini** como universo nominal planejado, mas admite **entrega parcial declarada** com somente os provedores e modelos **individualmente homologados**, conforme [OPEN-005 — decisão 21](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md). A falta de um provedor não deve ser mascarada como implementação ou atendimento completo do objetivo.
+A **decisão 21** estabeleceu a possibilidade de **entrega parcial declarada** com somente as integrações e modelos **individualmente homologados**; sua lista nominal anterior de três provedores foi substituída. O universo atual da primeira entrega inclui **OpenAI e agentes Amazon Bedrock (AWS)**, conforme [OPEN-005 — decisão 22](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md). A falta de uma das duas integrações não deve ser mascarada como implementação ou atendimento completo do objetivo.
 
 A comparação terá de mostrar **quais provedores estão habilitados, quais estão pendentes/desabilitados e quais evidências verificadas** justificam essa situação. Comparar qualidade, tempo, consumo e custo apenas para chamadas efetivamente autorizadas e com contexto suficiente para comparabilidade; dados ausentes **não são zero** nem prova de inferioridade. O não homologado não pode ser utilizado como revisor secundário obrigatório da [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
 
 Não são relaxados os controles de identidade, credenciais e custo de [OBJ-005](OBJ-005-orcamento-previsivel-e-bloqueio.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md). A validação técnica continua pendente; trata-se de regra de produto, não de provedor já habilitado.
+
+## Comparação das duas integrações planejadas — decisão 22
+A primeira entrega prevê comparação controlada das capacidades efetivamente homologadas da **OpenAI direta** e dos **agentes Amazon Bedrock (AWS)**, considerando que **um agente orquestrador não representa necessariamente um único modelo de linguagem**. A aplicação deverá registrar o serviço/agent e o **modelo subjacente efetivamente utilizado** quando esse dado for disponibilizado e verificável.
+
+Somente comparar resultados de tarefas e baselines compatíveis, declarando diferenças funcionais, de contexto, cobertura e métricas; nunca inferir equivalência de medição de tokens, custos ou semântica entre agente AWS e modelo OpenAI. A **segunda avaliação por modelo distinto**, exigida pela [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), depende de modelos efetivamente distintos e elegíveis; não basta alternar dois nomes de serviço. A exclusão de outras integrações diretas na primeira entrega é [NOBJ-004](../non-objectives/NOBJ-004-nao-integrar-outros-provedores-na-primeira-entrega.md).

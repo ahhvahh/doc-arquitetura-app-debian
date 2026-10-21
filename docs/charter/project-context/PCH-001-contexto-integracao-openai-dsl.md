@@ -49,7 +49,7 @@ flowchart LR
 O diagrama identifica participantes, não contratos de rede.
 
 ## Complemento de contexto — múltiplos modelos e histórico (2026-10-21)
-O operador ACT-001 poderá solicitar análises comparativas entre modelos de custos e capacidades diferentes. ACT-002 representa serviços externos de inferência distintos, com **OpenAI, Anthropic e Google Gemini** escolhidos para a primeira entrega e condicionados à viabilidade em [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md). A primeira entrega exclui modelos locais conforme NOBJ-002. Não se alega que múltiplos provedores já estejam implementados.
+O operador ACT-001 poderá solicitar análises comparativas entre modelos de custos e capacidades diferentes. ACT-002 representa serviços externos de inferência distintos, com **OpenAI e agentes Amazon Bedrock (AWS)** escolhidos para a primeira entrega pela decisão 22, condicionados à viabilidade em [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md). A primeira entrega exclui modelos locais conforme NOBJ-002. Não se alega que múltiplos provedores já estejam implementados.
 
 A aplicação deverá conservar registros locais de solicitação, prompt, resultado, tokens e valores, associados ao repositório-alvo ACT-003, à norma versionada e à avaliação. A base normativa consultável ACT-004 não é o mesmo acervo de histórico de inferências e não deve misturar dados de projetos-alvo com a norma.
 
@@ -57,7 +57,7 @@ Relações: [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md)
 
 ## Delimitação de atores — decisões 06 e 07
 - **ACT-001 — Operador:** seleciona provedores remotos e prompts novos/existentes; acompanha o histórico de uma sessão e aprova somente a integração Git final à `develop`. Autorizações financeiras exigidas por inferência permanecem independentes.
-- **ACT-002 — Serviço externo de inferência:** representa os provedores remotos previstos OpenAI, Anthropic e Google Gemini, individualmente sujeitos a validação, sem receber autoridade para criar commits ou aprovar integrações. A primeira entrega exclui modelos locais.
+- **ACT-002 — Serviço externo de inferência:** representa a integração direta OpenAI e a integração de agentes Amazon Bedrock (AWS), individualmente sujeitas a validação de viabilidade, incluindo modelos subjacentes e controle de custos, sem receber autoridade para criar commits ou aprovar integrações. A primeira entrega exclui modelos locais.
 - **ACT-003 — Repositório-alvo:** a visão futura prevê uma branch por sessão, com commits produzidos pela aplicação após validação e integrados somente após aprovação humana; essa interação ainda depende da resolução normativa de [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
 
 As métricas de inferência permanecem sob controle local e devem ser recuperáveis em JSON por consumidores autorizados, conforme [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md). Não existe autorização atual para criar ou atualizar branches diferentes de `develop`.
@@ -80,3 +80,8 @@ O projeto envolve **três papéis distintos de repositório**, que não podem se
 O ACT-001 seleciona o repositório e nível documental, acompanha uma sessão identificada, recebe o diff acumulado e **aprova o encerramento antes da criação da PR**. Posteriormente, examina também as validações da PR e autoriza **separadamente a integração Git**.
 
 O contexto da sessão prevê uma única branch `feature/doc/{session-id}`, commits verificados durante as inferências e, ao final, uma PR para `develop` com GitHub Actions. A aplicação é responsável pela governança e os modelos de linguagem não possuem permissão Git autônoma. A operacionalização continua **bloqueada por [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md)** até que a restrição normativa da escrita somente em `develop` seja formalmente revista em processo independente.
+
+## Delimitação das duas integrações iniciais — decisão 22
+O ator externo **ACT-002** passa a abranger exclusivamente as duas integrações planejadas para a primeira entrega: **OpenAI direta** e **agentes Amazon Bedrock (AWS)**. Anthropic e Gemini deixam de ser integrações diretas previstas para esta entrega, conforme [NOBJ-004](../non-objectives/NOBJ-004-nao-integrar-outros-provedores-na-primeira-entrega.md).
+
+Não confundir o **agente AWS** com um **modelo de fundação específico**: identificação, disponibilidade do agente e modelo subjacente dependem da modalidade AWS escolhida e de homologação. Nenhum ator externo recebe autorização para modificar Git, contornar a referência normativa ou gastar recursos de outro usuário. A escolha da oferta concreta AWS está pendente em [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).

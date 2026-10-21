@@ -15,7 +15,7 @@ O responsável exige limites locais por agente e controles também na conta Open
 **Bloqueadora para habilitar pagamentos em produção:** sim, para cada provedor e projeto aplicável enquanto não forem comprovadas a segregação exigida, as credenciais, a eficácia da proteção remota e os limites locais. A escolha da política está concluída; sua comprovação operacional não. Não impede testes simulados ou operações comprovadamente sem cobrança.
 
 ## Próxima ação verificável
-Conferir, para cada um dos quatro projetos OpenAI e para os provedores Anthropic e Google Gemini, se há mecanismo remoto suficiente e efetivamente bloqueante, sua unidade de abrangência, permissões de verificação e evidências de ativação. Sem tal comprovação, manter inferências pagas bloqueadas. Especificações técnicas de verificação cabem a Scope e Implementation.
+Conferir, para cada um dos quatro projetos OpenAI e para a integração de agentes Amazon Bedrock (AWS), se há mecanismo remoto suficiente e efetivamente bloqueante, sua unidade de abrangência (inclusive recursos AWS cobrados), permissões de verificação e evidências de ativação. Anthropic e Gemini não são integrações diretas do escopo inicial conforme decisão 22 em [OPEN-005](OPEN-005-estrategia-de-provedores-e-modelos.md). Sem tal comprovação, manter inferências pagas bloqueadas. Especificações técnicas de verificação cabem a Scope e Implementation.
 
 ## Destino previsto
 - [CON-004](../conditions/CON-004-orcamento-obrigatorio.md)
@@ -43,7 +43,7 @@ Conferir, para cada um dos quatro projetos OpenAI e para os provedores Anthropic
 
 **Resultado da triagem:** política de proteção financeira aprovada; **não houve validação de mecanismos de cobrança ou bloqueio das APIs**.
 
-- Para **OpenAI, Anthropic e Google Gemini**, proibir a inferência paga enquanto não existir **proteção remota suficiente, efetiva e verificável** contra consumo superior ao teto autorizado, além de controles locais válidos de orçamento por operação, especialização e global.
+- Para **todo provedor/serviço autorizado a executar operações pagas**, incluindo **OpenAI e agentes Amazon Bedrock (AWS)** no escopo vigente, proibir a inferência paga enquanto não existir **proteção remota suficiente, efetiva e verificável** contra consumo superior ao teto autorizado, além de controles locais válidos de orçamento por operação, especialização e global.
 - **Alertas de gasto, limites apenas informativos e previsões locais não satisfazem isoladamente** a condição de proteção remota bloqueante.
 - Preservar a **decisão 04:** OpenAI terá quatro projetos separados, associados a `charter`, `scope`, `implementation` e `source`, com credenciais e controle de consumo segregados. O requisito de eficácia do bloqueio remoto deve ser verificado **em cada projeto OpenAI habilitado**; não presumir que controles da conta sejam independentes por projeto.
 - Outros provedores não são obrigados a reproduzir a organização administrativa da OpenAI; precisam, porém, demonstrar mecanismo remoto de proteção compatível com a mesma política de bloqueio.
@@ -55,3 +55,8 @@ Conferir, para cada um dos quatro projetos OpenAI e para os provedores Anthropic
 **Destinação canônica:** [OBJ-005 — Orçamento](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md), [CON-004 — Restrições financeiras](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-005 — Provedores previstos](OPEN-005-estrategia-de-provedores-e-modelos.md).
 
 **Pendências:** homologação técnica e administrativa dos controles em cada provedor/projeto e validação do custo/tokens/câmbio. A OPEN permanece em `refinement`, bloqueando habilitação de inferências pagas enquanto essas evidências forem desconhecidas.
+
+## Escopo financeiro atualizado para OpenAI e agentes AWS — decisão 22
+A escolha do responsável passou a prever **duas integrações iniciais**, conforme [OPEN-005](OPEN-005-estrategia-de-provedores-e-modelos.md). A política **não** foi flexibilizada: os quatro projetos OpenAI continuam segregados, e o uso de **agentes Amazon Bedrock (AWS)** também exige comprovação de proteção financeira remota **efetiva e bloqueante** sobre os custos relevantes, além de orçamento local e autorização explícita por chamada. Um serviço de orquestração pode envolver diferentes cobranças, que não devem ser omitidas.
+
+O registro de Anthropic/Gemini nas decisões históricas não obriga implementar integrações diretas com eles agora; estão fora da primeira entrega conforme [NOBJ-004](../non-objectives/NOBJ-004-nao-integrar-outros-provedores-na-primeira-entrega.md). Nenhuma modalidade AWS ou mecanismo de controle foi homologado. Na dúvida sobre controle remoto, **bloquear operações pagas**.

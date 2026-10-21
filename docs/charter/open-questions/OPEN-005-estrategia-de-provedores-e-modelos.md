@@ -3,25 +3,26 @@
 ![Tipo: OPEN](../../assets/documentation-style/badges/badge-type-open.svg) ![Status: refinement](../../assets/documentation-style/badges/badge-status-refinement.svg) ![Versão: v1](../../assets/documentation-style/badges/badge-version-v1.svg)
 
 ## Tipo
-Decisão de produto aprovada sobre modalidade remota e três provedores previstos; validação da viabilidade e homologação ainda pendentes.
+Decisão de produto atualizada: duas integrações planejadas para a primeira entrega — OpenAI e agentes AWS no Amazon Bedrock —, com modalidade exata da oferta AWS e homologação ainda pendentes. A escolha anterior de três provedores consta no histórico e foi substituída pela decisão 22.
 
 ## Questão
-**Modalidade decidida:** múltiplos provedores remotos (opção B). **Provedores previstos para a primeira entrega:** OpenAI, Anthropic e Google Gemini (opção C da seleção de provedores). A disponibilidade e os controles específicos de cada um ainda precisam ser comprovados antes da habilitação.
+**Modalidade decidida:** integrações remotas. **Escopo vigente da primeira entrega: integração direta OpenAI e integração de agentes no ecossistema Amazon Bedrock (AWS)**, ambas **planejadas, não implementadas ou homologadas**. Anthropic e Google Gemini **não são integrações diretas previstas nesta entrega**. A escolha da oferta AWS específica e as comprovações de viabilidade e segurança permanecem abertas.
 
 ## Contexto e origem
 O responsável quer experimentar LLMs de capacidades distintas. O protótipo possui integração administrativa com OpenAI e sua documentação informa a remoção do antigo processamento local e de benchmarks. Essa implementação anterior não determina automaticamente o escopo futuro.
 
 ## Impacto
-**Bloqueadora parcial:** a modalidade e os três provedores pretendidos foram escolhidos; a homologação depende de verificar disponibilidade, preços, métricas, identificação de modelos, credenciais, segurança e controles de gastos para cada serviço, sem presumir que capacidades entre eles sejam equivalentes.
+**Bloqueadora parcial:** as duas integrações da primeira entrega foram escolhidas, mas a habilitação depende de verificar disponibilidade real, oferta AWS elegível, modelos subjacentes, custos, métricas, credenciais, segurança e proteção efetiva dos gastos. Não presumir que um agente gerenciado da AWS equivale a um modelo de linguagem nem que os serviços tenham capacidades idênticas.
 
 ## Alternativas avaliadas
 - Utilizar inicialmente apenas modelos OpenAI: não escolhida.
 - Trabalhar com múltiplos provedores remotos: modalidade escolhida na decisão 06.
 - Incluir execução local de LLMs na primeira entrega: fora do escopo conforme NOBJ-002.
-- **Seleção nominal aprovada:** OpenAI, Anthropic e Google Gemini para a primeira entrega, condicionada à verificação de viabilidade.
+- **Seleção nominal histórica (decisão 08, superada pela decisão 22):** OpenAI, Anthropic e Google Gemini eram os três provedores cogitados para a primeira entrega.
+- **Seleção vigente (decisão 22):** integração direta OpenAI e integração de agentes Amazon Bedrock (AWS); integrações diretas Anthropic e Gemini excluídas da primeira entrega, conforme [NOBJ-004](../non-objectives/NOBJ-004-nao-integrar-outros-provedores-na-primeira-entrega.md).
 
 ## Próxima ação verificável
-Verificar separadamente em OpenAI, Anthropic e Google Gemini as APIs disponíveis, os modelos/versões elegíveis, informações de uso e tokens, tarifas/moedas, limites e ferramentas de monitoramento de gastos, proteção de credenciais, condições de tratamento de conteúdo e compatibilidade com as especializações normativas. Registrar evidências e bloqueios por serviço antes de habilitar inferências pagas; detalhar os contratos somente em Scope/Implementation.
+Verificar **separadamente OpenAI e a integração de agentes Amazon Bedrock (AWS)**: viabilidade do serviço AWS escolhido, acesso à oferta/conta/região, identidade dos modelos subjacentes e da especialização, informações de uso/tokens, tarifas/moedas, limites e mecanismos de interrupção financeira, segurança e proteção de credenciais. Documentar evidências por integração antes de habilitar chamadas pagas; contratos e mecanismos técnicos pertencem a Scope/Implementation. Anthropic e Gemini não serão investigados como integrações diretas obrigatórias da primeira entrega.
 
 ## Relações
 - [OBJ-001 — Especializações](../objectives/OBJ-001-agentes-documentais-especializados.md)
@@ -43,6 +44,8 @@ Verificar separadamente em OpenAI, Anthropic e Google Gemini as APIs disponívei
 
 ## Decisão 08 — Três provedores remotos previstos (2026-10-21)
 
+**Histórico substituído:** a lista de três integrações deste registro foi substituída, para o escopo inicial, pela **decisão 22**. Os textos abaixo documentam a escolha passada e não constituem meta vigente da primeira entrega.
+
 **Origem verificável:** responsável escolheu explicitamente a **opção C: OpenAI + Anthropic + Google Gemini**, autorizando o registro no Charter do repositório-alvo na branch `develop`.
 
 **Resultado da triagem:** seleção nominal **aceita como intenção de produto**, sem comprovação de disponibilidade técnica, integração implementada, tarifas, métricas ou garantias comerciais.
@@ -60,11 +63,15 @@ Verificar separadamente em OpenAI, Anthropic e Google Gemini as APIs disponívei
 **Pendências bloqueadoras:** realizar verificação documentada individual de disponibilidade, segurança, condições de uso, tarifas e métricas de cada serviço antes da liberação de inferência paga. Nomes específicos de modelos, interfaces técnicas e contratos pertencem a Scope/Implementation; este registro não os antecipa.
 
 ## Condição financeira da primeira entrega — decisão 09
+**Aplicabilidade vigente:** a lista nominal original abaixo era histórica; a exigência de controles financeiros é **transversal** e se aplica às integrações atualmente previstas, **OpenAI e agentes AWS**, conforme decisão 22.
+
 **OpenAI, Anthropic e Google Gemini** permanecem como os três provedores previstos, porém **nenhum é automaticamente elegível à inferência paga**. Antes de habilitar qualquer provedor/modelo, exigir comprovação individual de mecanismo remoto bloqueante suficiente, além dos limites locais de orçamento e da autorização de gasto.
 
 Alertas ou quotas apenas informativas não satisfazem o requisito. Na OpenAI, as evidências devem ser verificadas também para cada um dos quatro projetos independentes das especializações. Se algum serviço não oferecer proteção remota adequada, sua ativação paga fica bloqueada até nova decisão e comprovação, sem presumir que a API oferece hard limit. Relação: [OPEN-004 — Política aprovada](OPEN-004-projeto-openai-e-hard-limit.md).
 
 ## Decisão 21 — Entrega parcial identificada somente com provedores homologados (2026-10-21)
+**Atualização de escopo:** a regra de habilitar somente integrações comprovadamente homologadas **permanece válida**, mas a meta nominal de três provedores indicada abaixo foi **substituída pela decisão 22**; a entrega completa agora depende das duas integrações planejadas, não da antiga lista.
+
 **Origem:** escolha expressa do responsável — **opção B, liberar somente os provedores homologados** — autorizada apenas para registro no Charter da branch `develop`.
 
 **Resultado da triagem:** a seleção de **OpenAI, Anthropic e Google Gemini** como três provedores pretendidos permanece válida, mas deixa de representar uma condição de simultaneidade para a liberação de uma **entrega parcial explicitamente identificada**. A meta completa de suporte aos três continua **pendente** enquanto houver provedor não homologado; uma entrega parcial **não deve ser apresentada como cumprimento integral** do objetivo original.
@@ -78,3 +85,18 @@ Alertas ou quotas apenas informativas não satisfazem o requisito. Na OpenAI, as
 - **Limites do registro:** a decisão não comprova existência de hard limits nos provedores, de testes concluídos ou de integração implementada; também não dispensa a validação documental, a revisão independente, a norma Git ou a aprovação humana de integração, conforme [OPEN-002](OPEN-002-fidelidade-e-custo.md) e [OPEN-003](OPEN-003-politica-de-branches.md).
 
 **Pendências:** homologação operacional e financeira individual, viabilidade e evidência de capacidades de cada provedor/modelo, critérios verificáveis para comparação e habilitação por especialização. `OPEN-005` continua em `refinement`; a entrega completa com os três provedores não está atestada.
+
+## Decisão 22 — Duas integrações iniciais: OpenAI e agentes Amazon Bedrock (2026-10-21)
+**Origem:** confirmação expressa do responsável, após solicitar restringir as implementações planejadas inicialmente a **OpenAI** e a **AWS, especificamente integração com agentes Amazon Bedrock**. Esta decisão **substitui a seleção nominal** das decisões 08 e 21 para a primeira entrega, sem revogar a obrigação de homologação individual e sem apagar seu histórico.
+
+**Resultados pretendidos do produto:**
+- **OpenAI:** uma integração direta que permita a execução autorizada de agentes/modelos para as quatro especializações documentais, respeitando a estrutura já aprovada de **quatro projetos separados por especialização**. A existência de funções anteriores no protótipo não comprova que esta integração funcional planejada esteja concluída.
+- **AWS / agentes Amazon Bedrock:** uma segunda integração independente para utilizar a capacidade de **agentes gerenciados do ecossistema Amazon Bedrock**, com a identidade do agente, seus modelos subjacentes e recursos sujeitos à validação. A oferta específica (Agents Classic ou AgentCore) **não foi escolhida**, e não se deve atribuir automaticamente capacidades, disponibilidade ou elegibilidade a qualquer uma delas.
+- **Não objetivos da primeira entrega:** não implementar integrações diretas separadas com **Anthropic** ou **Google Gemini**. A exclusão consta em [NOBJ-004](../non-objectives/NOBJ-004-nao-integrar-outros-provedores-na-primeira-entrega.md); futuras incorporações exigem nova decisão. A exclusão não define antecipadamente quais modelos de fundação a AWS poderá disponibilizar por sua própria plataforma.
+- **Homologação e liberação:** ambos são **PLANNED / PROPOSED**, e não `implemented` ou habilitados. Um provedor/serviço só poderá operar quando demonstrar disponibilidade e controles de segurança, autorização, segregação de credenciais, orçamento local, proteção financeira remota **comprovadamente bloqueante** e compatibilidade documental. Se apenas um estiver homologado, sua disponibilidade isolada pode compor entrega parcial identificada, sem declarar a segunda integração entregue.
+- **Revisão independente:** permanecem obrigatórios **dois modelos distintos** para geração e avaliação documental. **Dois serviços ou agentes diferentes não comprovam, por si só, dois modelos distintos**; é necessário identificar os modelos/versões subjacentes e validar sua elegibilidade. Falta de segundo modelo autorizado bloqueia o aceite do resultado conforme [OPEN-002](OPEN-002-fidelidade-e-custo.md).
+- **Norma e Git:** a seleção de integrações não modifica a referência `main/ProjectCharter/1.0`, nem autoriza branches de sessão, PRs, merge ou commits remotos além das operações normativamente permitidas em `develop`.
+
+**Evidência externa sobre viabilidade da oferta AWS:** a [documentação oficial da AWS sobre o modo de manutenção dos Bedrock Agents Classic](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-classic-maintenance-mode.html) informa que **Agents Classic não aceita novos clientes desde 2026-07-30** e indica **Bedrock AgentCore** como alternativa para novos cenários. Registrar essa restrição como **OBSERVED**, sem inferir que o usuário possui acesso a Classic, nem escolher AgentCore sem decisão do responsável.
+
+**Próxima decisão necessária:** confirmar a modalidade concreta da integração AWS e a elegibilidade da conta, antes de definir qualquer contrato técnico. Homologação financeira individual e compatibilidade com [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md), [CON-002](../conditions/CON-002-protecao-credenciais.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](OPEN-004-projeto-openai-e-hard-limit.md) continuam pendentes. `OPEN-005` permanece em `refinement`.
