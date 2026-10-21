@@ -347,14 +347,11 @@ func managedCommand(args []string) error {
 		}
 		switch args[1] {
 		case "update":
-			if e := referenceUpdate(p); e != nil {
-				return e
-			}
-			return dslCompile(p)
+			return dslReleaseUpdate(p)
 		case "compile":
 			return dslCompile(p)
 		case "status":
-			return dslStatus(p)
+			return dslReleaseStatus(p)
 		}
 	}
 	return fmt.Errorf("comando desconhecido: %s %s", args[0], args[1])
