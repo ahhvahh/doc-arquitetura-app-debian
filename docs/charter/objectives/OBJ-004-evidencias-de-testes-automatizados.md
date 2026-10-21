@@ -71,3 +71,12 @@ Os critérios de homologação da gramática e da fidelidade pertencem à [OPEN-
 A futura validação deve demonstrar: falha de check impede merge; sessão retorna a **em correção** sem perder ID, histórico ou PR; novas inferências e commits são aceitos **somente após validação**; os checks obrigatórios são reexecutados sobre o novo SHA; aprovação anterior de encerramento não substitui a **nova aprovação humana**; autorização de merge é separada. Reprovação persistente mantém o bloqueio.
 
 Testar também que retomada não apaga custos, não dispensa segregação de credenciais, revisão independente nem permite mais de quatro correções automáticas **na mesma inferência/tarefa**. Não presumir que workflows, proteção de branch ou a funcionalidade estejam implementados. Relação: [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
+
+## Evidências de divergência material versus sugestão editorial — decisão 20
+O produto deverá demonstrar, por casos auditáveis, que a revisão independente:
+- identifica como **materiais** omissão de requisito, alteração semântica, contradição entre regras, perda na conversão DSL/Markdown, violação normativa e falhas estruturais, com bloqueio do aceite e exigência de correção/reavaliação;
+- registra como **editoriais** somente sugestões de estilo, ortografia ou apresentação **sem efeito** no significado, na integridade e nas regras normativas, encaminhando-as à revisão humana sem impor correção automática;
+- registra trecho afetado, baseline, justificativa e classificação, sem promover discrepâncias ambíguas ou não verificadas a «meramente editoriais»;
+- conserva a geração inicial, as até **quatro correções** admissíveis, os testes estruturais repetidos, a revisão por outro LLM e os registros de custo/autorização, impedindo uma quinta rodada ou um aceite com falha material pendente.
+
+Os resultados constituem **critérios de teste pretendidos**, não evidência de testes executados ou de critérios de relevância já homologados. Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).

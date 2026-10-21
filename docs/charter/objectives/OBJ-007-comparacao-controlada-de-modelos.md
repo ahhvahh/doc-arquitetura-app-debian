@@ -64,3 +64,8 @@ A insuficiência de janela de contexto é motivo de **interrupção documentada*
 Resultados produzidos com baselines, conteúdo ou escopos diferentes **não devem ser comparados como equivalentes** sem explicitar a alteração. Registrar a tentativa interrompida, a decisão de redefinição, modelos autorizados, contexto cabível e custos das novas chamadas, se realizadas, respeitando [OBJ-005](OBJ-005-orcamento-previsivel-e-bloqueio.md).
 
 Permanecem válidas as quatro correções máximas por tarefa e as barreiras normativas, estruturais, financeiras e de aprovação humana de [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Classificação explicável do parecer secundário — decisão 20
+O modelo revisor distinto do gerador deverá apresentar divergências classificadas e **fundamentadas por evidência documental**: «material» quando alterar requisitos, significado, consistência, integridade ou norma; «somente editorial» quando houver apenas melhoria de forma que não modifique conteúdo nem requisitos obrigatórios. Registrar ambas as categorias para comparação entre modelos, incluindo ocorrências omitidas e dúvidas de classificação.
+
+O parecer editorial isolado não obriga outra inferência; permanece visível na revisão humana. Divergência material exige correção com nova avaliação e respeito ao teto de **quatro correções por tarefa** e às autorizações financeiras individuais. Uma classificação sem fundamento suficiente não comprova aceitação. Relação: [OPEN-002 — decisão 20](../open-questions/OPEN-002-fidelidade-e-custo.md).
