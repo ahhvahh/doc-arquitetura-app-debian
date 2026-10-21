@@ -13,3 +13,10 @@ Somente após nova decisão documentada no Charter e análise das consequências
 
 ## Delimitação da responsabilidade (2026-10-21)
 A decisão anterior exigia aprovação humana de aplicação, commit e publicação como três fases. O responsável redefiniu a aprovação humana Git apenas para o merge à `develop`, preservando controles de validade, orçamento e proibição de comandos Git determinados diretamente por LLM. O commit automático em branch de sessão continua impedido na automação documental pela norma atual.
+
+## Distinção entre fechamento, PR e integração Git — decisão 15
+O operador poderá, no fluxo pretendido, aprovar o **encerramento de uma sessão**, após examinar o conjunto acumulado de alterações, autorizando assim a abertura de uma **Pull Request de `feature/doc/{session-id}` para `develop`**. A PR deverá passar pelas verificações obrigatórias previstas em [OBJ-004](../objectives/OBJ-004-evidencias-de-testes-automatizados.md).
+
+A **criação da PR não integra alterações** em `develop`. A integração depende de checks bem-sucedidos, proteção efetiva da branch e **aprovação humana final distinta**. A solução não permitirá ao LLM aprovar PRs, contornar verificações ou escolher comandos Git arbitrários.
+
+Esse comportamento é apenas projetado e permanece impedido pela norma externa atual, conforme [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).

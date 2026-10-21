@@ -43,3 +43,10 @@ Os cenários de evidência deverão distinguir **geração inicial** dos **quatr
 Verificar aceitação para encaminhamento humano quando a divergência for sanada na primeira, segunda, terceira ou quarta correção; e verificar bloqueio, sem quinta tentativa automática, quando a quarta não resolver a falha. Preservar também o bloqueio antecipado por orçamento, proteção remota, identidade, segurança, norma ou contexto integral incompatível, com registro auditável.
 
 O critério é intenção de produto vinculada a [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), não comprovação de testes implementados.
+
+## Verificações obrigatórias na Pull Request — decisão 15
+A funcionalidade futura deverá prever uma **Pull Request por sessão encerrada e aprovada pelo operador**, usando `feature/doc/{session-id}` como origem e `develop` do repositório de trabalho escolhido como destino, condicionada à resolução normativa em [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
+
+**Verificações mínimas como objetivo de qualidade:** o resultado da PR deve tornar observável a conformidade da organização de arquivos e do escopo documental selecionado, vínculos/links, status e IDs, referência normativa correta e versionada, integridade de mudanças, ausência de segredos expostos e testes aplicáveis ao repositório. Evidências vinculadas à sessão e ao diff devem permitir identificar a causa de reprovação.
+
+**Critério de proteção:** um check obrigatório falho, ausente ou indeterminado **impede a integração**. A proteção depende não só da execução de GitHub Actions, mas também da comprovação das configurações que **exigem** os checks para mesclar em `develop`, além da **autorização humana independente de merge**. Não presumir que checks, branch protection ou regras de revisão estejam implementados; sua definição técnica pertence a etapas futuras.

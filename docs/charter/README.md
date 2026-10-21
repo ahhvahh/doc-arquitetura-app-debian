@@ -141,3 +141,14 @@ O responsável substituiu a ausência de limite fixo da decisão 13 por **até q
 O processo termina antecipadamente com proposta válida encaminhada à revisão humana, ou é **bloqueado** quando a quarta correção continuar inválida — sem uma quinta correção automática. Falhas normativas/estruturais e falta de proteção financeira ou de contexto integral também impedem continuar. Nenhum limite numérico autoriza despesa, integração Git ou aceite por exceção.
 
 Relações: [OBJ-003](objectives/OBJ-003-propostas-de-alteracoes-verificaveis.md), [OBJ-004](objectives/OBJ-004-evidencias-de-testes-automatizados.md), [OBJ-005](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OBJ-007](objectives/OBJ-007-comparacao-controlada-de-modelos.md). Não há implementação ou homologação atestada.
+
+## Governança de sessão documental e Pull Request — decisão de 2026-10-21
+O aplicativo permitirá que o operador **escolha livremente o repositório GitHub de trabalho e o nível documental** a revisar, mantendo esse alvo distinto tanto do repositório do código do aplicativo como da referência normativa fixa. A sessão terá identificação própria e, após compatibilização normativa, usará uma branch **`feature/doc/{session-id}` derivada de `develop` do repositório escolhido**.
+
+Todas as inferências de uma sessão ativa alimentarão a mesma branch, com commits produzidos pela aplicação **apenas para alterações validadas**. Para encerrar, o usuário deverá revisar e **aprovar expressamente o conjunto acumulado de alterações**; a aplicação então deverá **criar uma Pull Request da branch da sessão para `develop`**.
+
+A PR passará por **GitHub Actions com verificações relevantes da documentação e da organização do repositório**, incluindo aderência normativa, escopo, links, IDs, status, integridade e testes pertinentes. Falhas obrigatórias bloqueiam integração; o processo deverá demonstrar que a proteção de `develop` exige esses checks. **Encerramento da sessão, abertura da PR e aprovação de merge são atos distintos**, e a integração final segue dependente de autorização humana e das regras de proteção da branch.
+
+**Bloqueio normativo ainda vigente:** os agentes documentais estão atualmente autorizados a **escrever somente em `develop`**, segundo [OPEN-003](open-questions/OPEN-003-politica-de-branches.md) e a referência `ProjectCharter/1.0` na `main` de `ahhvahh/doc-arquitetura`. Esta decisão documenta o objetivo funcional, **não autoriza executar branches de sessão, PRs ou workflows**, nem altera normas, configuração, permissões ou código.
+
+Relações: [OBJ-003](objectives/OBJ-003-propostas-de-alteracoes-verificaveis.md), [OBJ-004](objectives/OBJ-004-evidencias-de-testes-automatizados.md), [NOBJ-001](non-objectives/NOBJ-001-nao-publicar-sem-aprovacao.md) e [PCH-001](project-context/PCH-001-contexto-integracao-openai-dsl.md).

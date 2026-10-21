@@ -70,3 +70,13 @@ Na evolução pretendida, o serviço Linux funciona como **organizador das solic
 - **Serviço coordenador previsto:** organiza a fila e o acompanhamento, não representa uma nova fonte autônoma de autorização de inferência ou de consumo pago.
 
 A política aprovada não presume que o serviço ou o mecanismo de isolamento já existam. Devem ser verificados em etapas posteriores, conforme [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [CON-002](../conditions/CON-002-protecao-credenciais.md) e [CON-004](../conditions/CON-004-orcamento-obrigatorio.md).
+
+## Distinção dos repositórios e responsabilidades da sessão — decisão 15 (2026-10-21)
+O projeto envolve **três papéis distintos de repositório**, que não podem ser confundidos:
+- **Aplicação em desenvolvimento:** `ahhvahh/doc-arquitetura-app-debian`, onde ficam o programa e a documentação de seus objetivos; não constitui o repositório de trabalho implicitamente escolhido para sessões futuras.
+- **Fonte normativa fixa:** `ahhvahh/doc-arquitetura`, `main/ProjectCharter/1.0`, somente leitura, que orienta os critérios documentais.
+- **ACT-003 — Repositório-alvo da sessão:** GitHub informado pelo **ACT-001 — Operador** ao iniciar o trabalho, com `develop` como baseline e destino pretendido da PR; não é predefinido pela aplicação.
+
+O ACT-001 seleciona o repositório e nível documental, acompanha uma sessão identificada, recebe o diff acumulado e **aprova o encerramento antes da criação da PR**. Posteriormente, examina também as validações da PR e autoriza **separadamente a integração Git**.
+
+O contexto da sessão prevê uma única branch `feature/doc/{session-id}`, commits verificados durante as inferências e, ao final, uma PR para `develop` com GitHub Actions. A aplicação é responsável pela governança e os modelos de linguagem não possuem permissão Git autônoma. A operacionalização continua **bloqueada por [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md)** até que a restrição normativa da escrita somente em `develop` seja formalmente revista em processo independente.

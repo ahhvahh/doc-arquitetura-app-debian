@@ -4,7 +4,7 @@
 
 - [OPEN-001 — Serviço coordenador com inferências isoladas por usuário; validação pendente](OPEN-001-politica-credenciais.md)
 - [OPEN-002 — Correção e reavaliação obrigatórias de divergências relevantes; fidelidade pendente](OPEN-002-fidelidade-e-custo.md)
-- [OPEN-003 — Política de branches](OPEN-003-politica-de-branches.md)
+- [OPEN-003 — Branch por sessão, PR e checks previstos; conflito normativo pendente](OPEN-003-politica-de-branches.md)
 
 - [OPEN-004 — Bloqueio de inferências pagas sem proteção remota comprovada](OPEN-004-projeto-openai-e-hard-limit.md)
 

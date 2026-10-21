@@ -72,3 +72,15 @@ Relação: [OPEN-002 — Decisão 13](../open-questions/OPEN-002-fidelidade-e-cu
 O fluxo pretendido admite a geração inicial e **até quatro versões corrigidas**, cada qual validada estruturalmente e submetida novamente a um LLM revisor distinto do gerador. Uma resposta válida encerra antecipadamente as correções e é encaminhada à revisão humana.
 
 Se a quarta correção não resolver a divergência relevante, o trabalho fica **bloqueado**, preservando a proposta e os motivos, sem gerar quinta correção automática, commit de resultado validado ou integração Git. A continuidade também pode ser bloqueada antes por segurança, contexto insuficiente ou custo não autorizado. Relação: [OPEN-002 — Decisão 14](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Sessão com branch nominada e PR após encerramento — decisão 15
+O fluxo de trabalho pretendido para a aplicação passa a considerar o **repositório de destino escolhido pelo operador**, a seleção do nível documental e um identificador próprio por sessão. Quando uma futura política normativa permitir, a sessão terá **`feature/doc/{session-id}` derivada de `develop` do repositório escolhido**, preservada para todas as inferências e commits intermediários verificados até seu encerramento.
+
+**Critérios verificáveis de produto:**
+- A sessão evidencia repositório escolhido, nível documental, ID próprio, SHA inicial de `develop`, branch prevista e histórico de tentativas e commits.
+- Correções e resultados validados pertencentes à mesma sessão permanecem na mesma branch; propostas inválidas não geram commits declarados válidos.
+- No fechamento, o usuário visualiza o diff **acumulado**, o histórico de verificações e aprova expressamente o conjunto de mudanças **antes da criação da PR** para `develop`.
+- A PR identifica sessão, branch de origem e destino e resultados dos checks previstos em [OBJ-004](OBJ-004-evidencias-de-testes-automatizados.md). Falha normativa, estrutural ou de segurança impede considerar o trabalho apto para merge.
+- **Aprovação para abrir PR não é aprovação para mesclar.** Mesmo com checks concluídos, integração à `develop` depende de decisão humana específica e das proteções efetivas da branch.
+
+O procedimento está **bloqueado para execução remota por agentes**, porque a [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md) registra conflito com a referência normativa atual. Não autoriza operação Git fora de `develop`, criação de PR, alteração da norma ou execução de workflow nesta etapa.
