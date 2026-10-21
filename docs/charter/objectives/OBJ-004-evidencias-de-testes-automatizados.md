@@ -57,3 +57,12 @@ Os critérios de qualidade deverão abranger um caso em que a documentação int
 O operador deve poder ver a insuficiência e a distinção entre a **tarefa interrompida** e uma **nova tarefa explicitamente redefinida**, com origem, baselines e cobertura identificáveis. Testes negativos devem rejeitar reinicialização automática do mesmo ciclo para contornar as quatro correções, adoção de modelo alternativo sem aprovação, uso de orçamento anterior e promoção de conteúdo não validado.
 
 Uma redefinição autorizada volta ao fluxo completo de validação documental e revisão humana, sem presumir homologação da equivalência semântica. Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Verificação das configurações por inferência e da conversão DSL — decisão 17
+A evidência de qualidade de cada inferência deverá associar **modelo/provedor/versão, prompt e origem, tamanho de contexto configurado e admissível, material e SHA de referência, autorização de custo, saída DSL, metadados de commit sugeridos, arquivos Markdown efetivamente produzidos e parecer da segunda avaliação**.
+
+Os cenários de teste deverão verificar conversão sem perda de **títulos, seções, tabelas, links, badges, código, Mermaid, representações de gráficos e recursos externos referenciados**, preservando o conteúdo dos trechos não alterados. **DSL incompleta, Mermaid inválido, gráfico irrecuperável, caminho/escopo indevido, hash divergente ou violação normativa** deverão impedir a classificação de resultado válido e qualquer commit correspondente.
+
+Confirmar que mudar modelo, contexto ou prompt entre inferências da mesma sessão **não altera a identidade da sessão nem apaga configurações anteriores**, não contorna autorização financeira nem reinicia automaticamente os quatro ciclos de correção da tarefa. O teste deve preservar como bloqueadas chamadas inviáveis por capacidade de contexto ou falta de proteção remota.
+
+Os critérios de homologação da gramática e da fidelidade pertencem à [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md). Não declarar testes, conversor ou proteção Git existentes por esta decisão.

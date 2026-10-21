@@ -35,3 +35,10 @@ A escolha aprovada é trabalhar com **provedores remotos diferentes**, não some
 **Verificação esperada:** cada execução associa explicitamente etapa, prompt selecionado (com identificação de versão/origem), provedor e modelo, conservando o histórico entre inferências da mesma sessão.
 
 Relações: [OPEN-005 — modalidade remota](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md) e [OBJ-003 — continuidade das alterações](OBJ-003-propostas-de-alteracoes-verificaveis.md).
+
+## Modelo e prompt escolhidos por solicitação — decisão 17
+Durante uma sessão de documentação aberta, o operador não fica preso a um único LLM ou prompt. **Cada inferência** permite selecionar um **modelo/provedor previamente elegível** e um **prompt do catálogo ou novo/editado**, sempre associado à especialização normativa da sessão. A referência `main/ProjectCharter/1.0` e as restrições aplicáveis não podem ser alteradas pelo prompt do operador.
+
+**Evidência de produto:** cada inferência registra origem, texto/versão do prompt, especialização, provedor/modelo/versão, identidade do usuário autorizado, janela de contexto solicitada e efetivamente admissível, custo autorizado e baselines; a nova escolha não apaga as configurações usadas nas inferências anteriores.
+
+A seleção de modelo não habilita automaticamente chamadas pagas: mantêm-se [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md), [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md) e a segregação de credenciais. Relações: [OBJ-002](OBJ-002-contexto-compacto-rastreavel.md), [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OPEN-002 — decisão 17](../open-questions/OPEN-002-fidelidade-e-custo.md).

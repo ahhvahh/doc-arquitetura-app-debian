@@ -91,3 +91,15 @@ Quando o material original completo mais a última proposta e o parecer não cou
 A tarefa redefinida deve possuir identidade e baseline próprias, com relação auditável à tentativa interrompida. A redefinição não transforma o resultado anterior em válido e não pode reiniciar automaticamente o teto de **quatro ciclos de correção** da mesma tarefa. Uma tarefa nova é submetida novamente a validação estrutural, avaliação crítica de LLM distinto e autorização humana final.
 
 A aprovação de nova tarefa não equivale a autorização financeira de inferências nem de integração Git; a [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md) continua bloqueando operações em branches de sessão na norma atual. Relação: [OPEN-002 — Decisão 16](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Uma sessão contínua, configuração por inferência e Markdown gerado pela aplicação — decisão 17
+A sessão mantém **repositório escolhido, nível de documentação, ID, histórico e branch `feature/doc/{session-id}` pretendida**; entre inferências dentro da mesma sessão, o usuário pode mudar **modelo autorizado, tamanho de contexto admissível e prompt**, sem abrir nova sessão ou reescrever automaticamente resultados previamente validados.
+
+**Entrega esperada em cada inferência:**
+- O LLM devolve, no formato textual DSL previsto, **título e descrição sugeridos para o commit, identificação de todos os arquivos afetados** e as operações/documentação correspondentes em DSL. A descrição, os caminhos e as operações são validados pela aplicação.
+- A **aplicação**, não o LLM, converte a representação DSL em **Markdown completo**, preservando inclusive **tabelas, links, badges, blocos de código, diagramas Mermaid, representações de gráficos e recursos vinculados**. Elementos externos só são declarados preservados mediante verificação de suas referências e recursos reais.
+- O conteúdo não modificado, os identificadores estáveis, a norma, os limites da especialização e as baselines verificadas são preservados; perda de informações, recursos gráficos sem representação ou conversão incompleta **bloqueiam aplicação/commit**.
+- Cada tentativa associa a configuração efetivamente autorizada (modelo, contexto, prompt, custo), a resposta DSL original, os arquivos Markdown resultantes, as validações estruturais, o parecer secundário e o eventual commit de conteúdo válido.
+- Divergência relevante exige correção e nova avaliação, limitadas a **quatro correções por inferência/tarefa inicialmente autorizada**; mudar configuração em inferências posteriores não concede um quinto ciclo de reparo disfarçado para a mesma tarefa bloqueada.
+
+Os commits automáticos na branch de sessão, a criação de PR após o encerramento aprovado e a revisão humana específica antes de integrar à `develop` são **comportamentos futuros**, não permissões vigentes, conforme [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). Relação de fidelidade: [OPEN-002 — decisão 17](../open-questions/OPEN-002-fidelidade-e-custo.md).
