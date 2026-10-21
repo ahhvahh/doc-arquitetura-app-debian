@@ -44,3 +44,8 @@ A decisão do responsável é **não utilizar provedores para inferência paga s
 - Diferenciar testes comprovadamente gratuitos de inferências sujeitas à cobrança; não presumir gratuidade.
 
 **A organização de quatro projetos OpenAI independentes da decisão 04 permanece vigente**. Somente as garantias que forem efetivamente verificadas poderão ser afirmadas. Relações: [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).
+
+## Previsão de custo da segunda avaliação (decisão 10)
+O orçamento autorizado de uma revisão documental deverá considerar separadamente a inferência geradora e a **segunda avaliação por modelo distinto**, incluindo estimativa e medição de custos/tokens para ambas as chamadas quando aplicáveis.
+
+A revisão secundária **não é isenta** da política de bloqueio da [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md): sem proteção remota suficiente comprovada, limite local ou autorização exigida, negar a inferência paga. A indisponibilidade financeira do segundo avaliador impede declarar concluído o fluxo de validação dupla; não justifica publicar sem revisão.

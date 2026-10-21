@@ -3,9 +3,9 @@
 ![Tipo: OPEN](../../assets/documentation-style/badges/badge-type-open.svg) ![Status: refinement](../../assets/documentation-style/badges/badge-status-refinement.svg) ![Versão: v1](../../assets/documentation-style/badges/badge-version-v1.svg)
 
 ## Tipo
-Informação faltante e decisão em aberto.
+Diretriz de validação aprovada, com critérios de comprovação de fidelidade e limites de custo ainda pendentes.
 ## Questão
-Quais critérios objetivos comprovam fidelidade semântica da DSL, inclusão de diagramas e referências e limites aceitáveis de tokens por execução? O orçamento monetário obrigatório é requisito definido em OBJ-005 e CON-004, não uma autorização para prosseguir sem teto.
+**Diretriz de validação escolhida:** verificações estruturais obrigatórias, segunda avaliação por modelo de linguagem diferente do gerador e revisão humana final. Ainda é necessário comprovar a fidelidade semântica da DSL, preservar diagramas e referências e validar critérios mensuráveis de qualidade e tokens; o orçamento financeiro segue obrigatório em OBJ-005 e CON-004.
 ## Contexto
 A compressão sintática existente ainda não possui prova de equivalência semântica. Diagramas, assets, critérios de aceite e exceções não podem desaparecer durante edição.
 ## Impacto
@@ -14,7 +14,7 @@ A compressão sintática existente ainda não possui prova de equivalência sem�
 A publicação manual da DSL em armazenamento consultável pode ser experimentada independentemente da inferência, conforme [OBJ-006](../objectives/OBJ-006-publicacao-manual-base-normativa.md). Upload e indexação bem-sucedidos não comprovam cobertura da norma, fidelidade semântica ou redução real de tokens. Essas dúvidas continuam bloqueadoras da inferência em produção.
 
 ## Próxima ação
-Definir critérios verificáveis de fidelidade, consultas seletivas ao original e experiências comparativas com tokenização real, sem presumir equivalência semântica automática.
+Estabelecer evidências verificáveis para integridade estrutural, revisão crítica por segundo LLM e decisão humana; medir a fidelidade e os custos reais das avaliações, testar recuperação do original e impedimentos de publicação/commit quando houver falha. Não presumir equivalência semântica automática por concordância entre modelos.
 ## Destino previsto
 Scope de extração, rastreabilidade e validação; Implementation de armazenamento e transporte.
 
@@ -45,3 +45,19 @@ Uma comparação válida deverá usar a mesma tarefa, prompt efetivo, documenta�
 Pesos, escala de qualidade e limites numéricos de aprovação ainda exigem definição e validação. Registrar dados experimentais não comprova automaticamente superioridade, fidelidade ou equivalência semântica.
 
 Relações: [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md), [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md), [OPEN-005](OPEN-005-estrategia-de-provedores-e-modelos.md).
+
+## Decisão 10 — Dupla avaliação de qualidade com revisão humana (2026-10-21)
+**Origem:** o responsável selecionou explicitamente a opção B — **validação automática + segunda análise por LLM + revisão humana** — e aprovou sua documentação exclusivamente na `develop`.
+
+**Resultado da triagem:** modalidade de controle de qualidade **aceita como objetivo funcional**, sem afirmar implementação, confiabilidade homologada ou disponibilidade financeira dos modelos.
+
+- **Primeira barreira:** a aplicação realiza verificações automatizadas obrigatórias da integridade das alterações propostas, abrangendo escopo e hashes de origem, conteúdo não solicitado, links, badges, tabelas, blocos de código, referências e diagramas pertinentes. Falhas estruturais impedem aceitar e aplicar o resultado; uma segunda análise por LLM não dispensa nem substitui esses testes.
+- **Segunda avaliação:** após a validação estrutural, **outro modelo de linguagem**, distinto do que gerou a alteração, analisa criticamente o resultado frente à tarefa, às evidências e à versão normativa. Seu parecer deverá apontar qualidade, omissões, contradições, riscos e trechos sem sustentação, com identificação do provedor/modelo e contexto avaliado.
+- **Decisão humana:** apresentar as alterações, os testes e o parecer secundário ao operador para revisão humana antes do aceite final e de qualquer integração Git que venha a ser normativamente permitida. Parecer favorável do revisor LLM não constitui aprovação automática.
+- **Rastreabilidade:** relacionar inferência geradora, avaliação secundária, parecer, métricas de uso/custo, eventuais divergências, ajustes e decisão humana ao projeto, sessão e baselines. Não tratar concordância entre LLMs como prova da equivalência semântica da DSL.
+- **Orçamento:** a revisão secundária também é uma operação de inferência e obedece a [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](OPEN-004-projeto-openai-e-hard-limit.md). Sem proteção remota comprovada ou autorização financeira exigida para chamada paga, **não executar a revisão paga nem considerar o fluxo de validação concluído**.
+- **Governança Git:** a aprovação humana final de qualidade não substitui a autorização explícita para integração à `develop`; commits em branch de sessão continuam condicionados à [OPEN-003](OPEN-003-politica-de-branches.md). Nenhuma gravação fora de `develop` é autorizada por esta decisão.
+
+**Pendências de comprovação:** critérios de equivalência Markdown → DSL → Markdown, parâmetros de qualidade e escala, comportamento para discordâncias, limites numéricos de tokens, validação dos modelos elegíveis e testes de custos/segurança. Definições técnicas pertencem a Scope/Implementation após os gates. Manter a OPEN em `refinement` enquanto tais evidências faltarem.
+
+**Relações canônicas:** [OBJ-003 — Alterações verificáveis](../objectives/OBJ-003-propostas-de-alteracoes-verificaveis.md), [OBJ-004 — Evidências de testes](../objectives/OBJ-004-evidencias-de-testes-automatizados.md), [OBJ-007 — Avaliação de modelos](../objectives/OBJ-007-comparacao-controlada-de-modelos.md).

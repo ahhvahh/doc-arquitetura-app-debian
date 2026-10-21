@@ -33,3 +33,10 @@ A aceitação de um resultado documental e a autorização de seu merge são dec
 Para a primeira entrega, o objetivo é permitir a comparação controlada dos modelos selecionados de **OpenAI, Anthropic e Google Gemini**, desde que cada serviço seja previamente considerado apto. O operador deverá poder identificar o provedor de cada resultado e compará-lo com a mesma tarefa, referência normativa e baseline documental.
 
 **Verificações esperadas:** registrar pelo menos uma tentativa rastreável por provedor habilitado, identificar indisponibilidades e diferenças de contagem de tokens, custo e duração; não tratar métricas ausentes como zero. Não declarar os três provedores disponíveis antes da validação individual.
+
+## Revisor LLM independente da geração — decisão 10 (2026-10-21)
+O fluxo de avaliação de uma alteração documental incluirá o parecer de **modelo distinto daquele responsável pela geração**, seguido de revisão humana. O avaliador deve identificar omissões, possíveis contradições, riscos de perda de conteúdo e aderência à referência normativa, conservando o mesmo contexto rastreável.
+
+Identificar tanto o modelo gerador quanto o avaliador, suas versões, consumo/custo e eventuais divergências. A concordância entre eles não comprova automaticamente fidelidade semântica nem supera falhas detectadas por validação estrutural. A chamada do avaliador também está sujeita a [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md).
+
+A política de aceite diante de pareceres divergentes e os critérios quantitativos ainda exigem refinamento em [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).

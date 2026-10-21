@@ -17,3 +17,10 @@ Cada ação funcional possui testes unitários identificáveis, executados de mo
 ## Relações
 - [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md).
 - [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
+
+## Evidências obrigatórias para dupla avaliação — decisão 10 (2026-10-21)
+O objetivo de qualidade aprovado prevê resultados de **testes estruturais**, **parecer de segundo modelo distinto do gerador** e **decisão de revisão humana**, todos rastreáveis ao mesmo conjunto de alterações e às baselines utilizadas.
+
+**Critérios verificáveis de produto:** um erro de integridade reprova o resultado mesmo que ambos os modelos o considerem adequado; a ausência de uma revisão secundária exigida é evidenciada e impede declarar a proposta inteiramente validada; pareceres divergentes e intervenção humana devem permanecer auditáveis.
+
+A homologação da semântica do conversor DSL, da cobertura normativa e dos testes de regressão ainda depende de [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md); esses testes não são considerados já existentes pela escolha desta política.

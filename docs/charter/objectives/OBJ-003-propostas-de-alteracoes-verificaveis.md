@@ -40,3 +40,14 @@ A aplicação apresenta conjuntos de alterações identificadas por destino e co
 - A autorização para **custos de inferência** continua independente da autorização de integração Git.
 
 **Impedimento normativo obrigatório:** o comportamento acima descreve o produto pretendido, **não autoriza sua execução hoje**. A referência [ProjectCharter/1.0/main](https://github.com/ahhvahh/doc-arquitetura/tree/main/ProjectCharter/1.0) proíbe gravações de agentes fora de `develop`. Até a resolução verificável de [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md), a execução deve permanecer em modo de simulação/preparação local, sem criar/atualizar a branch de sessão remotamente.
+
+## Critério de aceite em três etapas — decisão 10 (2026-10-21)
+Para a primeira entrega pretendida, cada proposta documental deve passar por **validação estrutural automática**, **avaliação crítica de outro LLM** e **revisão humana** antes de ser considerada aceita para integração.
+
+- Rejeitar alterações com violação de escopo, links ou integridade, independentemente dos pareceres dos modelos.
+- Conservar a identificação do LLM gerador e do LLM avaliador, a norma, o contexto analisado, as diferenças propostas, as evidências de validação e a decisão humana.
+- Exibir à pessoa revisora tanto as divergências quanto a justificativa e as limitações apontadas pela segunda avaliação; o segundo LLM não aprova automaticamente o conteúdo.
+- Se a segunda avaliação obrigatória não estiver disponível ou autorizada sob as condições de custo e segurança, o processo **não é concluído como validado**; registrar a pendência sem contornar bloqueios financeiros.
+- A autorização humana do resultado é distinta da autorização para integrar à `develop`; a política de commits automáticos em branch de sessão permanece dependente da [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
+
+Relações: [OPEN-002 — Decisão 10](../open-questions/OPEN-002-fidelidade-e-custo.md) e [OBJ-004 — Verificações](OBJ-004-evidencias-de-testes-automatizados.md). Isso não atesta implementação ou fidelidade homologada.
