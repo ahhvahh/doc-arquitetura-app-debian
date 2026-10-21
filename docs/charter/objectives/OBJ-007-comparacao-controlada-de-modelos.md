@@ -45,3 +45,10 @@ A política para divergências relevantes foi escolhida em [OPEN-002](../open-qu
 Pareceres discordantes relevantes obrigam nova revisão da **versão corrigida**, incluindo testes estruturais e parecer independente de LLM diferente do gerador, com origem, versões e custos rastreáveis. Discordância relevante não resolvida impede considerar o resultado apto a aceite humano ou integração Git. A concordância dos modelos não substitui validação normativa ou estrutural.
 
 Relação: [OPEN-002 — Tratamento de divergências](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Avaliação repetida com baseline original preservada — decisão 13
+Uma proposta corrigida após divergência relevante deve passar por **nova avaliação crítica de modelo distinto do gerador**. Em cada iteração, a geração recebe o **material de origem integral e invariável** e, como complemento, o resultado e a observação da avaliação **mais recentes**.
+
+Manter rastreáveis todas as versões de propostas, comparações e pareceres ao longo das iterações, incluindo modelo/provedor/versão, hashes, SHAs, tokens, duração e custos. Não confundir reenvio apenas do último feedback com exclusão do histórico persistido nem tratar concordância de modelos como homologação semântica.
+
+O ciclo não tem número máximo fixo, porém depende de condições de custo, proteção, disponibilidade de contexto e validação estrutural; se qualquer requisito for violado, o processo fica bloqueado, não aceito. Relação: [OPEN-002 — Decisão 13](../open-questions/OPEN-002-fidelidade-e-custo.md).

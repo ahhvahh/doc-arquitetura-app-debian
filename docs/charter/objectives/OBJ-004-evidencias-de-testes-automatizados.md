@@ -28,4 +28,11 @@ A homologação da semântica do conversor DSL, da cobertura normativa e dos tes
 ## Evidências de correção e reavaliação — decisão 12
 Para cada divergência relevante, registrar: problema apontado, versão original, versão corrigida, **nova execução dos testes estruturais**, **nova avaliação por LLM distinto do gerador** e resultado de liberação ou bloqueio. Não considerar a correção validada com testes ou parecer de versão anterior.
 
-Verificações negativas devem confirmar que falha estrutural, violação normativa ou divergência relevante não resolvida **impedem aceite e publicação de resultado validado**. Falta de orçamento ou de condições para novo parecer é motivo de bloqueio, não uma exceção. Critérios de relevância e limite de tentativas seguem pendentes em [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+Verificações negativas devem confirmar que falha estrutural, violação normativa ou divergência relevante não resolvida **impedem aceite e publicação de resultado validado**. Falta de orçamento ou de condições para novo parecer é motivo de bloqueio, não uma exceção. Critérios de relevância e de fidelidade continuam pendentes em [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md); a decisão 13 substitui o limite numérico de tentativas por ciclo condicionado aos bloqueios de segurança e custo.
+
+## Verificabilidade do ciclo com contexto integral — decisão 13
+As evidências previstas devem permitir constatar que **todas as tentativas de correção** conservam o conjunto original completo e a mesma baseline normativa/documental, modificando apenas o complemento da **última proposta e última observação de divergência**, sem omissão ou troca silenciosa de material de origem.
+
+Cada rodada deve fornecer evidências próprias dos testes estruturais, da nova avaliação secundária, da divergência identificada, da correção apresentada e das condições financeiras autorizadas. Testar bloqueios quando houver erro normativo, ausência de proteção remota comprovada, orçamento insuficiente ou **capacidade de contexto inferior ao material integral**.
+
+Não exigir um número arbitrário de rodadas como condição de sucesso: a saída só será aceita depois de resultado válido e revisão humana; uma execução interrompida continua **não validada**. O procedimento ainda requer homologação técnica posterior. Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).

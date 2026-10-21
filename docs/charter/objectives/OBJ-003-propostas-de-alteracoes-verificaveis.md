@@ -58,3 +58,12 @@ Uma divergência relevante apontada pelo segundo LLM exige correção da propost
 Falhas estruturais, violações normativas e alterações fora de escopo permanecem bloqueadoras, ainda que os modelos concordem. Ausência de reavaliação, recursos financeiros autorizados ou evidências mantém o trabalho bloqueado, com histórico preservado.
 
 A aprovação de integração Git permanece humana e separada; a execução de commits em branches de sessão ainda depende da resolução de [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Reapresentação integral do contexto original a cada correção — decisão 13
+Quando uma divergência relevante impedir o aceite, a próxima proposta deve ser obtida com o **mesmo conjunto original de documentos, prompt, tarefa, normas, identificadores e hashes/SHAs da primeira análise**, acrescido **da última proposta e da observação mais recente do revisor LLM**.
+
+O ciclo pode se repetir **sem número máximo pré-fixado** enquanto as condições financeiras, de segurança e de contexto permitirem. Cada proposta corrigida exige seus próprios testes estruturais e nova avaliação por modelo distinto do gerador. Propostas com divergência relevante ou erro normativo/estrutural não são declaradas válidas, não geram commit de resultado validado nem avançam à revisão humana.
+
+Se o conteúdo integral não couber na janela de contexto do modelo, ou não houver autorização financeira para nova chamada, a execução dependente fica bloqueada sem simplificar silenciosamente a baseline. A autorização de integração Git continua humana e separada, e a publicação em branch de sessão depende de [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
+
+Relação: [OPEN-002 — Decisão 13](../open-questions/OPEN-002-fidelidade-e-custo.md). Trata-se de comportamento pretendido, não implementado.

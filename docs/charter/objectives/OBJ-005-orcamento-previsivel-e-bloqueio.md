@@ -61,3 +61,10 @@ Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md) e [CO
 Cada correção que demande geração por LLM ou repetição de avaliação requer **estimativa de custo e autorização financeira própria**, sem presumir autorização ilimitada para sucessivas tentativas.
 
 A política de bloqueio financeiro da [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md) e da [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) vale para todas as novas chamadas. Sem proteção remota suficiente comprovada, credencial válida ou orçamento autorizado, a revisão adicional não é executada e o resultado continua **não validado**. Essa restrição não permite desconsiderar o procedimento da [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Ciclo sem quantidade fixa de tentativas — decisão 13
+A decisão de repetir correções **sem limite numérico pré-definido** não representa aprovação de despesas ilimitadas nem reserva financeira automática para rodadas futuras. Cada chamada remunerada de geração e cada avaliação secundária devem obter **estimativa, saldo reservado e autorização financeira explícita para aquela operação**, mantendo a segregação por usuário, especialização e projeto/provedor.
+
+A necessidade de reenviar integralmente o contexto original mais a última proposta/observação deverá ser considerada na previsão de tokens e custo de **cada nova rodada**. Limites locais e proteção remota suficiente **comprovada** permanecem requisitos cumulativos conforme [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md).
+
+Quando orçamento, preço válido, câmbio, credencial, autorização ou proteção remota não puderem ser verificados, bloquear antes de qualquer nova chamada paga, registrar a interrupção e não considerar a proposta aprovada por exceção. Relação: [OPEN-002 — Decisão 13](../open-questions/OPEN-002-fidelidade-e-custo.md).
