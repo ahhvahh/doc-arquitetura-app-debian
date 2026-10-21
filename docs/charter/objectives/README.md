@@ -10,3 +10,7 @@
 
 - [OBJ-005 — Inferências com custo previsível e limitado](OBJ-005-orcamento-previsivel-e-bloqueio.md)
 - [OBJ-006 — Publicação manual da base normativa](OBJ-006-publicacao-manual-base-normativa.md)
+
+## Avaliação e histórico
+- [OBJ-007 — Comparação de modelos](OBJ-007-comparacao-controlada-de-modelos.md)
+- [OBJ-008 — Histórico local](OBJ-008-historico-local-de-inferencias.md)

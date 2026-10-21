@@ -1,4 +1,4 @@
-# Doc Arquitetura — Integração OpenAI e DSL
+# Doc Arquitetura — Revisão documental e comparação de modelos
 
 ![Tipo: GUIDE](../assets/documentation-style/badges/badge-type-guide.svg) ![Status: refinement](../assets/documentation-style/badges/badge-status-refinement.svg) ![Versão: v1](../assets/documentation-style/badges/badge-version-v1.svg)
 
@@ -8,13 +8,27 @@ A aplicação Doc Arquitetura permitirá organizar a revisão e o refinamento do
 ## Propósito do projeto
 | Campo | Definição |
 |---|---|
-| Problema | A revisão de um repositório documental extenso por modelos locais pode ser lenta; reenviar todo o Markdown eleva o custo e dificulta a rastreabilidade de alterações. |
-| Propósito | Permitir análise documental assistida por IA com uso eficiente de contexto, resultados rastreáveis e revisão humana antes da publicação no GitHub. |
+| Problema | Analisar projetos extensos exige contexto elevado, gera custos diferentes por modelo e ainda não oferece histórico comparável de qualidade, tokens e despesas. |
+| Propósito | Permitir refinamento documental por diferentes LLMs, com contexto eficiente, histórico local, comparação de qualidade e custos e revisão humana antes de publicar no GitHub. |
 | Beneficiários | Desenvolvedor responsável, revisor documental e operador da aplicação Debian. |
-| Valor esperado | Menos trabalho manual de preparação de contexto, atualizações consistentes com a norma e alterações verificáveis antes de commit. |
+| Valor esperado | Menor trabalho manual de contexto, consistência normativa, alterações verificáveis e escolha de modelos apoiada por indicadores históricos de qualidade, consumo, tempo e custo. |
 
 ## Contexto e participantes
 - [PCH-001 — Projeto e participantes](project-context/PCH-001-contexto-integracao-openai-dsl.md).
+
+## Contexto multimodelo proposto
+O diagrama representa as relações pretendidas, não funcionalidades já implementadas.
+
+```mermaid
+flowchart LR
+    O[Operador] --> A[Aplicação documental]
+    R[Repositório GitHub] --> A
+    N[Norma main] --> A
+    A -. Avaliação proposta .-> M[Modelos distintos]
+    M -. Respostas e medições .-> A
+    A -. Histórico previsto .-> B[Banco de dados local]
+    A --> H[Revisão humana]
+```
 
 ## Visão geral de alto nível
 ```mermaid
@@ -24,6 +38,7 @@ flowchart TD
     C -->|Consulta quando integrada| F[Agente especializado]
     D[Projeto-alvo develop atualizado] --> E[DSL de docs por execucao]
     E --> F
+    F --> L[Historico local previsto]
     F --> G[Changeset DSL com branch e commit]
     G --> H[Validacao local e revisao humana]
     H -->|Autorizado e politica alinhada| I[Branch da tarefa e publicacao]
@@ -38,6 +53,8 @@ A DSL normativa é atualizada no Vector Store somente por comando explícito do 
 - [OBJ-004 — Evidência de testes automatizados](objectives/OBJ-004-evidencias-de-testes-automatizados.md)
 - [OBJ-005 — Inferência com orçamento controlado](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md)
 - [OBJ-006 — Publicação manual da base normativa](objectives/OBJ-006-publicacao-manual-base-normativa.md)
+- [OBJ-007 — Comparação entre modelos](objectives/OBJ-007-comparacao-controlada-de-modelos.md)
+- [OBJ-008 — Histórico de inferências](objectives/OBJ-008-historico-local-de-inferencias.md)
 
 ## Fora do escopo
 - [NOBJ-001 — Sem publicação autônoma](non-objectives/NOBJ-001-nao-publicar-sem-aprovacao.md)
@@ -47,12 +64,15 @@ A DSL normativa é atualizada no Vector Store somente por comando explícito do 
 - [CON-002 — Proteção de credenciais](conditions/CON-002-protecao-credenciais.md)
 - [CON-003 — Separação entre norma externa e contratos do aplicativo](conditions/CON-003-contratos-do-aplicativo.md)
 - [CON-004 — Orçamentos e aprovação prévia](conditions/CON-004-orcamento-obrigatorio.md)
+- [CON-005 — Persistência local](conditions/CON-005-persistencia-local-de-inferencias.md)
 
 ## Questões abertas
 - [OPEN-001 — Credenciais e armazenamento](open-questions/OPEN-001-politica-credenciais.md)
 - [OPEN-002 — Fidelidade e orçamento de contexto](open-questions/OPEN-002-fidelidade-e-custo.md)
 - [OPEN-003 — Política de branches](open-questions/OPEN-003-politica-de-branches.md)
 - [OPEN-004 — Limites remotos por projeto OpenAI](open-questions/OPEN-004-projeto-openai-e-hard-limit.md)
+- [OPEN-005 — Provedores e modelos](open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md)
+- [OPEN-006 — Retenção e sigilo do histórico](open-questions/OPEN-006-retencao-e-protecao-do-historico.md)
 
 ## Base normativa pesquisável — decisão de Charter
 
@@ -64,3 +84,6 @@ O operador poderá solicitar a compilação e sincronização manual da norma, s
 ## Histórico e referência
 - [Referência normativa](https://github.com/ahhvahh/doc-arquitetura/tree/main/ProjectCharter/1.0) — somente leitura; `main`.
 - [Projeto-alvo](https://github.com/ahhvahh/doc-arquitetura-app-debian/tree/develop) — branch de desenvolvimento.
+
+## Registro da ampliação — 2026-10-21
+A inclusão de comparação multimodelo e histórico local foi autorizada para refinamento documental; não equivale à conclusão de implementação ou do gate. As questões [OPEN-001](open-questions/OPEN-001-politica-credenciais.md), [OPEN-002](open-questions/OPEN-002-fidelidade-e-custo.md), [OPEN-003](open-questions/OPEN-003-politica-de-branches.md), [OPEN-004](open-questions/OPEN-004-projeto-openai-e-hard-limit.md), [OPEN-005](open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md) e [OPEN-006](open-questions/OPEN-006-retencao-e-protecao-do-historico.md) permanecem abertas para análise individual.

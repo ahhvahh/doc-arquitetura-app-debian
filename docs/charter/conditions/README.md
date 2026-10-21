@@ -8,3 +8,6 @@
 - [CON-003 — Separação dos contratos](CON-003-contratos-do-aplicativo.md)
 
 - [CON-004 — Orçamentos obrigatórios em duas camadas](CON-004-orcamento-obrigatorio.md)
+
+## Armazenamento histórico
+- [CON-005 — Persistência local](CON-005-persistencia-local-de-inferencias.md)

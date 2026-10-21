@@ -38,3 +38,10 @@ Validar cenários de duplicidade de arquivos, hash divergente, alterações fora
 **Limites da decisão:** esta proposta não define delimitadores, escape, formato de campos, recuperação remota, limite numérico de tokens ou algoritmo de compactação. O contrato `BIOMA-DSL-CHANGESET/2.0` continua sujeito às validações descritas nesta OPEN. Essas definições deverão ser formalizadas em Scope/Implementation, seguindo os gates documentais.
 
 **Impacto no gate:** a diretriz de arquitetura foi escolhida, mas a `OPEN-002` permanece em `refinement` e continua bloqueadora para declarar inferência documental pronta para produção até comprovar fidelidade e segurança dos casos de teste.
+
+## Extensão aprovada — comparação objetiva entre modelos (2026-10-21)
+Uma comparação válida deverá usar a mesma tarefa, prompt efetivo, documentação e SHAs de referência, ou identificar explicitamente variações. Avaliar integridade do Markdown, links, diagramas, validade do changeset, aderência à norma, correções humanas, tempo, tokens e custos previstos e realizados, quando mensuráveis.
+
+Pesos, escala de qualidade e limites numéricos de aprovação ainda exigem definição e validação. Registrar dados experimentais não comprova automaticamente superioridade, fidelidade ou equivalência semântica.
+
+Relações: [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md), [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md), [OPEN-005](OPEN-005-estrategia-de-provedores-e-modelos.md).

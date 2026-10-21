@@ -47,3 +47,10 @@ flowchart LR
     V -. Consulta futura .-> B
 ```
 O diagrama identifica participantes, não contratos de rede.
+
+## Complemento de contexto — múltiplos modelos e histórico (2026-10-21)
+O operador ACT-001 poderá solicitar análises comparativas entre modelos de custos e capacidades diferentes. ACT-002 representa serviços externos de inferência potencialmente distintos; a inclusão de modelos locais permanece em análise na [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md). Não se alega que múltiplos provedores já estejam implementados.
+
+A aplicação deverá conservar registros locais de solicitação, prompt, resultado, tokens e valores, associados ao repositório-alvo ACT-003, à norma versionada e à avaliação. A base normativa consultável ACT-004 não é o mesmo acervo de histórico de inferências e não deve misturar dados de projetos-alvo com a norma.
+
+Relações: [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md), [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md), [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md).

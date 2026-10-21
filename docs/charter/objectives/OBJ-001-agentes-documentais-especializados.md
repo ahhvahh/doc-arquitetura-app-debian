@@ -23,3 +23,8 @@ A aplicação oferece quatro especializações independentes — Charter, Scope,
 - A configuração de agente deve ser um fluxo explícito integrado: selecionar a etapa, atualizar a referência normativa, preparar DSL, sincronizar acervo remoto, confirmar indexação, criar/atualizar o agente, registrar IDs e testar recuperação. O modo padrão é prévia; a publicação exige `--apply`.
 - A interface proposta `agent setup <charter|scope|implementation|source|all> --model MODELO [--apply]` não equivale a comando já implementado.
 - A configuração do agente não executa tarefas do projeto-alvo nem autoriza publicação de alterações.
+
+## Extensão aprovada — seleção de modelos independente da especialização (2026-10-21)
+As quatro especializações Charter, Scope, Implementation e Source permanecem separadas. A aplicação deverá permitir escolher modelos simples ou avançados sem duplicar o catálogo normativo por modelo. O modelo/provedor é identificado em cada análise; a referência normativa da especialização permanece rastreável por SHA.
+
+A administração de agentes OpenAI já prevista não impede avaliar outros provedores. A decisão sobre outros serviços ou inferência local não está fechada e permanece em [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md). A comparabilidade esperada está em [OBJ-007](OBJ-007-comparacao-controlada-de-modelos.md).

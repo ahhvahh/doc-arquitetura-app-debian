@@ -21,3 +21,10 @@ Cada inferência paga apresenta estimativas de entrada, saída e custo em reais,
 - [CON-004](../conditions/CON-004-orcamento-obrigatorio.md)
 - [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md)
 - [OBJ-004](OBJ-004-evidencias-de-testes-automatizados.md)
+
+## Extensão para múltiplos modelos e provedores (2026-10-21)
+O controle financeiro esperado deverá abranger provedores pagos adicionais quando aprovados, preservando os controles específicos já documentados para OpenAI. Cada inferência relaciona previsão e realização de tokens de entrada/saída e de valores, com moeda, tarifa, câmbio e origem dos dados.
+
+Cobrança efetivamente informada pelo provedor e cálculo local são informações diferentes. Dados não disponibilizados permanecem desconhecidos, sem assumir custo zero. As proteções remotas variam entre serviços; não se presume que todo provedor suporte os mesmos limites da OpenAI.
+
+Relações: [OBJ-007](OBJ-007-comparacao-controlada-de-modelos.md), [OBJ-008](OBJ-008-historico-local-de-inferencias.md) e [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).
