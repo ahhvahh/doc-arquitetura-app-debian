@@ -75,3 +75,10 @@ O número máximo aprovado é de **quatro ciclos de correção após a primeira 
 Cada geração de correção e cada avaliação por LLM potencialmente pagas continuam sujeitas à **estimativa de tokens para o material original integral mais o feedback recente, autorização explícita por chamada, reserva local, limites por usuário/projeto e proteção remota comprovada** da [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e da [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md).
 
 Na falta de qualquer condição, interromper antes da próxima chamada e registrar o motivo, mesmo que restem ciclos. Ao completar o quarto ciclo sem resultado válido, não autorizar uma quinta tentativa automaticamente nem tratar a proposta como aceita. Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Habilitação financeira independente por provedor — decisão 21
+A opção de entrega parcial em [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md) **não cria exceções financeiras**: somente provedores/modelos com proteção remota bloqueante suficiente **comprovada**, segregação e autorização de credenciais, orçamento local verificável e autorização individual **por chamada paga** podem ser disponibilizados para inferência remunerada.
+
+Provedores ainda não homologados permanecem **desabilitados** e identificados como pendentes, mesmo se outro provedor estiver disponível. A ausência de homologação de um serviço não pode liberar seu uso por substituição automática ou aceitação informal do risco. A entrega parcial precisa identificar separadamente sua cobertura real e as lacunas da meta de três provedores, sem declarar automaticamente a primeira entrega completa.
+
+A comprovação deve alcançar cada projeto/scope necessário, incluindo os quatro projetos OpenAI já previstos; perda de eficácia ou falta de evidência impede a próxima chamada. Relações: [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md).
