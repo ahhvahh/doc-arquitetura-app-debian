@@ -23,3 +23,8 @@ A lista inicial de provedores, modelos locais/remotos e a escala de qualidade de
 - [OBJ-001 — Agentes](OBJ-001-agentes-documentais-especializados.md)
 - [OBJ-005 — Orçamentos](OBJ-005-orcamento-previsivel-e-bloqueio.md)
 - [OBJ-008 — Histórico](OBJ-008-historico-local-de-inferencias.md)
+
+## Aplicação da decisão 06 — comparação entre provedores
+A primeira entrega pretendida permitirá executar ao menos uma mesma tarefa em dois provedores remotos distintos, com condições rastreáveis e resultados apresentados sem pressupor equivalência técnica de modelos, tokenizadores, modalidades de cobrança ou limites de gasto.
+
+A aceitação de um resultado documental e a autorização de seu merge são decisões humanas distintas da inferência e dos commits intermediários condicionados à [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). A lista definitiva de serviços continua em [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).

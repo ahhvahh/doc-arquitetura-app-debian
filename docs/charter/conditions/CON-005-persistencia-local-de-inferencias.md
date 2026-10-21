@@ -24,3 +24,8 @@ Assegura auditoria e comparabilidade independentemente da retenção do provedor
 
 ## Condição de revisão
 Somente por decisão explícita do responsável quanto à necessidade de histórico local ou aos limites de privacidade. O mecanismo técnico de armazenamento pertence ao Scope.
+
+## Recuperação interoperável das métricas
+O histórico local deve preservar informações suficientes para disponibilizar as métricas como **objetos JSON recuperáveis** por outras aplicações autorizadas. Essa condição não obriga que toda a persistência interna use um único campo JSON e não define banco de dados nem esquema físico.
+
+A consulta, extração ou reconstrução de relatórios fora da aplicação original deverá conservar identidade de sessão/tentativa, origem dos números e distinção entre previsão, medição e cobrança. O acesso deve observar [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md).

@@ -24,3 +24,14 @@ Este objetivo não escolhe banco, esquema ou política de exclusão. A retençã
 - [OBJ-005 — Orçamentos](OBJ-005-orcamento-previsivel-e-bloqueio.md)
 - [CON-005 — Persistência local](../conditions/CON-005-persistencia-local-de-inferencias.md)
 - [CON-002 — Credenciais](../conditions/CON-002-protecao-credenciais.md)
+
+## Requisito de interoperabilidade — métricas JSON (2026-10-21)
+As métricas de cada solicitação/tentativa deverão ser **persistidas ou disponibilizadas como objetos JSON estruturados e recuperáveis**, permitindo que aplicações consumidoras consultem os dados e reconstruam relatórios em outro ambiente, sem depender da interface de análise original.
+
+**Critérios verificáveis:**
+- Um registro recuperado em JSON identifica sua solicitação, sessão, tentativa, provedor/modelo, timestamps, resultado, tokens e custos conhecidos, com referências de origem e contexto suficientes para comparação.
+- Métricas nativas de cada provedor e indicadores comparáveis preservam sua proveniência, sem perda silenciosa de categorias ou alteração de unidades.
+- Ausência de medição, estimativa e cobrança confirmada são diferenciadas; não se inventa zero em campos sem informação.
+- Uma aplicação independente consegue recuperar as métricas e reconstruir uma visão histórica por sessão, inferência ou provedor sem repetir as chamadas externas.
+
+O Charter não fixa nomes de propriedades, modelo físico de banco ou transporte de consulta; essas definições pertencem a Scope/Implementation e deverão respeitar [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md) e [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md).

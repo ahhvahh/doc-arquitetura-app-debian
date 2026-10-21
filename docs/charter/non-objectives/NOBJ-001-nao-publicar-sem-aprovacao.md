@@ -3,10 +3,13 @@
 ![Tipo: NOBJ](../../assets/documentation-style/badges/badge-type-nobj.svg) ![Status: refinement](../../assets/documentation-style/badges/badge-status-refinement.svg) ![Versão: v1](../../assets/documentation-style/badges/badge-version-v1.svg)
 
 ## Exclusão
-A solução não dará a modelos de inferência autorização autônoma para efetivar operações Git remotas ou aceitar alterações sem revisão.
+A solução não dará aos modelos de inferência autoridade para integrar alterações em `develop` nem para executar operações Git arbitrárias sem validação e governança da aplicação.
 ## Justificativa
 Decisões geradas podem conter lacunas, alucinações ou operações incompatíveis com as regras do projeto.
 ## Efeito da exclusão
-O responsável humano continua responsável pelas aprovações de aplicação, commit e envio remoto. Sem autorização válida, a proposta não é publicada.
+O responsável humano deve aprovar a **integração final à `develop`**. A criação de commits intermediários pela própria aplicação, após validação em uma branch de sessão, é um objetivo funcional condicionado à revisão normativa de [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md), não uma permissão atualmente vigente. Sem a aprovação de integração, a `develop` não recebe as alterações da sessão.
 ## Condição de revisão
 Somente após nova decisão documentada no Charter e análise das consequências de segurança e auditoria.
+
+## Delimitação da responsabilidade (2026-10-21)
+A decisão anterior exigia aprovação humana de aplicação, commit e publicação como três fases. O responsável redefiniu a aprovação humana Git apenas para o merge à `develop`, preservando controles de validade, orçamento e proibição de comandos Git determinados diretamente por LLM. O commit automático em branch de sessão continua impedido na automação documental pela norma atual.

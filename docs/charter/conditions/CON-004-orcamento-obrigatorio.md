@@ -23,3 +23,8 @@ Limita riscos financeiros e obriga autorização consciente antes de usar servi�
 
 ## Condição de revisão
 Somente após revisão de segurança, viabilidade de cobrança da API e autorização do responsável.
+
+## Aplicabilidade da decisão 06 — provedores remotos
+Os controles locais de orçamento são obrigatórios também para provedores remotos adicionais. Proteções do próprio provedor devem ser usadas **quando comprovadamente oferecidas**, mas não podem ser apresentadas como hard limits garantidos sem evidência. Serviços com insuficiência de dados de preço/uso ou sem mecanismo de controle compatível com o risco autorizado não serão habilitados para inferência paga até decisão verificável.
+
+A aprovação humana do merge à `develop` não autoriza, por si só, a realização de novas despesas. Relações: [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md) e [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md).

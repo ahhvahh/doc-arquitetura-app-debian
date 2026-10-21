@@ -28,3 +28,10 @@ A aplicação oferece quatro especializações independentes — Charter, Scope,
 As quatro especializações Charter, Scope, Implementation e Source permanecem separadas. A aplicação deverá permitir escolher modelos simples ou avançados sem duplicar o catálogo normativo por modelo. O modelo/provedor é identificado em cada análise; a referência normativa da especialização permanece rastreável por SHA.
 
 A administração de agentes OpenAI já prevista não impede avaliar outros provedores. A decisão sobre outros serviços ou inferência local não está fechada e permanece em [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md). A comparabilidade esperada está em [OBJ-007](OBJ-007-comparacao-controlada-de-modelos.md).
+
+## Definição adicional — múltiplos provedores e prompts por sessão (2026-10-21)
+A escolha aprovada é trabalhar com **provedores remotos diferentes**, não somente modelos diferentes da OpenAI. O operador poderá selecionar novo prompt ou reutilizar prompt do catálogo da etapa durante uma sessão, sem duplicar os objetivos normativos dos agentes.
+
+**Verificação esperada:** cada execução associa explicitamente etapa, prompt selecionado (com identificação de versão/origem), provedor e modelo, conservando o histórico entre inferências da mesma sessão.
+
+Relações: [OPEN-005 — modalidade remota](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md) e [OBJ-003 — continuidade das alterações](OBJ-003-propostas-de-alteracoes-verificaveis.md).

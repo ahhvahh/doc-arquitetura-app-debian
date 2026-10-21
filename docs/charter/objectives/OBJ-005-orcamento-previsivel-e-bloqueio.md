@@ -28,3 +28,8 @@ O controle financeiro esperado deverá abranger provedores pagos adicionais quan
 Cobrança efetivamente informada pelo provedor e cálculo local são informações diferentes. Dados não disponibilizados permanecem desconhecidos, sem assumir custo zero. As proteções remotas variam entre serviços; não se presume que todo provedor suporte os mesmos limites da OpenAI.
 
 Relações: [OBJ-007](OBJ-007-comparacao-controlada-de-modelos.md), [OBJ-008](OBJ-008-historico-local-de-inferencias.md) e [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).
+
+## Regra transversal — provedores remotos (decisão 06)
+A política de orçamentos locais aplica-se a todos os provedores remotos admitidos, sem confundir a arquitetura própria de projetos OpenAI com recursos inexistentes em outros serviços. Antes de cada inferência paga, conferir tarifa e estimativas e exigir autorização financeira conforme a [CON-004](../conditions/CON-004-orcamento-obrigatorio.md). A aprovação futura de merge não substitui a autorização de despesa.
+
+A comparação deverá conservar indicadores nativos do provedor e métricas reconciliáveis no histórico local; valores indisponíveis continuam desconhecidos.
