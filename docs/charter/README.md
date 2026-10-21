@@ -134,3 +134,10 @@ O responsável escolheu a **opção A** no refinamento da [OPEN-002](open-questi
 Falhas estruturais e normativas continuam bloqueadoras; sem reavaliação e resolução da discordância relevante, o conteúdo **não pode ser aceito nem registrado como resultado validado**. Repetições remuneradas exigem orçamento, autorização e proteção remota comprovada, segundo [OBJ-005](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md). Regras de aceite, testes e comparação estão relacionadas a [OBJ-003](objectives/OBJ-003-propostas-de-alteracoes-verificaveis.md), [OBJ-004](objectives/OBJ-004-evidencias-de-testes-automatizados.md) e [OBJ-007](objectives/OBJ-007-comparacao-controlada-de-modelos.md).
 
 A autorização humana para integrar alterações à `develop` permanece separada, e a política de branches depende da [OPEN-003](open-questions/OPEN-003-politica-de-branches.md). A decisão é documental; **não demonstra implementação nem homologação da fidelidade semântica**.
+
+## Limite de correções da inferência — decisão de 2026-10-21
+O responsável substituiu a ausência de limite fixo da decisão 13 por **até quatro ciclos de correção e reavaliação após a tentativa inicial**. Cada ciclo reenviará todo o material de origem com a proposta e a observação mais recentes, repetindo testes estruturais e revisão de outro LLM, conforme [OPEN-002](open-questions/OPEN-002-fidelidade-e-custo.md).
+
+O processo termina antecipadamente com proposta válida encaminhada à revisão humana, ou é **bloqueado** quando a quarta correção continuar inválida — sem uma quinta correção automática. Falhas normativas/estruturais e falta de proteção financeira ou de contexto integral também impedem continuar. Nenhum limite numérico autoriza despesa, integração Git ou aceite por exceção.
+
+Relações: [OBJ-003](objectives/OBJ-003-propostas-de-alteracoes-verificaveis.md), [OBJ-004](objectives/OBJ-004-evidencias-de-testes-automatizados.md), [OBJ-005](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OBJ-007](objectives/OBJ-007-comparacao-controlada-de-modelos.md). Não há implementação ou homologação atestada.

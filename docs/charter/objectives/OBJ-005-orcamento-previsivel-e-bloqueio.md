@@ -62,9 +62,16 @@ Cada correção que demande geração por LLM ou repetição de avaliação requ
 
 A política de bloqueio financeiro da [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md) e da [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) vale para todas as novas chamadas. Sem proteção remota suficiente comprovada, credencial válida ou orçamento autorizado, a revisão adicional não é executada e o resultado continua **não validado**. Essa restrição não permite desconsiderar o procedimento da [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
 
-## Ciclo sem quantidade fixa de tentativas — decisão 13
-A decisão de repetir correções **sem limite numérico pré-definido** não representa aprovação de despesas ilimitadas nem reserva financeira automática para rodadas futuras. Cada chamada remunerada de geração e cada avaliação secundária devem obter **estimativa, saldo reservado e autorização financeira explícita para aquela operação**, mantendo a segregação por usuário, especialização e projeto/provedor.
+## Orçamento do ciclo iterativo — decisão 13 (limite numérico atualizado pela decisão 14)
+A decisão 13 originalmente permitia correções sem teto numérico, **substituído pela decisão 14: até quatro ciclos de correção e reavaliação após a análise inicial**. Isso não representa aprovação de despesas ilimitadas nem reserva financeira automática para rodadas futuras. Cada chamada remunerada de geração e cada avaliação secundária devem obter **estimativa, saldo reservado e autorização financeira explícita para aquela operação**, mantendo a segregação por usuário, especialização e projeto/provedor.
 
 A necessidade de reenviar integralmente o contexto original mais a última proposta/observação deverá ser considerada na previsão de tokens e custo de **cada nova rodada**. Limites locais e proteção remota suficiente **comprovada** permanecem requisitos cumulativos conforme [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md).
 
 Quando orçamento, preço válido, câmbio, credencial, autorização ou proteção remota não puderem ser verificados, bloquear antes de qualquer nova chamada paga, registrar a interrupção e não considerar a proposta aprovada por exceção. Relação: [OPEN-002 — Decisão 13](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Planejamento financeiro para até quatro correções — decisão 14
+O número máximo aprovado é de **quatro ciclos de correção após a primeira geração e avaliação**, podendo terminar antes em caso de sucesso ou bloqueio. Esse teto não concede orçamento total automático para quatro rodadas.
+
+Cada geração de correção e cada avaliação por LLM potencialmente pagas continuam sujeitas à **estimativa de tokens para o material original integral mais o feedback recente, autorização explícita por chamada, reserva local, limites por usuário/projeto e proteção remota comprovada** da [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e da [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md).
+
+Na falta de qualquer condição, interromper antes da próxima chamada e registrar o motivo, mesmo que restem ciclos. Ao completar o quarto ciclo sem resultado válido, não autorizar uma quinta tentativa automaticamente nem tratar a proposta como aceita. Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).

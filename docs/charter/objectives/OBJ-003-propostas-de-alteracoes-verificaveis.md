@@ -62,8 +62,13 @@ A aprovação de integração Git permanece humana e separada; a execução de c
 ## Reapresentação integral do contexto original a cada correção — decisão 13
 Quando uma divergência relevante impedir o aceite, a próxima proposta deve ser obtida com o **mesmo conjunto original de documentos, prompt, tarefa, normas, identificadores e hashes/SHAs da primeira análise**, acrescido **da última proposta e da observação mais recente do revisor LLM**.
 
-O ciclo pode se repetir **sem número máximo pré-fixado** enquanto as condições financeiras, de segurança e de contexto permitirem. Cada proposta corrigida exige seus próprios testes estruturais e nova avaliação por modelo distinto do gerador. Propostas com divergência relevante ou erro normativo/estrutural não são declaradas válidas, não geram commit de resultado validado nem avançam à revisão humana.
+O ciclo permite **no máximo quatro iterações de correção e reavaliação após a tentativa inicial**, enquanto as condições financeiras, de segurança e de contexto permitirem. Cada proposta corrigida exige seus próprios testes estruturais e nova avaliação por modelo distinto do gerador. Propostas com divergência relevante ou erro normativo/estrutural não são declaradas válidas, não geram commit de resultado validado nem avançam à revisão humana.
 
 Se o conteúdo integral não couber na janela de contexto do modelo, ou não houver autorização financeira para nova chamada, a execução dependente fica bloqueada sem simplificar silenciosamente a baseline. A autorização de integração Git continua humana e separada, e a publicação em branch de sessão depende de [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
 
 Relação: [OPEN-002 — Decisão 13](../open-questions/OPEN-002-fidelidade-e-custo.md). Trata-se de comportamento pretendido, não implementado.
+
+## Critério de parada após quatro correções — decisão 14
+O fluxo pretendido admite a geração inicial e **até quatro versões corrigidas**, cada qual validada estruturalmente e submetida novamente a um LLM revisor distinto do gerador. Uma resposta válida encerra antecipadamente as correções e é encaminhada à revisão humana.
+
+Se a quarta correção não resolver a divergência relevante, o trabalho fica **bloqueado**, preservando a proposta e os motivos, sem gerar quinta correção automática, commit de resultado validado ou integração Git. A continuidade também pode ser bloqueada antes por segurança, contexto insuficiente ou custo não autorizado. Relação: [OPEN-002 — Decisão 14](../open-questions/OPEN-002-fidelidade-e-custo.md).

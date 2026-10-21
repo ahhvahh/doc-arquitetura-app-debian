@@ -35,4 +35,11 @@ As evidências previstas devem permitir constatar que **todas as tentativas de c
 
 Cada rodada deve fornecer evidências próprias dos testes estruturais, da nova avaliação secundária, da divergência identificada, da correção apresentada e das condições financeiras autorizadas. Testar bloqueios quando houver erro normativo, ausência de proteção remota comprovada, orçamento insuficiente ou **capacidade de contexto inferior ao material integral**.
 
-Não exigir um número arbitrário de rodadas como condição de sucesso: a saída só será aceita depois de resultado válido e revisão humana; uma execução interrompida continua **não validada**. O procedimento ainda requer homologação técnica posterior. Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+Não exigir completar todas as quatro correções quando uma resposta válida for alcançada antes: cada nova versão deve passar nos testes estruturais e na segunda avaliação, seguida da revisão humana. Esgotadas as quatro correções sem validade, a execução termina **bloqueada e não validada**. O procedimento ainda requer homologação técnica posterior. Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Teste do limite de quatro iterações — decisão 14
+Os cenários de evidência deverão distinguir **geração inicial** dos **quatro ciclos máximos de correção**, com nova validação estrutural e revisão por LLM em cada ciclo.
+
+Verificar aceitação para encaminhamento humano quando a divergência for sanada na primeira, segunda, terceira ou quarta correção; e verificar bloqueio, sem quinta tentativa automática, quando a quarta não resolver a falha. Preservar também o bloqueio antecipado por orçamento, proteção remota, identidade, segurança, norma ou contexto integral incompatível, com registro auditável.
+
+O critério é intenção de produto vinculada a [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), não comprovação de testes implementados.

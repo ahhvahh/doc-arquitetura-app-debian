@@ -51,4 +51,9 @@ Uma proposta corrigida após divergência relevante deve passar por **nova avali
 
 Manter rastreáveis todas as versões de propostas, comparações e pareceres ao longo das iterações, incluindo modelo/provedor/versão, hashes, SHAs, tokens, duração e custos. Não confundir reenvio apenas do último feedback com exclusão do histórico persistido nem tratar concordância de modelos como homologação semântica.
 
-O ciclo não tem número máximo fixo, porém depende de condições de custo, proteção, disponibilidade de contexto e validação estrutural; se qualquer requisito for violado, o processo fica bloqueado, não aceito. Relação: [OPEN-002 — Decisão 13](../open-questions/OPEN-002-fidelidade-e-custo.md).
+O ciclo está limitado, pela decisão 14, a **quatro correções com reavaliação após a tentativa inicial** e depende também de custo, proteção, disponibilidade do contexto integral e validação estrutural. Se o quarto ciclo não resolver a divergência, ou qualquer requisito obrigatório falhar antes, o processo termina bloqueado, não aceito. Relação: [OPEN-002 — Decisão 13](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Limite de ciclos avaliados — decisão 14
+Cada comparação deverá identificar a avaliação inicial e os pareceres das **até quatro correções subsequentes**, sem confundir quatro correções com quatro chamadas de API no total. Uma iteração pode envolver a geração e a revisão secundária, ambas sujeitas à autorização financeira apropriada.
+
+Registrar a conclusão antecipada quando a proposta passar nas verificações ou o bloqueio sem quinta correção quando o máximo se esgotar. A validade semântica continua não homologada. Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
