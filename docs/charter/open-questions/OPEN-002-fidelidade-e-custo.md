@@ -17,3 +17,8 @@ A publicação manual da DSL em armazenamento consultável pode ser experimentad
 Definir critérios verificáveis de fidelidade, consultas seletivas ao original e experiências comparativas com tokenização real, sem presumir equivalência semântica automática.
 ## Destino previsto
 Scope de extração, rastreabilidade e validação; Implementation de armazenamento e transporte.
+
+## Pendências específicas do contrato DSL textual
+A saída textual pretendida é `BIOMA-DSL-CHANGESET/2.0` com cabeçalho de tarefa e blocos `FILE` por arquivo, sem JSON. A decisão de formato **não** homologa a gramática interna. É necessário especificar caracteres reservados, delimitadores escapáveis, blocos multilinha, estrutura de metadados, badges, links, tabelas, código, Mermaid e regras de edição por seção, e demonstrar conversão DSL → Markdown que preserve todo conteúdo não tocado. O estado `BLOCKED` e sua representação textual também precisam ser formalizados.
+
+Validar cenários de duplicidade de arquivos, hash divergente, alterações fora da etapa, symlinks, path traversal, tamanho excessivo e mudanças de baseline. Até lá, o conversor JSON/Markdown existente não representa implementação deste novo contrato.

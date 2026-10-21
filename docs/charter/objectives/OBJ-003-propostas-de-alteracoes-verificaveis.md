@@ -16,3 +16,12 @@ A aplicação apresenta conjuntos de alterações identificadas por destino e co
 ## Dependências
 - [NOBJ-001](../non-objectives/NOBJ-001-nao-publicar-sem-aprovacao.md).
 - [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
+
+## Entrega textual DSL por arquivo — decisão do responsável
+- A resposta do agente deverá ser **texto DSL**, sem envelope JSON ou Markdown diretamente editável.
+- O contrato planejado `BIOMA-DSL-CHANGESET/2.0` reúne: repositório, branch de origem `develop`, SHA do projeto-alvo, SHA normativo, sugestão de branch, título e descrição.
+- Cada arquivo afetado aparecerá em bloco próprio, delimitado por `=== FILE ADD|MODIFY|DELETE caminho ===` e `=== END FILE ===`, com `BASE-SHA256` quando já existir. O resultado termina em `=== END CHANGESET ===`.
+- A aplicação Go, e não o agente, valida o formato, caminhos, escopo, hashes e permissões, converte DSL em Markdown e preserva conteúdo fora das alterações.
+- O agente apenas sugere nome de branch, título e descrição. A aplicação sanitiza o nome, cria branch local, apresenta diff e exige aprovações independentes para aplicar, commitar e publicar.
+- Exclusão não deve ser executada sem aprovação específica; saída inconsistente ou ausência de norma obrigatória causa `BLOCKED`.
+- A sintaxe ilustrativa `DOC`, `SECTION`, `ITEM` **não constitui gramática homologada**. Escape, multiline, badges, links, tabelas, Mermaid, hashes, alterações por trecho e ida/volta sem perdas continuam pendentes em [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).

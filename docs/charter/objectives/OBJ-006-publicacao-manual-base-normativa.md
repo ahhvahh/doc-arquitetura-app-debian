@@ -34,3 +34,10 @@ A publicação isolada não realiza inferência, não altera o projeto-alvo e n�
 
 ## Situação
 Intenção aprovada pelo responsável; documento em refinement. A integração externa, formatos específicos, contratos de consulta e liberação de produção ainda exigem Discovery, Scope e Implementation.
+
+## Provisionamento integrado por especialidade — decisão do responsável
+O operador poderá realizar, em uma **única ação explícita**, o provisionamento de cada agente: baixar `doc-arquitetura/main` por SHA, compilar os documentos normativos da especialidade em DSL pesquisável, sincronizar o acervo no Vector Store, aguardar a indexação, criar ou atualizar o agente e registrar a associação de agente, Vector Store e versão normativa. O padrão continuará sendo **prévia sem custos nem gravação remota**; `--apply` autorizará o provisionamento, sujeito às verificações de credenciais e orçamento.
+
+O sistema separará a **DSL normativa** (somente a referência `main`) da **DSL do projeto-alvo** (clone de `develop` por tarefa). Não publicará dados do projeto-alvo no acervo normativo. A vinculação poderá ocorrer na requisição de execução pelo aplicativo se não houver suporte remoto a `file_search` no cadastro persistente de agentes.
+
+A sincronização do acervo e o cadastro do agente são processos verificáveis separadamente, com hashes, IDs e falhas visíveis. A existência do acervo não comprova que o modelo consultou a norma: será exigido teste de recuperação.

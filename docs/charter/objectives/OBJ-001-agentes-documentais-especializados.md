@@ -14,3 +14,12 @@ A aplicação oferece quatro especializações independentes — Charter, Scope,
 ## Dependências
 - [CON-001](../conditions/CON-001-referencia-normativa-main.md).
 - [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Interface simplificada e seleção de prompts — decisão do responsável
+- Quatro entradas principais: `charter`, `scope`, `implementation` e `source` (`source` corresponde à etapa normativa `src`).
+- Uma única árvore seleciona `ETAPA → OPERAÇÃO → AÇÃO → PROMPT especializado`; reutilizar o catálogo existente sem manter árvores paralelas.
+- Cada etapa usa um agente especializado e um acervo normativo próprio, identificado por SHA; o projeto-alvo analisado é contexto transitório e nunca substitui a fonte normativa.
+- O agente persistente deve consultar as regras relevantes recuperadas da base DSL e obedecer ao prompt escolhido. A aplicação controla o acesso à recuperação quando a API remota não permitir vincular diretamente a ferramenta ao agente.
+- A configuração de agente deve ser um fluxo explícito integrado: selecionar a etapa, atualizar a referência normativa, preparar DSL, sincronizar acervo remoto, confirmar indexação, criar/atualizar o agente, registrar IDs e testar recuperação. O modo padrão é prévia; a publicação exige `--apply`.
+- A interface proposta `agent setup <charter|scope|implementation|source|all> --model MODELO [--apply]` não equivale a comando já implementado.
+- A configuração do agente não executa tarefas do projeto-alvo nem autoriza publicação de alterações.
