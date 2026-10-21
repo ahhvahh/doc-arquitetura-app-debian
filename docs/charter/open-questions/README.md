@@ -10,4 +10,4 @@
 
 ## Questões de modelos e histórico
 - [OPEN-005 — Provedores e modelos](OPEN-005-estrategia-de-provedores-e-modelos.md)
-- [OPEN-006 — Retenção e proteção](OPEN-006-retencao-e-protecao-do-historico.md)
+- [OPEN-006 — Retenção e proteção (decisão C resolvida)](OPEN-006-retencao-e-protecao-do-historico.md)

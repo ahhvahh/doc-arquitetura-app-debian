@@ -29,3 +29,12 @@ Somente por decisão explícita do responsável quanto à necessidade de histór
 O histórico local deve preservar informações suficientes para disponibilizar as métricas como **objetos JSON recuperáveis** por outras aplicações autorizadas. Essa condição não obriga que toda a persistência interna use um único campo JSON e não define banco de dados nem esquema físico.
 
 A consulta, extração ou reconstrução de relatórios fora da aplicação original deverá conservar identidade de sessão/tentativa, origem dos números e distinção entre previsão, medição e cobrança. O acesso deve observar [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md).
+
+## Política de retenção, autorização e descarte (2026-10-21)
+**Origem:** opção C escolhida em [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md).
+
+A aplicação deve conservar prompts, respostas e métricas JSON no banco local **até exclusão manual**, sem eliminação automática por idade. Consulta e exportação são restritas ao operador responsável e a consumidores expressamente autorizados; acesso de leitura não concede automaticamente autorização de exclusão.
+
+Credenciais e segredos não devem ser persistidos nem expostos em registros, relatórios ou exportações. A exclusão manual autorizada deve gerar evidências de autoria, data, identificação e alcance dos registros afetados e resultado, sem reproduzir dados apagados. Backups e cópias sob controle da aplicação devem ter tratamento de descarte identificável; cópias externas não podem ser declaradas eliminadas sem comprovação.
+
+**Verificação:** ausência de expiração automática, bloqueio de leitura e exclusão indevidas, prevenção de vazamento de segredos e comprovação do alcance de cada descarte autorizado. Contratos técnicos são assuntos de Scope/Implementation.

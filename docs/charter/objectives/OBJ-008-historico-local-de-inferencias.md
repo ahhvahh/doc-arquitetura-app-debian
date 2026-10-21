@@ -35,3 +35,14 @@ As métricas de cada solicitação/tentativa deverão ser **persistidas ou dispo
 - Uma aplicação independente consegue recuperar as métricas e reconstruir uma visão histórica por sessão, inferência ou provedor sem repetir as chamadas externas.
 
 O Charter não fixa nomes de propriedades, modelo físico de banco ou transporte de consulta; essas definições pertencem a Scope/Implementation e deverão respeitar [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md) e [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md).
+
+## Decisão aprovada — retenção até exclusão manual (2026-10-21)
+- Manter prompts, respostas, avaliações e métricas JSON recuperáveis até exclusão manual do operador autorizado, sem prazo automático de vencimento.
+- Consultas e reconstrução externa de relatórios são permitidas somente ao operador e a consumidores expressamente autorizados; consulta não autoriza remoção.
+- Omissões ou mascaramentos necessários para impedir vazamento de segredos são explicitados, sem registrar os próprios segredos.
+- O descarte manual deverá registrar de modo verificável quem solicitou, quando, o que foi afetado e o resultado, sem manter o conteúdo descartado no evento de auditoria.
+- Informar o alcance real da exclusão no histórico, em cópias e em exportações; não afirmar remoção de cópias fora do controle da aplicação.
+
+**Critérios de verificação propostos:** não ocorrer expiração automática; registros continuam recuperáveis até descarte manual; exclusões não autorizadas são negadas; consultas indevidas e vazamentos de segredos são impedidos; o descarte gera evidência suficiente de sua execução.
+
+Decisão: [OPEN-006 — Retenção e acesso](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md). Formato, armazenamento, proteção e consultas técnicas serão definidos em Scope/Implementation.
