@@ -9,5 +9,5 @@
 - [OPEN-004 — Bloqueio de inferências pagas sem proteção remota comprovada](OPEN-004-projeto-openai-e-hard-limit.md)
 
 ## Questões de modelos e histórico
-- [OPEN-005 — OpenAI e agentes Amazon Bedrock previstos; modalidade AWS e homologação pendentes](OPEN-005-estrategia-de-provedores-e-modelos.md)
+- [OPEN-005 — OpenAI e Amazon Bedrock AgentCore planejados; viabilidade e homologação pendentes](OPEN-005-estrategia-de-provedores-e-modelos.md)
 - [OPEN-006 — Retenção e proteção (decisão C resolvida)](OPEN-006-retencao-e-protecao-do-historico.md)

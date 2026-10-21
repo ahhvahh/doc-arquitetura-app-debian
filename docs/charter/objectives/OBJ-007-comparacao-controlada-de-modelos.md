@@ -17,7 +17,7 @@ Permitir que uma mesma tarefa de Charter, Scope, Implementation ou Source seja a
 - A aceitação final das alterações cabe ao operador, independentemente do modelo mais barato.
 
 ## Limites
-A seleção anterior de **OpenAI, Anthropic e Google Gemini** foi **substituída pela decisão 22**, que prevê somente a **integração direta OpenAI** e a **integração com agentes Amazon Bedrock (AWS)** na primeira entrega, conforme [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md). Sua viabilidade, a oferta AWS concreta e os modelos específicos permanecem pendentes de verificação. A escala de qualidade depende de [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md). Modelos executados localmente não fazem parte da primeira entrega.
+A seleção anterior de **OpenAI, Anthropic e Google Gemini** foi **substituída pela decisão 22**, que prevê somente a **integração direta OpenAI** e a **integração com agentes Amazon Bedrock (AWS)** na primeira entrega, conforme [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md). Sua viabilidade e os modelos específicos permanecem pendentes de verificação; a oferta AWS foi selecionada como **Amazon Bedrock AgentCore** na decisão 23. A escala de qualidade depende de [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md). Modelos executados localmente não fazem parte da primeira entrega.
 
 ## Relações
 - [OBJ-001 — Agentes](OBJ-001-agentes-documentais-especializados.md)
@@ -83,3 +83,8 @@ Não são relaxados os controles de identidade, credenciais e custo de [OBJ-005]
 A primeira entrega prevê comparação controlada das capacidades efetivamente homologadas da **OpenAI direta** e dos **agentes Amazon Bedrock (AWS)**, considerando que **um agente orquestrador não representa necessariamente um único modelo de linguagem**. A aplicação deverá registrar o serviço/agent e o **modelo subjacente efetivamente utilizado** quando esse dado for disponibilizado e verificável.
 
 Somente comparar resultados de tarefas e baselines compatíveis, declarando diferenças funcionais, de contexto, cobertura e métricas; nunca inferir equivalência de medição de tokens, custos ou semântica entre agente AWS e modelo OpenAI. A **segunda avaliação por modelo distinto**, exigida pela [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), depende de modelos efetivamente distintos e elegíveis; não basta alternar dois nomes de serviço. A exclusão de outras integrações diretas na primeira entrega é [NOBJ-004](../non-objectives/NOBJ-004-nao-integrar-outros-provedores-na-primeira-entrega.md).
+
+## Modelo subjacente no Amazon Bedrock AgentCore — decisão 23
+A integração AWS da primeira entrega será planejada para **Amazon Bedrock AgentCore**, conforme [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md). A comparação de resultados e a independência da segunda avaliação devem identificar o **modelo efetivamente utilizado**, quando verificável, separando esse modelo da modalidade de execução por agente. Não presumir que AgentCore, isoladamente, constitui um segundo LLM distinto ou que suas métricas são equivalentes às de OpenAI.
+
+A escolha documenta **intenção de produto**, não disponibilidade AWS, qualidade medida, capacidade de auditoria ou implementação. A revisão humana e as restrições financeiras continuam obrigatórias.
