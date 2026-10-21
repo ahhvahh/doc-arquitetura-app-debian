@@ -9,3 +9,4 @@
 - [OBJ-004 — Evidências de testes automatizados](OBJ-004-evidencias-de-testes-automatizados.md)
 
 - [OBJ-005 — Inferências com custo previsível e limitado](OBJ-005-orcamento-previsivel-e-bloqueio.md)
+- [OBJ-006 — Publicação manual da base normativa](OBJ-006-publicacao-manual-base-normativa.md)

@@ -12,5 +12,8 @@ A aplicação fornece ao mecanismo de análise uma representação documental re
 - O estado local da branch `develop` do projeto-alvo é reconciliado com o remoto antes da extração, sem descartar trabalho local sem consentimento.
 - Quando o resumo não for suficiente para revisão segura, o conteúdo original poderá ser consultado; não se perderá informação normativa silenciosamente.
 - O custo e o volume real de contexto deverão ser mensuráveis.
+## Delimitação da base normativa
+A representação normativa destinada a consulta remota é compilada e atualizada apenas por solicitação do operador. O envio ao armazenamento não comprova equivalência semântica entre DSL e Markdown nem valida alterações no projeto-alvo. A fonte original permanece disponível para verificação. A sincronização manual é um objetivo próprio: [OBJ-006](OBJ-006-publicacao-manual-base-normativa.md).
+
 ## Dependências
 - [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).

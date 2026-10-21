@@ -10,6 +10,9 @@ Quais critérios objetivos comprovam fidelidade semântica da DSL, inclusão de 
 A compressão sintática existente ainda não possui prova de equivalência semântica. Diagramas, assets, critérios de aceite e exceções não podem desaparecer durante edição.
 ## Impacto
 **Bloqueadora:** sim para declarar a inferência documental pronta para produção; não bloqueia planejamento e medição exploratória.
+## Delimitação da decisão de armazenamento
+A publicação manual da DSL em armazenamento consultável pode ser experimentada independentemente da inferência, conforme [OBJ-006](../objectives/OBJ-006-publicacao-manual-base-normativa.md). Upload e indexação bem-sucedidos não comprovam cobertura da norma, fidelidade semântica ou redução real de tokens. Essas dúvidas continuam bloqueadoras da inferência em produção.
+
 ## Próxima ação
 Definir critérios verificáveis de fidelidade, consultas seletivas ao original e experiências comparativas com tokenização real, sem presumir equivalência semântica automática.
 ## Destino previsto

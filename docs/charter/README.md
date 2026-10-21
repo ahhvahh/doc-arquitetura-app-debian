@@ -19,16 +19,17 @@ A aplicação Doc Arquitetura permitirá organizar a revisão e o refinamento do
 ## Visão geral de alto nível
 ```mermaid
 flowchart TD
-    A[Referencia normativa main] --> B[Clone e DSL das quatro especialidades]
-    B --> C[Cadastro ou atualizacao explicita do agente]
+    A[Referencia normativa main] --> B[Compilacao DSL normativa por etapa]
+    B --> C[Publicacao manual no Vector Store]
+    C -->|Consulta quando integrada| F[Agente especializado]
     D[Projeto-alvo develop atualizado] --> E[DSL de docs por execucao]
-    E --> F[Inferencia em agente ja configurado]
+    E --> F
     F --> G[Changeset DSL com branch e commit]
     G --> H[Validacao local e revisao humana]
     H -->|Autorizado e politica alinhada| I[Branch da tarefa e publicacao]
     H -->|Rejeitado ou bloqueado| J[Nenhuma alteracao remota]
 ```
-A DSL normativa não é reenviada em cada inferência; sua atualização remota tem comando próprio. Cada execução usa um workspace isolado, sem cache de contexto compartilhado entre inferências. Os agentes e suas versões normativas persistem no cadastro local e na conta OpenAI. O diagrama representa a intenção, não autoriza gravar fora de `develop` enquanto a norma vigente não for revista.
+A DSL normativa é atualizada no Vector Store somente por comando explícito do operador, nunca por preparação de tarefa ou inferência. A cópia é derivada do SHA da main normativa e não substitui o Markdown original; consulta pelo agente depende de integração de pesquisa ainda pendente. Cada execução usa workspace isolado e projeto-alvo independente. O diagrama não autoriza gravar fora de develop.
 
 ## Objetivos e entregas esperadas
 - [OBJ-001 — Quatro especializações](objectives/OBJ-001-agentes-documentais-especializados.md)
@@ -36,6 +37,7 @@ A DSL normativa não é reenviada em cada inferência; sua atualização remota 
 - [OBJ-003 — Propostas verificáveis para revisão](objectives/OBJ-003-propostas-de-alteracoes-verificaveis.md)
 - [OBJ-004 — Evidência de testes automatizados](objectives/OBJ-004-evidencias-de-testes-automatizados.md)
 - [OBJ-005 — Inferência com orçamento controlado](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md)
+- [OBJ-006 — Publicação manual da base normativa](objectives/OBJ-006-publicacao-manual-base-normativa.md)
 
 ## Fora do escopo
 - [NOBJ-001 — Sem publicação autônoma](non-objectives/NOBJ-001-nao-publicar-sem-aprovacao.md)
@@ -51,6 +53,10 @@ A DSL normativa não é reenviada em cada inferência; sua atualização remota 
 - [OPEN-002 — Fidelidade e orçamento de contexto](open-questions/OPEN-002-fidelidade-e-custo.md)
 - [OPEN-003 — Política de branches](open-questions/OPEN-003-politica-de-branches.md)
 - [OPEN-004 — Limites remotos por projeto OpenAI](open-questions/OPEN-004-projeto-openai-e-hard-limit.md)
+
+## Base normativa pesquisável — decisão de Charter
+
+O operador poderá solicitar a compilação e sincronização manual da norma, separadamente para Charter, Scope, Implementation e Development (src). O comando apresenta prévia sem publicação por padrão; aplicação explícita habilita o envio em formato textual pesquisável. A aplicação compara hashes, registra versões e confirma indexação, evitando uploads redundantes. A publicação não executa agentes nem altera repositórios. Regras de consulta e contratos da CLI serão definidos em Scope e Implementation após os gates. Veja [OBJ-006](objectives/OBJ-006-publicacao-manual-base-normativa.md) e [OPEN-002](open-questions/OPEN-002-fidelidade-e-custo.md).
 
 ## Situação da baseline
 **BLOCKED — Charter → Scope.** Esta é uma proposta inicial em `refinement`. A implementação não está autorizada por este rascunho. Requer revisão do responsável, validação das OPEN e auditoria completa dos critérios normativos.
