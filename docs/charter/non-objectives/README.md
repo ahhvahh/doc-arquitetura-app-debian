@@ -6,3 +6,6 @@
 
 ## Exclusões da primeira entrega
 - [NOBJ-002 — Sem LLMs locais na primeira entrega](NOBJ-002-sem-inferencia-local-na-primeira-entrega.md)
+
+## Concorrência fora do escopo
+- [NOBJ-003 — Não gerenciar concorrência na branch da sessão](NOBJ-003-nao-gerenciar-concorrencia-na-branch-da-sessao.md)
