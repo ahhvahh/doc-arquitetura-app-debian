@@ -152,3 +152,17 @@ A forma de persistência e de consulta desses eventos pertence a Scope/Implement
 - Vincular revisões posteriores ao registro de origem e permitir reconstrução de avaliações antigas de acordo com seus métodos históricos, sem alterar retroativamente fatos ou registrar execução de teste não ocorrida.
 
 **Limites:** a retenção, o controle de acesso e a proteção de segredos permanecem sujeitos à [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md). O mecanismo técnico de representação pertence às etapas posteriores. `DOCUMENTED`, não `IMPLEMENTED`. Relações: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), [OBJ-007](OBJ-007-comparacao-controlada-de-modelos.md) e [OBJ-004](OBJ-004-evidencias-de-testes-automatizados.md).
+
+## Acompanhamento de solicitações do serviço autônomo (2026-10-22)
+
+**Resultado esperado adicional:** registros locais permitem acompanhar solicitações e resultados independentemente de sessões interativas, sem expor segredos e com acessos delimitados por identidade.
+
+**Critérios verificáveis futuros:**
+- Distinguir solicitação **pendente, em execução, concluída, interrompida ou bloqueada**, com causa, instante, projeto, tarefa e transições auditáveis; manter autoria da solicitação separada da identidade de serviço executora e da identidade que autorizou a despesa.
+- O solicitante consulta suas tarefas; pessoas/consumidores explicitamente autorizados veem **somente o escopo concedido**. Toda consulta protegida é verificável; a autorização de consulta não concede exclusão, acesso ao cofre nem gasto.
+- O **guardião opcional** apenas recupera e apresenta estados/resultados visíveis, não executa inferência nem atua como administrador de segredos. Sua ausência não elimina ou invalida tarefas.
+- Após logout/reinício do usuário, solicitações, estados e histórico continuam disponíveis ao serviço; indisponibilidade ou revogação da credencial produz registro de **bloqueio com preservação do contexto**, não execução presumida.
+- Regularização da credencial e **liberação autorizada** geram evento vinculado à tarefa, com revalidação de integridade, identidade e autorização financeira específica. Nunca inventar sucesso, cobrança zero ou retomada automática.
+- Preserve-se a retenção até exclusão manual e o acesso restrito de [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md), sem persistir valores do cofre no histórico.
+
+**Limites:** formato de armazenamento e interface de consulta não são definidos neste objetivo. Política `DOCUMENTED`, não `IMPLEMENTED`. Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [CON-002](../conditions/CON-002-protecao-credenciais.md), [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md), [OBJ-005](OBJ-005-orcamento-previsivel-e-bloqueio.md).

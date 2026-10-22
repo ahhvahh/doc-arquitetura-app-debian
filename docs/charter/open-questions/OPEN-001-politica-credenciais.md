@@ -3,19 +3,21 @@
 ![Tipo: OPEN](../../assets/documentation-style/badges/badge-type-open.svg) ![Status: refinement](../../assets/documentation-style/badges/badge-status-refinement.svg) ![Versão: v1](../../assets/documentation-style/badges/badge-version-v1.svg)
 
 ## Tipo
-Diretriz de proteção de credenciais e isolamento por usuário aprovada; sua viabilidade, permissões e contratos de execução ainda exigem comprovação.
+Diretriz funcional aprovada de cofre administrado e execução autônoma com acesso mínimo; comprovação de permissões, isolamento de dados, continuidade e controles financeiros permanece pendente.
 ## Questão
-**Decisões funcionais:** credenciais mantidas no cofre Linux de cada usuário, com entrada oculta; o futuro serviço coordena as tarefas, mas cada inferência ocorre exclusivamente sob o contexto autorizado do usuário correspondente, sem acesso cruzado a segredos. Permanecem pendentes os critérios verificáveis de identidade, permissão, isolamento e disponibilidade de cofre para a CLI e a execução coordenada.
+**Política vigente (2026-10-22):** administrador autorizado ou superusuário configura, substitui e revoga os segredos após a instalação; usuário comum não lê nem administra credenciais. A identidade exclusiva do serviço, com acesso mínimo, executa operações autorizadas independentemente da sessão Linux do solicitante. Guardião opcional acompanha somente tarefas e resultados autorizados. A pré-autorização financeira é individual por chamada paga; falhas de credencial preservam a tarefa bloqueada até liberação autorizada. Decisões 03 e 11 permanecem como histórico, parcialmente superadas nos pontos indicados abaixo.
 ## Contexto
 A aplicação existente é executada em contexto de usuário; o daemon isolado está descrito, mas ainda não está implementado. Passar a chave na linha de comando pode expô-la em argumentos e histórico.
 ## Impacto
 **Bloqueadora:** sim; afeta a segurança e a autorização da integração.
 ## Próxima ação
-Comprovar o fluxo de execução no contexto do usuário autorizado, com segregação de credenciais e orçamentos, acesso ao cofre somente pelo próprio contexto, bloqueio sem identidade ou permissão válida e auditoria sem exposição de segredos. Detalhar posteriormente em Scope/Implementation as permissões, disponibilidade de sessão/cofre, interface CLI, revogação e isolamento.
+Comprovar configuração administrativa, identidade exclusiva e privilégios mínimos do serviço, impossibilidade de acesso de usuários/guardiões ao cofre, segregação das consultas, execução sem sessão Linux ativa, pré-autorização financeira individual, preservação de pendências e retomada autorizada após falha. Especificações de mecanismo, cofre, permissões Linux, interface e armazenamento pertencem a Scope/Implementation.
 ## Destino previsto
 Scope de administração/credenciais, após decisão do Charter.
 
 ## Proposta de regularização — Decisão 03 (2026-10-21)
+
+**Nota de vigência (2026-10-22):** o cofre individual por usuário e sua administração por operadores comuns foram **superados** pela política administrativa registrada adiante. O registro original é preservado como evidência histórica; continuam válidos sigilo, entrada oculta para administradores, revogação e proibição de exposição de segredos.
 
 **Origem:** decisão explícita do responsável — opção A, cofre de credenciais Linux por usuário.
 **Resultado da triagem:** proposta aceita para regularização do Charter. A definição não equivale à implantação dos controles de segurança.
@@ -32,6 +34,8 @@ Scope de administração/credenciais, após decisão do Charter.
 **Pendências e gate:** especificar e testar a integração com o cofre, permissões efetivas por usuário, compatibilidade da CLI, comportamento em ambiente sem sessão de cofre, rotação e a eventual operação em daemon. Manter a OPEN em `refinement` e a passagem Charter → Scope bloqueada enquanto as condições necessárias não forem regularizadas.
 
 ## Decisão 11 — Serviço coordenador com execução isolada por usuário (2026-10-21)
+
+**Nota de vigência (2026-10-22):** a execução obrigatória com credenciais pessoais e identidade de processo do solicitante foi **superada**. A responsabilidade da autorização, a segregação dos dados de usuários, os bloqueios de despesas e a auditoria permanecem exigíveis; a política substituta está registrada ao final desta OPEN.
 **Origem verificável:** o responsável selecionou explicitamente a **opção C — serviço com execução isolada por usuário**, autorizando sua documentação apenas no Charter da branch `develop`.
 
 **Resultado da triagem:** decisão de comportamento **aceita como intenção de produto**; não há comprovação de implantação de daemon, isolamento de processo ou acesso real ao cofre.
@@ -50,3 +54,22 @@ Scope de administração/credenciais, após decisão do Charter.
 **Pendências:** validar a execução isolada em ambiente real e sem sessão ativa, controle de identidade do serviço, mapeamento de usuários/autorização, integração ao cofre e proteção de credenciais nos provedores. Permanecer em `refinement`; esta decisão **não declara serviço implementado nem libera inferência paga**.
 
 **Relações canônicas:** [CON-002 — Proteção de credenciais](../conditions/CON-002-protecao-credenciais.md), [OBJ-005 — Política financeira](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [PCH-001 — Contexto e participantes](../project-context/PCH-001-contexto-integracao-openai-dsl.md).
+
+## Política vigente — cofre administrativo e serviço autônomo (2026-10-22)
+
+**Origem:** o responsável escolheu explicitamente as cinco alternativas: identidade de serviço **A**, guardião **A**, acesso aos resultados **B**, pré-autorização financeira **A** e tratamento de falha de credencial **B**. Decisão de produto **DOCUMENTED**, não `IMPLEMENTED`.
+
+- **Administração:** somente administrador autorizado ou superusuário cadastra, substitui e revoga credenciais após a instalação. A entrada do segredo não deverá expor seu valor. Usuário comum não visualiza, cadastra, altera, extrai nem recebe chaves.
+- **Identidade de execução:** serviço da aplicação opera com identidade exclusiva e acesso mínimo ao cofre e aos provedores necessários. A necessidade de privilégios administrativos na configuração **não autoriza** executar permanentemente como superusuário sem justificativa. O serviço processa solicitações já autorizadas mesmo sem sessão interativa do solicitante, mantendo autoria e permissão identificáveis.
+- **Guardião opcional:** observa pendências e resultados visíveis ao usuário autorizado; não lê segredos, não executa inferências e não concede autorizações financeiras. Ausência do guardião não impede o serviço de registrar ou processar solicitações elegíveis.
+- **Acesso a resultados:** solicitante e identidades/consumidores **explicitamente autorizados** poderão consultar apenas o escopo permitido; consulta, alteração, exclusão e administração são permissões distintas, com evidência de concessão e acesso.
+- **Custos:** chamadas remuneradas planejadas podem ser **individualmente pré-autorizadas** antes de enfileirar a tarefa, permitindo execução posterior sem usuário conectado. Cada chamada, inclusive revisão independente e nova correção, exige autorização específica e validação de custos, orçamento e proteção remota efetivamente bloqueante **no momento da execução**. Nenhuma autorização da tarefa libera despesa adicional.
+- **Credencial indisponível:** segredo ausente, inválido, revogado, inacessível ou permissão insuficiente mantém a operação dependente **bloqueada**, com solicitação, justificativa e histórico preservados. Após regularização administrativa, a retomada exige **liberação autorizada** e revalidação das permissões, do custo e da integridade, sem execução automática nem troca silenciosa de chave.
+
+**Superações expressas:** da decisão 03, somente a segregação do cofre por usuário e o cadastro pelo usuário comum; da decisão 11, somente a exigência de inferência em identidade/processo do solicitante e a vedação geral ao serviço executor consumir o cofre administrado. Preservam-se controle de acesso, privacidade por solicitante, responsabilidade financeira individual, rastreabilidade, ausência de segredos em registros e as proibições de operações Git incompatíveis com a norma.
+
+**Critérios verificáveis futuros:** usuário comum/guardião não extrai segredos; administrador autorizado gerencia credenciais sem vazamento; serviço executa tarefa previamente autorizada sem login do solicitante; leitura fora do escopo é negada; cobrança sem autorização individual ou proteção financeira remota comprovada é negada; falha de cofre mantém pendência íntegra; retomada exige liberação e revalidação explícitas.
+
+**Pendências:** comprovar acessos e execução autônoma segura no Linux, revogação, proteção do cofre, concessão de consulta, continuidade, fila de pendências e bloqueios financeiros. Permanecer em `refinement`; regras técnicas somente após o gate em Scope/Implementation.
+
+**Relações:** [CON-002 — Credenciais](../conditions/CON-002-protecao-credenciais.md), [PCH-001 — Participantes](../project-context/PCH-001-contexto-integracao-openai-dsl.md), [CON-005 — Banco local](../conditions/CON-005-persistencia-local-de-inferencias.md), [OBJ-005 — Custos](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md), [OBJ-008 — Histórico](../objectives/OBJ-008-historico-local-de-inferencias.md), [OPEN-006 — Retenção](OPEN-006-retencao-e-protecao-do-historico.md).

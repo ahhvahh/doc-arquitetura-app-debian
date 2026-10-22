@@ -38,3 +38,16 @@ A aplicação deve conservar prompts, respostas e métricas JSON no banco local 
 Credenciais e segredos não devem ser persistidos nem expostos em registros, relatórios ou exportações. A exclusão manual autorizada deve gerar evidências de autoria, data, identificação e alcance dos registros afetados e resultado, sem reproduzir dados apagados. Backups e cópias sob controle da aplicação devem ter tratamento de descarte identificável; cópias externas não podem ser declaradas eliminadas sem comprovação.
 
 **Verificação:** ausência de expiração automática, bloqueio de leitura e exclusão indevidas, prevenção de vazamento de segredos e comprovação do alcance de cada descarte autorizado. Contratos técnicos são assuntos de Scope/Implementation.
+
+## Restrição complementar — solicitações e pendências do serviço autônomo (2026-10-22)
+
+**Resultado esperado:** o banco local deverá conservar como registro canônico as **solicitações, autorizações, pendências, estados, resultados e eventos de auditoria** necessários para acompanhar tarefas executadas pelo serviço mesmo após o encerramento do terminal ou da sessão Linux do solicitante.
+
+**Verificações pretendidas:**
+- Cada tarefa mantém identidade, solicitante, projeto, especialização, autorização financeira correspondente, estado, histórico de transições, justificativa de bloqueio e resultados conhecidos.
+- Encerrar sessão interativa não implica conclusão, perda, cancelamento nem aprovação automática da tarefa. O serviço continua apenas as operações já elegíveis e autorizadas.
+- O solicitante e identidades/consumidores **expressamente autorizados** consultam somente o escopo permitido; consulta não confere permissão de exclusão, administração de cofre, nova despesa ou execução.
+- O guardião opcional consulta informações autorizadas sem adquirir poder executivo. Falha de credencial preserva a solicitação como impedida até regularização e liberação autorizada.
+- O banco **não contém valores de credenciais**; a retenção até exclusão manual de [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md) permanece vigente.
+
+**Limite:** nenhuma escolha de tecnologia de banco, esquema físico, fila, sessão ou transporte é feita no Charter. `DOCUMENTED`, não `IMPLEMENTED`. Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [CON-002](CON-002-protecao-credenciais.md) e [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md).

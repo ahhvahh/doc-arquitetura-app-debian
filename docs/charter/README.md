@@ -122,6 +122,8 @@ A segunda chamada é condicionada às restrições financeiras da [OPEN-004](ope
 A OPEN permanece em `refinement` até demonstrar a eficácia de validações, fidelidade da DSL, critérios de aceite e custos. Nenhuma integração, modelo secundário ou contrato técnico é declarado implementado.
 
 ## Política de execução segregada por usuário — decisão de 2026-10-21
+
+**Registro histórico parcialmente superado (2026-10-22):** a exigência de execução sob identidade e credenciais pessoais foi substituída pela política de cofre administrativo e serviço autônomo descrita ao final deste Charter. Preservam-se controles de sigilo, autorização financeira, privacidade e auditoria.
 O responsável escolheu a **opção C** na [OPEN-001](open-questions/OPEN-001-politica-credenciais.md): o serviço Linux poderá **organizar tarefas**, mas cada inferência será executada exclusivamente com a identidade e as credenciais do usuário autorizado correspondente, sem acesso cruzado aos cofres.
 
 Persistem a segregação e a proteção de segredos em [CON-002](conditions/CON-002-protecao-credenciais.md), a autorização de gasto e a proteção remota de [OBJ-005](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [CON-004](conditions/CON-004-orcamento-obrigatorio.md), bem como a divisão de participantes em [PCH-001](project-context/PCH-001-contexto-integracao-openai-dsl.md). A regra de quatro projetos OpenAI por especialização não foi substituída.
@@ -309,3 +311,20 @@ A [OPEN-003 — decisão 38](open-questions/OPEN-003-politica-de-branches.md) es
 A liberação exige que **todas** as PRs abertas para `develop` deixem de estar abertas, com nova verificação do SHA de `develop` e da exclusividade por repositório. Falhas de consulta mantêm o bloqueio. A decisão tem critérios previstos em [OBJ-004](objectives/OBJ-004-evidencias-de-testes-automatizados.md) e evidências de histórico previstas em [OBJ-008](objectives/OBJ-008-historico-local-de-inferencias.md).
 
 **Limite atual:** decisões 36 a 38 são `DOCUMENTED`, não `IMPLEMENTED`. A referência normativa `ahhvahh/doc-arquitetura/main/ProjectCharter/1.0` permanece somente leitura e permite escrita dos agentes exclusivamente em `develop`, sem autorizar criação de branches de sessão, PR ou merge.
+
+## Política vigente — cofre administrativo, execução autônoma e acompanhamento (2026-10-22)
+
+**Origem:** escolhas explícitas do responsável para identidade do serviço (**A**), guardião (**A**), consulta (**B**), pré-autorização financeira (**A**) e tratamento de falha (**B**). A política substitui **somente os aspectos incompatíveis** das decisões 03 e 11, preservadas como histórico na [OPEN-001](open-questions/OPEN-001-politica-credenciais.md).
+
+- **Cofre administrado:** após instalação, apenas administrador autorizado ou superusuário configura, substitui e revoga credenciais. O usuário comum não pode cadastrar, visualizar ou exportar chaves. Serviço com **identidade exclusiva e acesso mínimo** consome os segredos autorizados sem executar continuamente como superusuário por mera conveniência.
+- **Execução autônoma:** a aplicação recebe comandos e registra pendências; o serviço processa tarefas já autorizadas independentemente do login do usuário e registra estados/resultados no **banco local**, que não armazena valores de credenciais.
+- **Guardião opcional:** acompanha e comunica somente as tarefas/resultados autorizados, sem acesso ao cofre, poder de execução ou autorização de despesa.
+- **Consultas protegidas:** solicitante e pessoas/consumidores expressamente autorizados acessam apenas escopos concedidos e auditáveis; leitura não é permissão de exclusão, administração ou aprovação financeira.
+- **Cobranças:** chamadas remuneradas são **pré-autorizadas uma a uma**; cada operação executada posteriormente exige verificar autorização, orçamento e **proteção remota realmente bloqueante**. Revisão por segundo LLM e correções extras requerem autorizações próprias.
+- **Falhas:** ausência, revogação ou indisponibilidade de credencial **bloqueia a operação dependente**, conserva o histórico e aguarda regularização e **liberação autorizada** antes de retomar, sem substituição automática de credenciais.
+
+A manutenção das exigências de proteção financeira e segregação de projetos, inclusive os **quatro projetos OpenAI por especialização**, permanece em [CON-004](conditions/CON-004-orcamento-obrigatorio.md), [OBJ-005](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OPEN-004](open-questions/OPEN-004-projeto-openai-e-hard-limit.md). Retenção até exclusão manual permanece em [OPEN-006](open-questions/OPEN-006-retencao-e-protecao-do-historico.md).
+
+**Relações canônicas:** [OPEN-001](open-questions/OPEN-001-politica-credenciais.md), [CON-002](conditions/CON-002-protecao-credenciais.md), [PCH-001](project-context/PCH-001-contexto-integracao-openai-dsl.md), [CON-005](conditions/CON-005-persistencia-local-de-inferencias.md), [OBJ-008](objectives/OBJ-008-historico-local-de-inferencias.md). Estas são decisões documentais `DOCUMENTED`, não `IMPLEMENTED`, sem autorização adicional para branches, PRs ou merge; aplica-se [OPEN-003](open-questions/OPEN-003-politica-de-branches.md).
+
+**Pendências:** validar isolamento efetivo, identidade do serviço, permissões de cofre, consultas autorizadas, continuidade após logout, retomada supervisionada e proteção financeira remota. A `OPEN-001` e a baseline permanecem em `refinement`; contratos técnicos são responsabilidades de Scope/Implementation.

@@ -8,7 +8,7 @@ O projeto existente dispõe de CLI Go, seleção de modelos locais, clonagem Git
 ## ACT-001 — Operador e responsável pelo projeto
 **Papel:** seleciona o projeto, define o objetivo de revisão e autoriza alterações.
 **Interesse:** previsibilidade das modificações, rastreabilidade e custos compreensíveis.
-**Interações:** fornece credenciais, configura orçamentos locais e remotos, escolhe etapa, aprova previsões de custos e revisa diferenças propostas.
+**Interações:** escolhe projeto e etapa, solicita operações, pré-autoriza individualmente chamadas remuneradas, consulta informações permitidas e revisa diferenças propostas; o cadastro/revogação de segredos cabe exclusivamente ao administrador autorizado.
 **Limites:** não delega autorização final de publicação ao modelo.
 
 ## ACT-002 — Serviço externo de inferência
@@ -63,6 +63,8 @@ Relações: [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md)
 As métricas de inferência permanecem sob controle local e devem ser recuperáveis em JSON por consumidores autorizados, conforme [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md). Não existe autorização atual para criar ou atualizar branches diferentes de `develop`.
 
 ## Contexto de serviço coordenador e isolamento de identidade — decisão 11 (2026-10-21)
+
+**Registro histórico parcialmente superado (2026-10-22):** o serviço deixa de ser apenas coordenador sem capacidade executora; a inferência ocorre sob identidade exclusiva do serviço autorizado, e não sob credenciais pessoais do operador. Permanecem autoria, acesso restrito, auditoria e proibição de custos sem autorização.
 Na evolução pretendida, o serviço Linux funciona como **organizador das solicitações dos operadores**, sem obter autoridade para consultar cofres pessoais, transferir segredos entre usuários ou realizar uma inferência em nome de outro usuário.
 
 - **ACT-001 — Operador:** cada tarefa tem um usuário responsável identificado; somente seu contexto autorizado pode executar inferências, acessar suas próprias credenciais e consumir orçamento mediante a autorização financeira exigida.
@@ -85,3 +87,15 @@ O contexto da sessão prevê uma única branch `feature/doc/{session-id}`, commi
 O ator externo **ACT-002** passa a abranger exclusivamente as duas integrações planejadas para a primeira entrega: **OpenAI direta** e **agentes Amazon Bedrock (AWS)**. Anthropic e Gemini deixam de ser integrações diretas previstas para esta entrega, conforme [NOBJ-004](../non-objectives/NOBJ-004-nao-integrar-outros-provedores-na-primeira-entrega.md).
 
 Não confundir o **agente AWS** com um **modelo de fundação específico**: identificação, disponibilidade do agente e modelo subjacente deverão ser verificadas na modalidade AWS agora selecionada, **Amazon Bedrock AgentCore**, ainda sem homologação. Nenhum ator externo recebe autorização para modificar Git, contornar a referência normativa ou gastar recursos de outro usuário. A escolha da oferta concreta AWS está pendente em [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).
+
+## Delimitação de atores — cofre administrado e serviço autônomo (2026-10-22)
+
+- **ACT-001 — Operador/solicitante:** registra comandos, aprova despesas **individualmente** e consulta suas próprias tarefas e informações para as quais foi expressamente autorizado; não cadastra ou consulta segredos, salvo se também possuir **atribuição administrativa específica**.
+- **ACT-005 — Administrador de credenciais:** configura, substitui e revoga segredos após a instalação, por identidade administrativa autorizada, sem expor valores aos operadores.
+- **ACT-006 — Serviço executor local:** com identidade exclusiva e acesso mínimo, consome tarefas autorizadas, utiliza os segredos estritamente necessários, executa sem depender da sessão interativa do solicitante e atualiza estados/resultados no banco local.
+- **ACT-007 — Guardião opcional:** acompanha exclusivamente as pendências e resultados autorizados, sem ler o cofre, iniciar inferências por conta própria ou aprovar despesas.
+- **ACT-002 — Serviço externo de inferência:** permanece distinto do executor local e somente recebe chamadas permitidas com orçamento e proteção remota aplicáveis; a escolha de provedores permanece sujeita à [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).
+
+**Limites de autoridade:** o cofre pertence à esfera de administração; o banco de tarefas mantém solicitações e auditoria, **não segredos**; permissão para acompanhar ou consultar não é permissão para executar, excluir, administrar credenciais ou aprovar gastos. Operações Git continuam sujeitas à [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md) e à restrição normativa de escrita exclusiva em `develop`.
+
+**Situação:** papéis e limites `DOCUMENTED`, não `IMPLEMENTED`. Contratos técnicos de processos, autorizações e persistência pertencem a Scope/Implementation. Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [CON-002](../conditions/CON-002-protecao-credenciais.md), [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md), [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md).

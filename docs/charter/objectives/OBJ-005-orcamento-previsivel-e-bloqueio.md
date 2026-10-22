@@ -51,6 +51,8 @@ O orçamento autorizado de uma revisão documental deverá considerar separadame
 A revisão secundária **não é isenta** da política de bloqueio da [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md): sem proteção remota suficiente comprovada, limite local ou autorização exigida, negar a inferência paga. A indisponibilidade financeira do segundo avaliador impede declarar concluído o fluxo de validação dupla; não justifica publicar sem revisão.
 
 ## Atribuição financeira ao usuário autorizado — decisão 11
+
+**Nota de vigência (2026-10-22):** preserva-se a autorização e a atribuição financeira ao solicitante. A referência histórica à impossibilidade de o serviço usar qualquer credencial própria está **superada somente quanto à credencial do cofre administrado**, consumida por identidade de serviço exclusiva. Nenhuma despesa pode ocorrer sem autorização específica.
 Quando houver tarefas organizadas por serviço Linux, a exigência de autorização financeira permanece vinculada ao **usuário responsável pela inferência** e à identidade de provedor/projeto e especialização aplicáveis. O organizador não pode usar permissão de outro usuário ou credencial de serviço para contornar bloqueios.
 
 O uso de quatro projetos OpenAI segregados por especialização permanece previsto; a definição de identidade do usuário **não substitui** a verificação de credenciais, contexto de consumo, limite local e proteção remota por projeto de [CON-004](../conditions/CON-004-orcamento-obrigatorio.md). Sem comprovação de identidade ou autorização, a chamada paga deve permanecer bloqueada.
@@ -89,3 +91,16 @@ A primeira entrega prevê **integração direta OpenAI** e **agentes Amazon Bedr
 Antes de cada chamada paga, é indispensável comprovar autorização do usuário, segregação das credenciais, previsão de despesa, orçamento local e **proteção remota bloqueante suficiente e demonstrada no escopo aplicável**. Não presumir que mecanismos de orçamento/alerta na AWS nem na OpenAI sejam hard limits efetivos. Se não houver proteção adequada comprovada, **bloquear** a chamada paga. Para OpenAI, manter os **quatro projetos separados**; para AWS, a organização de identidades/contas, custos e controles ainda exige verificação específica sem impor estrutura OpenAI à AWS.
 
 A estratégia atual está registrada na [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md); a decisão financeira canônica permanece em [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md) e [CON-004](../conditions/CON-004-orcamento-obrigatorio.md). Nenhum provedor ou modelo foi homologado por este texto.
+
+## Pré-autorização financeira individual para execução assíncrona (2026-10-22)
+
+**Resultado esperado:** cada chamada remunerada planejada pode receber **autorização individual antes do enfileiramento**, vinculada ao solicitante autorizado, à tarefa, à operação, ao provedor/projeto de cobrança, ao modelo identificado e à estimativa/limite aprovado. A sessão Linux pode ser encerrada sem cancelar a autorização específica já registrada.
+
+**Critérios verificáveis:**
+- Antes de **cada** chamada paga, o serviço confirma que a autorização individual está válida, corresponde à chamada e ao usuário/conta aplicáveis, e que preços, cotação, limites/reservas locais e **proteção remota bloqueante comprovada** continuam válidos no momento da execução.
+- A geração, a segunda avaliação por outro LLM e **cada nova correção/revisão remunerada** exigem autorizações **separadas**. Chamadas extras, novo modelo/provedor ou custo fora do limite não são autorizados implicitamente por aprovação geral da tarefa.
+- A **identidade de serviço consumidora do cofre** não substitui a identidade/autorização do responsável pelo gasto; operações sem aprovação específica ou com proteção financeira indeterminada ficam pendentes/bloqueadas, sem requisição paga.
+- Dados insuficientes ou atraso entre autorização e execução exigem nova verificação e, quando necessário, **nova autorização específica**, preservando os eventos anteriores e o motivo da suspensão.
+- Persistem os **quatro projetos OpenAI segregados** por especialização, as restrições de [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md) e os limites de correção da [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+**Situação:** intenção funcional `DOCUMENTED`, não `IMPLEMENTED`; garantias de cobrança e execução não verificadas nesta edição. Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [CON-002](../conditions/CON-002-protecao-credenciais.md), [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
