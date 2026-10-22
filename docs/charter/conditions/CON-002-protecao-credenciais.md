@@ -54,3 +54,15 @@ A escolha do responsável exige que o **serviço Linux somente organize tarefas*
 **Critérios de verificação:** negar leitura de arquivos secretos por cliente, guardião e identidade do serviço; comprovar entrega de escopo mínimo por `systemd` sem vazamentos; bloquear operações sem credencial/permissão; rastrear revisão e revogação; comprovar que apenas o serviço medeia o banco e não realiza despesa sem autorização. Caminhos físicos e detalhes de unidade `systemd` ficam para etapas posteriores.
 
 **Estado:** `DOCUMENTED`, não `IMPLEMENTED`. Badge `refinement` preservado. A [CON-004](CON-004-orcamento-obrigatorio.md) e a norma de escrita Git continuam integralmente válidas.
+
+## Restrição consolidada — consumo exclusivo de recursos sensíveis pelo serviço (2026-10-22)
+
+**Origem:** decisões Segurança **1A/2A/3A**, Continuidade **1A/2A/3A/4A** e Instalação/manutenção **A/A/A**.
+
+- **Cliente isolado:** somente **um socket Unix local protegido** permite comunicação. Identidade Linux e grupo habilitam o uso; o serviço valida a identidade real e a autorização de cada operação. O conteúdo de uma mensagem não autentica o solicitante por si só.
+- **Segredos e provedores:** apenas o serviço sob identidade técnica exclusiva recebe credenciais necessárias pelo `systemd` e executa as chamadas OpenAI/AWS da aplicação. Cliente/guardião não recebem chaves, credenciais do banco, acesso direto a arquivos, ao banco privado nem funções para chamar os provedores externos com credenciais da aplicação.
+- **Sigilo integral:** respostas do socket, erros, diagnósticos, logs, auditoria, backup e exportações não revelam credenciais ou valores protegidos. Separar arquivos administrativos de segredos da configuração comum, sem cofre externo obrigatório. Serviço não roda continuamente como `root`.
+- **Falha fechada:** identidade desconhecida, falta de grupo, indisponibilidade do serviço, falha de credencial, banco indisponível, corrupção ou falta de autorização impedem a operação dependente. Não reenviar comando de efeito incerto automaticamente.
+- **Manutenção administrativa:** atualização manual e configuração confirmada apenas em condição segura. Consulta de estado não autoriza modificação, extração de segredos, gasto ou operação Git extraordinária. Permanecem os bloqueios financeiros de [CON-004](CON-004-orcamento-obrigatorio.md).
+
+**Comprovação pendente:** testar acesso ao socket, negação de recursos sensíveis a clientes, ausência de vazamentos, autorização por operação, revogação e controle de manutenção; os mecanismos específicos serão definidos em Scope/Implementation. `DOCUMENTED`, não `IMPLEMENTED`; status `refinement`. Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [CON-005](CON-005-persistencia-local-de-inferencias.md), [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md).

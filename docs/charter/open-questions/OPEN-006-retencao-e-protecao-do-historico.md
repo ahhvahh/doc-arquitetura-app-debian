@@ -50,3 +50,17 @@ Verificar em Scope/Implementation os controles de acesso, a proteção de conte�
 **Pendência:** verificar tecnicamente no ambiente controlado autenticação/grupo, restrições ao acesso direto, exposição da aplicação e rastreabilidade. `DOCUMENTED`, não `IMPLEMENTED`; badge permanece em `refinement`.
 
 **Relações:** [OPEN-001](OPEN-001-politica-credenciais.md), [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md) e [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md).
+
+## Complemento aprovado — backup e restauração manuais do histórico (2026-10-22)
+
+**Origem:** Backup/restauração **1A/2A/3A**, complementando Continuidade **3A** e a anterior decisão **C de retenção até exclusão manual**. Não reabrir decisão de retenção ou autorização de consulta.
+
+- **Backup:** somente **manual por administrador autorizado**, em **diretório local protegido e separado dos dados ativos**. A cópia do banco deverá ser consistente, verificável, recuperável e inacessível a usuários comuns. Sem rotina automática ou armazenamento externo obrigatório na primeira entrega.
+- **Restauração:** **manual supervisionada**, com autorização administrativa, verificação de origem/integridade antes de substituir dados e registro do resultado. Não executar tarefas, abrir sessões ou autorizar despesa por efeito da restauração.
+- **Corrupção:** bloquear operações dependentes sem reparar/restaurar automaticamente nem remover evidências. Reativação requer regularização demonstrável e liberação autorizada.
+- **Sigilo e descarte:** cópias não conterão segredos administrativos, permanecendo sujeitas à proteção e à retenção **até exclusão manual autorizada**. Cada descarte registrará alcance real sobre backups e outras cópias controladas pela aplicação; não presumir eliminação de cópias externas nem substituir a decisão original.
+- **Limitação aceita:** cópias no mesmo servidor não oferecem garantia contra perda total do equipamento ou comprometimento simultâneo da base e da cópia. Backups do histórico não são snapshots documentais em `/docs/backup/`.
+
+**Verificação pendente:** consistência e restauração das cópias, negativa de acesso a clientes, integridade de origem, falha segura, autoria da exclusão e extensão real do descarte. Tecnologia/método físico pertencem a Scope/Implementation.
+
+**Estado:** decisão `DOCUMENTED`, não `IMPLEMENTED`. Badge `refinement` preservado porque os critérios ainda não foram comprovados e o asset `badge-status-refined.svg` não existe na baseline observada. Relações: [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md), [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md), [OPEN-003](OPEN-003-politica-de-branches.md).

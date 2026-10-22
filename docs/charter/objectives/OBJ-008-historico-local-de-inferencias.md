@@ -179,3 +179,19 @@ A forma de persistência e de consulta desses eventos pertence a Scope/Implement
 - Persistência local canônica, retenção até exclusão manual e proteção contra segredos no histórico permanecem inalteradas em [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md) e [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md).
 
 **Superação:** o critério precedente de leitura pelo solicitante ou por destinatários com concessão individual foi superado **somente para consultas compartilhadas via grupo Linux**. Não altera auditoria, proteção de segredos ou exigências financeiras. `DOCUMENTED`, não `IMPLEMENTED`.
+
+## Critérios de auditoria essencial, continuidade e restauração (2026-10-22)
+
+**Origem:** Segurança **1A/2A/3A**, Continuidade **1A/2A/3A/4A**, Backup/restauração **1A/2A/3A** e Instalação/manutenção **A/A/A**.
+
+**Resultados esperados verificáveis:**
+- Registrar **identidade Linux comprovada pelo serviço**, operação, instante, tarefa quando aplicável, estado/resultado e recusa segura; preservar autoria, autorização financeira individual e identidade técnica executora. A auditoria **essencial não revoga** trilhas detalhadas de sessão, modelos, qualidade, valores, PR ou avaliações já previstas.
+- Distinguir comando não recebido de estado **desconhecido após perda de socket**: a indisponibilidade impede novas operações e o cliente não repete automaticamente um pedido que possa ter sido recebido. Consultas futuras identificam o estado persistido sem expor segredos.
+- Após reinício automático do **processo** do serviço, conservar histórico, bloqueios e causas, sem alegar retomada automática de **sessão**; registrar decisões supervisionadas separadamente conforme [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
+- Registrar **backup manual administrativo** (responsável, hora, escopo, resultado e integridade conhecida); restauração **manual supervisionada** (autorização, verificação de integridade, alcance, resultado); corrupção e recuperação bloqueada (causa, estado e decisão autorizada).
+- Registrar atualização manual de software e mudança administrativa de configuração em condição segura com tarefa/risco afetado quando pertinente, sem atribuir interrupção não confirmada ao usuário.
+- Usuários autorizados consultam status e diagnósticos essenciais **somente pelo serviço**, sem credenciais nem diagnósticos administrativos sensíveis; manter retenção e descarte da [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md).
+
+**Critérios negativos:** não tratar falta de resposta como ausência de execução; não cobrar automaticamente por reinício; não restaurar banco corrompido sozinho; não registrar falha como êxito; não expor segredos; não entregar dados de banco diretamente ao cliente.
+
+**Pendências:** testar efetividade de identidade/grupo, acesso exclusivo, evidência de operações, integridade de cópias e restauração, falha de comunicação, revogação e reinício supervisionado. `DOCUMENTED`, não `IMPLEMENTED`; status `refinement`. Relações: [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md), [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md).

@@ -66,3 +66,16 @@ Credenciais e segredos não devem ser persistidos nem expostos em registros, rel
 **Preservação histórica:** na política de 2026-10-21 e na extensão anterior de 2026-10-22, referências à leitura somente pelo operador responsável ou por concessionários individuais estão **superadas exclusivamente quanto à autorização de consulta**. Preservam-se retenção até exclusão manual, sigilo, segregação de responsabilidades, descarte auditável e proibição de segredos no banco.
 
 **Relações:** [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md) e [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md). `DOCUMENTED`, não `IMPLEMENTED`; definição técnica em Scope/Implementation.
+
+## Restrição consolidada — banco privado, backup e restauração (2026-10-22)
+
+**Origem:** Segurança **1A/2A/3A**, Continuidade **1A/2A/3A/4A** e Backup/restauração **1A/2A/3A**.
+
+- **Histórico canônico local:** somente o serviço da aplicação lê/escreve diretamente o banco privado. Usuário Linux do grupo consulta informações compartilhadas por meio de **um socket Unix local protegido** e do serviço; cliente e guardião não recebem arquivos, chaves, conexões ou permissões diretas ao banco.
+- **Continuidade segura:** na falta de socket/serviço, negar nova operação e comunicar falha. Antes de repetir pedido de efeito incerto, consultar o estado persistido. Reinício automático do serviço preserva histórico e bloqueios, **sem retomar automaticamente uma sessão**, sem liberar vaga por suposição, sem cobrar ou aprovar novas operações.
+- **Backup escolhido:** **manual, administrativo e autorizado**, com cópia consistente e recuperável em **diretório local protegido, separado dos dados ativos**. Não exigir agendamento nem cópia externa na primeira entrega; cliente comum não pode acessar a cópia. Registrar resultado, falha, integridade conhecida e abrangência.
+- **Restauração escolhida:** **manual e supervisionada**, autorizada por administrador com verificação prévia da integridade e origem da cópia e dos riscos de substituição do estado. Restauração não cria aprovação financeira, publicação Git, reinício de tarefa ou retomada de sessão.
+- **Banco corrompido:** negar as operações dependentes, preservar evidências e exigir regularização demonstrável antes de liberar o serviço. **Sem reparo, descarte ou restauração automáticos.**
+- **Limites:** backup do banco não é snapshot documental de `/docs/backup/`. Retenção até exclusão manual e abrangência real de descarte em cópias seguem [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md). Cópia no mesmo servidor **não garante recuperação de perda física total**.
+
+**Comprovação pendente:** consistência e recuperabilidade da cópia, acesso negado a usuários comuns, funcionamento da restauração manual e bloqueios em caso de corrupção. Tecnologia do banco e forma física da cópia não são decisões do Charter. `DOCUMENTED`, não `IMPLEMENTED`; status `refinement`. Relações: [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md), [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md).
