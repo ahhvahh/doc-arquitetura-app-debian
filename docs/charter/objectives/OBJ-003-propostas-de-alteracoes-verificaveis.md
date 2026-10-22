@@ -169,7 +169,10 @@ Para iniciar novo trabalho no mesmo repositório, o operador deverá abrir **nov
 
 **Aceitação verificável:** S1 concluída não pode receber tarefas; S2 tem identidade e baseline próprias; consulta histórica de S1 não produz publicação nem reativa cancelamentos. Qualquer resultado validado novo requer novamente integridade normativa, revisor LLM distinto homologado, controles financeiros por chamada e aprovação humana aplicável. A decisão não autoriza criação de branches ou PRs vedados por [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). `DOCUMENTED`, não `IMPLEMENTED`.
 
-## Cancelar sessão e excluir branch; encerrar com aprovação e abrir PR — decisão 33
+## Histórico — Cancelamento e exclusão de branch na decisão 33 (superada)
+
+**Registro histórico superado pela decisão 34:** as orientações antigas de excluir a branch ao cancelar não estão mais vigentes. Os critérios atuais são os da decisão 34 abaixo. Não executar exclusão automática.
+
 O produto deverá apresentar **ações humanas distintas** para o término da sessão: **cancelar** (após confirmação específica do operador, solicitar **exclusão da branch exclusiva da sessão**), **suspender** (preservar sessão e branch para retomada), **concluir sem publicação** (sem PR quando não há alterações documentais validadas publicáveis, decisão 31) e **encerrar com aprovação** (com conjunto final validado, abrir **Pull Request da branch da sessão para `develop`**).
 
 **Resultado esperado no cancelamento:** não validar nem publicar propostas canceladas; identificar/reforçar os efeitos destrutivos sobre trabalho não integrado; conferir sessão, ref e permissões antes de tentar excluir **somente a branch correta**, nunca refs protegidas ou de terceiros; manter o histórico local e registrar se a exclusão de Git realmente foi concluída ou bloqueada. Cancelamento e conclusão formal não permitem continuar trabalho na mesma identidade (decisão 32).
@@ -177,3 +180,10 @@ O produto deverá apresentar **ações humanas distintas** para o término da se
 **Resultado esperado no encerramento aprovado:** apresentar diff e evidências da proposta validada, pedir autorização humana expressa para encerrar e **criar a PR `feature/doc/{session-id}` → `develop`**. A PR é um pedido de revisão, **não** aprovação automática para mesclar; checks satisfatórios e autorização humana separada de integração permanecem obrigatórios. Não abrir PR sem conteúdo validado, sem autorização, para `main` ou após cancelamento.
 
 **Limite absoluto:** esses comportamentos Git são **planejados e atualmente impedidos** pela referência normativa em [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). Nenhuma exclusão de ref, criação de PR, commit de sessão ou merge está autorizado por este documento. Permanecem o segundo LLM independente, a integridade de contexto, as quatro correções máximas por tarefa, os controles financeiros por chamada e o acesso seguro ao histórico de [OBJ-008](OBJ-008-historico-local-de-inferencias.md). `DOCUMENTED`, não `IMPLEMENTED`.
+
+## Decisão 34 — Aprovação ou reprovação do conjunto ao encerrar
+O operador inicia uma sessão que possui **branch exclusiva derivada de `develop`** no fluxo planejado. A ação **"Cancelar"** pergunta **"Encerrar ou continuar?"**: continuar mantém a mesma sessão e branch, sem outras operações Git.
+
+No encerramento, o operador escolhe **aprovar ou reprovar o conjunto do trabalho**. **Aprovação expressa com alterações documentais validadas** deverá criar **PR da branch da sessão para `develop`**, sujeita a checks e aprovação humana posterior para merge. **Reprovação** encerra sem PR, **não exclui a branch e não executa nenhuma outra operação nela**. O conteúdo reprovado não é considerado validado ou publicável.
+
+Preservar a opção de concluir sem publicação da decisão 31 quando aplicável e sem excluir branch; sessões encerradas exigem nova sessão para trabalho adicional conforme decisão 32. Permanece o histórico até exclusão manual autorizada, autorização financeira individual, revisão independente e o impedimento normativo Git de [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). `DOCUMENTED`, não `IMPLEMENTED`.

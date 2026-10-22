@@ -143,7 +143,10 @@ A implementação e os contratos técnicos desses comportamentos pertencem às e
 
 **Status:** critérios futuros, não implementação comprovada. Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
 
-## Critérios de teste pretendidos para cancelamento de branch e PR aprovada — decisão 33
+## Histórico — Testes de exclusão de branch da decisão 33 (superados)
+
+**Registro histórico superado pela decisão 34:** as orientações antigas de excluir a branch ao cancelar não estão mais vigentes. Os critérios atuais são os da decisão 34 abaixo. Não executar exclusão automática.
+
 **Testes esperados depois do alinhamento normativo, não executados nesta revisão:**
 - **Cancelamento autorizado:** operador identifica S1 e sua branch específica, confirma o cancelamento e compreende as alterações não integradas; a aplicação tenta excluir **somente a branch exclusiva de S1** e registra o resultado, mantendo todo o histórico de decisões, contextos e custos sob acesso protegido.
 - **Exclusão negada:** branch sem correspondência inequívoca com a sessão, `main`, `develop`, ref protegida ou alheia, autorização ausente, conflito relevante ou PR ainda sem tratamento definido **impedem exclusão insegura**, com explicação ao operador. Não considerar a branch deletada sem evidência de sucesso; nenhum force-push/reset pode contornar o bloqueio.
@@ -153,3 +156,8 @@ A implementação e os contratos técnicos desses comportamentos pertencem às e
 - **Sessão suspensa:** suspensão preserva a possibilidade de retomada e não exclui sua branch. Sessão cancelada/concluída permanece terminal para novos trabalhos, mantendo auditoria.
 
 Nenhum teste comprova execução atual, pois operações de branches de sessão, PR e merges continuam **proibidas pela norma vigente** conforme [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
+
+## Decisão 34 — Verificações pretendidas sem exclusão de branch
+**Critérios futuros ainda não executados:** (1) a sessão cria sua branch exclusiva a partir do SHA vigente da `develop`; (2) "Cancelar" pergunta **encerrar ou continuar**; (3) continuar conserva sessão e branch; (4) encerramento **aprovado** com documentação validada cria PR para `develop` e **não** faz merge; (5) encerramento **reprovado** termina sem PR, **sem excluir nem alterar a branch**; (6) não oferecer PR quando o conteúdo não está validado; (7) sem autorização ou enquanto a norma bloquear a operação, não executar ações Git proibidas.
+
+Checks de PR e aprovação humana final de integração são distintos da aprovação do encerramento. A reprovação não descarta o histórico de inferências e custos nem reinicia quatro correções. Não converter este planejamento em alegação de teste, implementação ou homologação. Relações: [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md), [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md).

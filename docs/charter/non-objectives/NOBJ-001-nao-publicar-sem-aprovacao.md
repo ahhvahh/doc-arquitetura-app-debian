@@ -21,9 +21,17 @@ A **criação da PR não integra alterações** em `develop`. A integração dep
 
 Esse comportamento é apenas projetado e permanece impedido pela norma externa atual, conforme [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
 
-## Cancelamento de sessão versus encerramento aprovado — decisão 33
+## Histórico — Exclusão de branch ao cancelar na decisão 33 (superada)
+
+**Registro histórico superado pela decisão 34:** as orientações antigas de excluir a branch ao cancelar não estão mais vigentes. Os critérios atuais são os da decisão 34 abaixo. Não executar exclusão automática.
+
 A aplicação não poderá interpretar **cancelamento expresso de sessão** como aprovação de conteúdo ou autorização para publicação. No cancelamento, a **exclusão futura da branch exclusiva da sessão** requer confirmação humana específica, vínculo inequívoco e checagem de segurança das refs, com registro de sucesso ou bloqueio; nunca permitir excluir `develop`, `main`, refs protegidas ou de terceiros. O histórico local permanece sujeito à retenção até exclusão manual autorizada.
 
 Na outra alternativa, **somente após aprovação expressa do operador ao encerramento e conjunto documental validado** a aplicação deverá criar **PR da branch da sessão para `develop`**. Essa PR **não mescla automaticamente**. Checks obrigatórios, proteção real da `develop` e **autorização humana posterior e separada para integração** continuam necessários. Sem mudanças publicáveis, não abrir PR.
 
 A decisão funcional pertence à [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md), e as operações de criação/exclusão de branch, PR e merge permanecem **impedidas pela norma vigente**. O conteúdo está **DOCUMENTED**, não `IMPLEMENTED`.
+
+## Decisão 34 — Reprovação não elimina branch nem autoriza publicação
+O acionamento de **"Cancelar"** solicita ao usuário escolher **encerrar ou continuar**; não gera exclusão automática de branch. A **reprovação expressa do conjunto** encerra o trabalho sem PR, sem exclusão da branch e sem outras operações sobre ela; a branch permanece intacta. **Aprovação expressa do conjunto validado** habilitará no produto futuro a criação automática de PR **para `develop`**, sem efetuar merge.
+
+A PR continua submetida a checks, proteção da `develop` e **autorização humana posterior e separada para integração**. Não abrir PR sem alterações válidas. A intenção está registrada na [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md), mas a **norma atual proíbe** criar/atualizar branches de sessão, PR ou merge; nenhuma dessas operações está autorizada por esta decisão. `DOCUMENTED`, não `IMPLEMENTED`.

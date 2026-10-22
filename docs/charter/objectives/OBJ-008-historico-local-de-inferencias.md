@@ -77,9 +77,17 @@ Quando o operador iniciar um novo trabalho no mesmo repositório, a aplicação 
 
 **Critério verificável:** recuperar S1 como histórico após sua conclusão formal, impedir inserção de novas tarefas em S1, iniciar S2 distintamente e permitir reconstruir as decisões/custos anteriores sem misturar suas tentativas com S2. A eventual exclusão de histórico requer o procedimento manual autorizado já definido em [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md) e [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md). Contratos de armazenamento e esquema são assuntos posteriores. Relação: [OPEN-003 — decisão 32](../open-questions/OPEN-003-politica-de-branches.md).
 
-## Histórico de cancelamento de sessão e proposta de PR — decisão 33
+## Histórico — Exclusão de branch prevista na decisão 33 (superada)
+
+**Registro histórico superado pela decisão 34:** as orientações antigas de excluir a branch ao cancelar não estão mais vigentes. Os critérios atuais são os da decisão 34 abaixo. Não executar exclusão automática.
+
 A trilha da sessão deverá distinguir eventos de **suspensão**, **cancelamento expresso da sessão**, **cancelamento/retirada individual de tarefas**, **conclusão sem publicação** e **encerramento aprovado com PR**. No cancelamento da sessão, registrar operador autorizado, identidade da sessão e da branch, impactos sobre conteúdo não integrado, decisão expressa e **resultado verificável da solicitação de exclusão da branch**; uma falha na exclusão permanece explícita.
 
 Na conclusão aprovada, registrar o **conjunto final de alterações**, a baseline de origem e branch de sessão, identificação da aprovação humana de encerramento, eventual **PR para `develop`**, seu destino e o estado de checks e de autorização de integração, **sem presumir merge**. Não transformar inferência ou aprovação de PR em autorização de gasto.
 
 O cancelamento de sessão e a exclusão da **ref Git de trabalho** não equivalem a descarte do histórico local, que segue protegido e retido **até exclusão manual autorizada** conforme [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md) e [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md). Não alegar exclusão de cópias remotas ou audit trails além do controle da aplicação. Os eventos são requisitos documentais, **não implementação**. Relações: [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md), [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md).
+
+## Decisão 34 — Rastrear reprovação com branch preservada
+Distinguir no histórico **pedido de cancelar**, **decisão de continuar**, **encerramento aprovado com PR solicitada**, **encerramento reprovado sem PR**, suspensão e conclusão sem publicação. Na reprovação registrar operador, sessão, branch, SHA da baseline, propostas, custos, revisões e **ausência de exclusão da branch e de operações posteriores**. Na aprovação registrar o conjunto validado, PR para `develop`, checks e autorização de merge posterior, sem considerá-lo automaticamente integrado.
+
+Todos os registros continuam sujeitos à retenção até exclusão manual em [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md); manter a branch de uma sessão encerrada **não** reativa a sessão ou as tarefas. A intenção de criar branch/PR continua impedida pela norma vigente conforme [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). `DOCUMENTED`, não `IMPLEMENTED`.
