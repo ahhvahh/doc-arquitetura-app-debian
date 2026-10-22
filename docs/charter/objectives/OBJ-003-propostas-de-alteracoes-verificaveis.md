@@ -194,3 +194,16 @@ O objetivo de criação da sessão passa a exigir **verificação prévia das PR
 Na espera, realizar consultas de acompanhamento sem despesa de inferência e sem autorizar ações Git; uma PR aberta continua impeditiva. Quando não restar PR aberta, **revalidar `develop` e seu SHA** antes de criar a nova baseline, sempre sujeitos à regularização normativa de [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). Se a PR for encerrada sem integração, não presumir que `develop` foi atualizada. Uma falha na verificação deve bloquear, não liberar por engano.
 
 **Limite:** evitar abertura diante de PRs pendentes **não garante sessão ativa única**: o controle independente de sessões simultâneas ainda requer decisão sobre sua abrangência e critérios. Permanecem as regras de sessão exclusiva, aprovação/reprovação, histórico, integridade, autorização financeira individual e restrição de escrita Git. `DOCUMENTED`, não `IMPLEMENTED`. Relações: [OBJ-004](OBJ-004-evidencias-de-testes-automatizados.md), [OBJ-008](OBJ-008-historico-local-de-inferencias.md), [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
+
+## Exclusividade de sessão ativa por repositório — decisão 36 (2026-10-21)
+
+**Resultado esperado adicional:** a aplicação permitirá **no máximo uma sessão ativa por repositório-alvo**, mesmo quando os níveis documentais, operadores ou modelos forem diferentes. Sessões de repositórios distintos poderão executar simultaneamente. A restrição não é global à aplicação nem se limita à existência de PR aberta.
+
+**Critérios verificáveis de produto:**
+- Ao solicitar abertura ou retomada no mesmo repositório com outra sessão ativa, a ação é bloqueada e identifica a razão, preservando a sessão existente e o histórico da tentativa.
+- Duas tentativas concorrentes de ativação no mesmo repositório não podem resultar em duas sessões ativas, sem depender de uma PR aberta.
+- A suspensão explícita conserva sessão e pendências, mas retira seu estado ativo; sua retomada fica bloqueada enquanto outra sessão do mesmo repositório estiver ativa. Sessão formalmente concluída não é reaberta.
+- Projetos GitHub diferentes não bloqueiam as sessões uns dos outros por esta regra; dentro de cada projeto, manter a verificação independente de PR com base `develop` antes da abertura.
+- Falha de verificação do estado ou da identidade do repositório impede ativação; nenhum bloqueio deve produzir inferência paga, branch nova ou alteração documental válida por presunção.
+
+A definição de estados operacionais, controle de concorrência e testes de reinicialização pertence às próximas etapas. **Não há implementação comprovada**. A política de branches e PRs continua impedida pela norma de escrita exclusiva em `develop`, conforme [OPEN-003 — decisões 35 e 36](../open-questions/OPEN-003-politica-de-branches.md). Esta complementação não modifica [NOBJ-003 — exclusão de resolução automática de conflitos na mesma branch](../non-objectives/NOBJ-003-nao-gerenciar-concorrencia-na-branch-da-sessao.md).

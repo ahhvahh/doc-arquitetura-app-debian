@@ -98,3 +98,16 @@ Antes de iniciar nova sessão, a aplicação deverá registrar de maneira audit�
 Falhas de consulta, cancelamento de inicialização, PR ainda aberta e encerramento por esgotamento da espera **não criam sessão ativa nem inferências remuneradas**. A evidência histórica deve distinguir PR **integrada** de PR **fechada sem merge** e não atribuir alteração à baseline sem verificação.
 
 **Limite:** nenhuma evidência de ausência de PR aberta substitui prova de exclusividade de sessão ativa, cuja política está pendente em [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). A proteção dos dados e eventual descarte permanecem regidos por [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md); nenhuma implementação é presumida.
+
+## Rastreabilidade da exclusividade de sessão — decisão 36 (2026-10-21)
+
+**Resultado esperado adicional:** registrar eventos de abertura, tentativa bloqueada, suspensão, retomada e encerramento de sessões, mantendo a **exclusividade de uma sessão ativa por repositório**, conforme [OPEN-003 — decisão 36](../open-questions/OPEN-003-politica-de-branches.md).
+
+**Critérios verificáveis:**
+- Identificar repositório-alvo, operador autorizado, sessão/tentativa, momento, ação, estado observado, decisão e motivo do bloqueio, sem registrar segredos.
+- Distinguir sessão efetivamente ativada de tentativa negada; uma tentativa bloqueada não cria sessão ativa, branch ou consumo de inferência.
+- Preservar a continuidade e identidade de sessões suspensas e registrar por que uma retomada foi permitida ou bloqueada por outra sessão ativa do mesmo repositório.
+- Distinguir bloqueio por **outra sessão ativa** de bloqueio por **PR aberta para `develop`** ou falha de verificação. A ausência de PR não equivale a prova de exclusividade.
+- Permitir reconstruir se duas ativações concorrentes no mesmo repositório foram corretamente serializadas ou bloqueadas e se repositórios distintos puderam manter sessões ativas independentes.
+
+A forma de persistência e de consulta desses eventos pertence a Scope/Implementation. A retenção e o controle de acesso continuam sujeitos a [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md). **DOCUMENTED**, não `IMPLEMENTED`; nenhuma gravação em branches de sessão ou PR é autorizada por esta decisão.
