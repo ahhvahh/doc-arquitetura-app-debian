@@ -121,3 +121,13 @@ Estes são **critérios de teste pretendidos**, não relatos de implementação.
 - Após resolver as pendências válidas ou cancelar/retirar expressamente tarefas que não integrarão o conjunto final, exigir **nova decisão humana de conclusão**, mantendo separada a autorização de integração Git e registrando o conjunto realmente elegível.
 
 A implementação e os contratos técnicos desses comportamentos pertencem às etapas posteriores, e nenhum fluxo de PR/branch é autorizado enquanto [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md) permanecer bloqueadora. Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
+
+## Evidências esperadas para conclusão sem publicação — decisão 31
+**Casos de teste futuros, ainda não executados:**
+- Uma sessão com várias tarefas **explicitamente canceladas** pelo operador, **zero alterações validadas publicáveis** e aprovação final humana pode encerrar com resultado **"concluída sem publicação"**, com **zero PR, zero commit de resultado documental e zero merge** decorrentes dessa ação.
+- O histórico registra **quais tarefas foram canceladas, autoria, momento, motivo ou escopo, e decisão humana separada de encerrar**, além de proposta, baseline, modelos, tentativas, custos autorizados e correções já realizadas. O material não validado não se torna entrega aprovada.
+- **Casos negativos:** tarefa ainda pendente/não cancelada, sessão apenas suspensa, alterações validadas que ainda aguardam publicação, inventário de mudanças não reconciliado ou ausência de confirmação humana **impedem** essa modalidade de conclusão, apresentando a causa.
+- Encerrar sem publicação **não dispara inferência paga**, não apaga registros nem altera retroativamente as configurações e eventos anteriores. Não confundir cancelamento de tarefa com descarte manual de histórico, regido por [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md).
+- Os fluxos que impliquem branches de sessão, PRs ou merges continuam **bloqueados pela restrição normativa** de [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md); testar a regra de encerramento sem publicar não equivale a habilitar o Git futuro.
+
+**Estado das evidências:** critérios esperados de verificação do produto, não execução de testes nem implementação. Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
