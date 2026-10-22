@@ -14,3 +14,4 @@
 ## Avaliação e histórico
 - [OBJ-007 — Comparação de modelos](OBJ-007-comparacao-controlada-de-modelos.md)
 - [OBJ-008 — Histórico local](OBJ-008-historico-local-de-inferencias.md)
+- [OBJ-009 — Execução automática de tarefas elegíveis](OBJ-009-execucao-automatica-de-tarefas-elegiveis.md)

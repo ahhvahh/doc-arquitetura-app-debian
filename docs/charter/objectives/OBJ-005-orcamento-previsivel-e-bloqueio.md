@@ -104,3 +104,17 @@ A estratégia atual está registrada na [OPEN-005](../open-questions/OPEN-005-es
 - Persistem os **quatro projetos OpenAI segregados** por especialização, as restrições de [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md) e os limites de correção da [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
 
 **Situação:** intenção funcional `DOCUMENTED`, não `IMPLEMENTED`; garantias de cobrança e execução não verificadas nesta edição. Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [CON-002](../conditions/CON-002-protecao-credenciais.md), [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
+
+## Execução automática condicionada a pré-autorizações financeiras — 2026-10-22
+
+A escolha da execução automática de tarefas elegíveis no OBJ-009 elimina somente a aprovação geral do plano de trabalho.
+
+Cada chamada remunerada deve possuir autorização financeira individual identificável e válida antes da execução, inclusive quando iniciada automaticamente pelo serviço.
+
+Se o planejamento revelar novas tarefas ou chamadas ainda não autorizadas, elas permanecem pendentes até a autorização financeira correspondente. O serviço não poderá transformar um teto global, uma autorização da sessão ou a aprovação genérica do plano em permissão irrestrita para novas despesas.
+
+Antes de efetuar cada chamada, continuam obrigatórias a conferência de identidade, modelo, provedor/projeto, estimativa e limite aprovado, reserva local e proteção remota efetivamente bloqueante e comprovada.
+
+A suspensão por falta de autorização não cancela automaticamente outras tarefas independentes já elegíveis nem dispensa o registro das pendências.
+
+Relações: [OBJ-009](OBJ-009-execucao-automatica-de-tarefas-elegiveis.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md).
