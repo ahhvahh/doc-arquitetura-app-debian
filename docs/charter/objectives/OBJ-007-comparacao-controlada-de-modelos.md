@@ -106,3 +106,10 @@ Para cada papel da análise, o produto deverá identificar se **motor, modelo e 
 **Critério negativo:** ausência de configuração completa, modelo ou motor não homologado, par gerador/revisor equivalente ou incompatibilidade entre valores herdados e específicos **não podem liberar aceite**, gerar commit de resultado validado nem iniciar chamada paga indevida. O sistema deve sinalizar o conflito em vez de recorrer silenciosamente a outro modelo. A alteração manual autorizada para uma inferência precisa preservar o registro de origem e os controles anteriores.
 
 A regra de herança não pressupõe homologação da OpenAI ou do Amazon Bedrock AgentCore. Referências: [OBJ-001](OBJ-001-agentes-documentais-especializados.md), [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md), [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Comparações rastreáveis sob perfil inicial de sessão — decisão 26
+A rastreabilidade de geração e revisão deverá distinguir a **versão dos padrões carregados ao abrir a sessão** dos **modelos/motores, prompts e contextos efetivamente usados em cada inferência**, inclusive escolhas explícitas que divergem dos padrões. Uma alteração posterior do perfil geral não muda a baseline de configuração de uma sessão existente; só novas sessões carregam os novos padrões.
+
+A comparação deverá informar a origem dos valores (herança da especialização, exceção da operação e seleção pontual), as versões e o modelo realmente empregado. **Não pressupor** que um modelo configurado anteriormente continua elegível. Um resultado só é considerado validado quando houver **gerador e revisor distintos e homologados**, com evidências de revisão independente, integridade e autorizações aplicáveis.
+
+Esta regra não comprova existência de modelos homologados, nem autoriza chamadas financeiras sem controles ou escrita Git fora de `develop`. Relações: [OBJ-001](OBJ-001-agentes-documentais-especializados.md), [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md), [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).

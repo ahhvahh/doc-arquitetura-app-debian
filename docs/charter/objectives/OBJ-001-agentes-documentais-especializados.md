@@ -74,3 +74,15 @@ A seleção de modelo/contexto/prompt por inferência e o histórico de sessões
 - O carregamento de padrões não cria permissão para gastar, usar credenciais alheias, executar inferências pagas sem proteção remota bloqueante comprovada ou alterar as regras Git e normativas.
 
 **Limite do Charter:** definir aqui a **precedência e seus efeitos funcionais**, não a representação de herança no arquivo de configuração, o esquema, o local de armazenamento ou o desenho técnico da tela. Relações: [OBJ-007](OBJ-007-comparacao-controlada-de-modelos.md), [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md) e [OBJ-002](OBJ-002-contexto-compacto-rastreavel.md). Estado documental permanece `refinement`.
+
+## Padrões da sessão fixados na abertura — decisão 26 (2026-10-21)
+**Decisão aprovada:** quando o operador iniciar uma sessão selecionando repositório GitHub e especialização documental, os padrões gerais da especialização, as exceções da operação e os papéis de gerador/revisor serão resolvidos conforme a herança controlada da decisão 25. **A versão dos padrões carregada na abertura será mantida como referência da sessão até seu encerramento.**
+
+**Critérios de sucesso:**
+- Modificações posteriores no perfil **geral** não serão propagadas automaticamente às sessões existentes. **Somente novas sessões** carregarão os valores gerais atualizados.
+- Uma sessão aberta continua permitindo a **escolha explícita por inferência** de motor/modelo elegível, tamanho de contexto admissível e prompt. Essa escolha altera a tentativa autorizada, **não** a configuração inicial da sessão, o arquivo geral ou o histórico de outras inferências.
+- Apresentar versão e origem dos valores carregados (especialização, operação, papel, herança) e os valores efetivamente empregados em cada chamada, permitindo verificar diferenças entre o perfil inicial e escolhas pontuais.
+- Ao iniciar cada chamada paga e cada avaliação, **revalidar** elegibilidade/homologação do modelo, disponibilidade, identidade, orçamento, autorização individual e proteção remota bloqueante comprovada. Perfil fixo **não significa permissão permanente** nem substituição silenciosa por um novo modelo.
+- **Caso verificável:** uma sessão S1 aberta com padrões P1 mantém P1 quando o perfil global muda para P2; uma nova sessão S2 recebe P2; uma inferência em S1 pode escolher um modelo homologado diferente com aprovação explícita e sem mudar S1 ou as inferências anteriores.
+
+**Limite:** a decisão não define cópia de arquivos, versionamento técnico, telas nem contratos de persistência. Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md), [OBJ-007](OBJ-007-comparacao-controlada-de-modelos.md), [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md). `refinement`, não `implemented`.

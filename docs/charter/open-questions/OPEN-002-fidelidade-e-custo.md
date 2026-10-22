@@ -180,3 +180,16 @@ Relações: [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md)
 - **Controles invariáveis:** preservar verificações estruturais e normativas, contexto integral, a distinção entre divergência material e sugestão editorial, **até quatro correções por tarefa**, segunda avaliação por modelo diferente, aprovação humana de integração Git, segregação de credenciais e autorização financeira por chamada com proteção remota comprovada. Nenhuma herança representa autorização automática de uso remunerado.
 
 **Pendência:** demonstrar o comportamento seguro da precedência em perfis completos, parciais, incompatíveis e indisponíveis; não declarar qualquer fluxo ou modelo `implemented` ou homologado. O formato técnico do arquivo e da tela pertence a Scope/Implementation. Relações: [OBJ-001](../objectives/OBJ-001-agentes-documentais-especializados.md), [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md), [OPEN-005](OPEN-005-estrategia-de-provedores-e-modelos.md). `OPEN-002` permanece em `refinement`.
+
+## Decisão 26 — Padrões imutáveis na sessão; atualizações gerais só para novas sessões (2026-10-21)
+**Origem:** escolha expressa do responsável pela **opção A — Manter a configuração inicial**.
+
+- **Abertura da sessão:** depois de escolher o repositório e a especialização, resolver a herança controlada da decisão 25 e registrar **versão/origem dos padrões iniciais de gerador, revisor, motor/modelo e prompt**.
+- **Sem recarga tácita:** alterações posteriores no arquivo/configuração geral aplicam-se **somente a novas sessões**. A sessão já aberta não incorpora tais mudanças automaticamente, nem atualiza seus padrões iniciais e histórico.
+- **Liberdade por inferência:** as escolhas explícitas de outro motor/modelo elegível, tamanho de contexto admissível e prompt para cada nova inferência continuam autorizadas pela decisão 17. Elas não substituem o perfil congelado da sessão nem reescrevem tentativas passadas.
+- **Falha fechada:** conservar uma referência de configuração não dispensa validar a **situação atual** de homologação, credenciais, identidade de usuário, orçamento e proteção financeira remota comprovadamente bloqueante antes de cada chamada. **Não** usar modelos desabilitados ou escolher automaticamente um novo modelo. Aceite e commit de resultado validado exigem **segundo LLM efetivamente distinto e homologado**.
+- **Proteções preservadas:** revisão humana, limite de quatro correções por tarefa, integridade DSL/Markdown, restrições normativas e Git; não há autorização para criar branches de sessão, PRs ou integrar mudanças sem consentimento.
+
+**Critérios de verificação pretendidos:** sessão iniciada em P1 permanece em P1 após alteração geral para P2; sessão criada posteriormente carrega P2; mudanças explícitas de inferência em P1 são registradas sem sobrescrita; modelo não homologado bloqueia o uso. A técnica de armazenamento e configuração fica em Scope/Implementation.
+
+**Situação:** `DOCUMENTED`, não `IMPLEMENTED`; `OPEN-002` permanece em `refinement`. Relações: [OBJ-001](../objectives/OBJ-001-agentes-documentais-especializados.md), [OBJ-003](../objectives/OBJ-003-propostas-de-alteracoes-verificaveis.md), [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md).
