@@ -13,6 +13,12 @@ A aplicação Doc Arquitetura permitirá organizar a revisão e o refinamento do
 | Beneficiários | Desenvolvedor responsável, revisor documental e operador da aplicação Debian. |
 | Valor esperado | Menor trabalho manual de contexto, consistência normativa, alterações verificáveis e escolha de modelos apoiada por indicadores históricos de qualidade, consumo, tempo e custo. |
 
+## Acompanhamento do Charter e delimitação da primeira entrega
+
+O [painel de continuidade](CONTINUIDADE.md) consolida o inventário de documentos, decisões já tomadas, inclusões/exclusões, dependências, estado de revisão e a próxima demanda. Ele é um índice operacional; [objetivos](objectives/README.md), [não objetivos](non-objectives/README.md), [condições](conditions/README.md) e [questões abertas](open-questions/README.md) permanecem canônicos.
+
+**Primeira entrega vigente:** norma fixa em `ahhvahh/doc-arquitetura/main/ProjectCharter/1.0`, preparação e revisão documental, avaliação qualitativa sem pontuação numérica não calibrada, provedores remotos OpenAI e AWS AgentCore **planejados e sujeitos a homologação**. A automação Git de branches de sessão/PR permanece **adiada**, e inferências remuneradas ficam **bloqueadas** sem controle financeiro remoto efetivo comprovado. Decisões anteriores superadas são preservadas para histórico; esta síntese não significa implementação nem liberação do gate.
+
 ## Contexto e participantes
 - [PCH-001 — Projeto e participantes](project-context/PCH-001-contexto-integracao-openai-dsl.md).
 

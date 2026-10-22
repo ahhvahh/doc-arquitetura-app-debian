@@ -29,6 +29,36 @@ O projeto existente dispõe de CLI Go, seleção de modelos locais, clonagem Git
 **Interações:** recebe atualização somente por solicitação do operador e registra IDs e indexação; pode ser consultado depois da integração com ferramenta de pesquisa.
 **Limites:** não substitui a fonte GitHub, não armazena segredos, não modifica repositórios e não comprova fidelidade semântica.
 
+## ACT-005 — Administrador Linux e gestor de credenciais
+
+**Papel:** identidade administrativa autorizada que gerencia credenciais, associação ao grupo Linux habilitado e atividades administrativas do aplicativo.
+
+**Interesse:** garantir segurança, segregação de funções, continuidade e revogação verificável sem expor segredos aos usuários comuns.
+
+**Interações:** configura, substitui e revoga segredos em arquivos administrativos protegidos; controla os membros do grupo autorizado, instalação, atualizações manuais, backups e restaurações supervisionadas. A entrega de credenciais ao serviço utiliza mecanismo restrito do `systemd`, conforme as decisões vigentes.
+
+**Limites:** não transfere os privilégios administrativos ao serviço ou ao grupo; pertencer ao grupo não habilita leitura direta de segredos/banco ou autorização de despesa. Menções históricas a cofre dedicado foram superadas pela política vigente de arquivos Linux protegidos.
+
+## ACT-006 — Serviço executor local
+
+**Papel:** processo autônomo sob identidade Linux técnica exclusiva, intermediário obrigatório entre clientes autorizados, histórico local e provedores de inferência.
+
+**Interesse:** aplicar de forma rastreável autorização, isolamento, bloqueios financeiros e recuperação segura de tarefas.
+
+**Interações:** recebe solicitações do grupo autorizado via aplicação, verifica identidade e permissão por operação, mantém registros no banco local privado e realiza chamadas externas somente depois de superar as verificações de credenciais, autorização individual e custo. Opera independentemente da sessão interativa do solicitante; preserva estados e evidencia falhas.
+
+**Limites:** não concede privilégios administrativos, não aceita comandos arbitrários, não expõe banco/segredos diretamente aos clientes e não executa operações Git proibidas pela norma vigente. Os mecanismos técnicos concretos pertencem a Scope/Implementation.
+
+## ACT-007 — Guardião opcional de acompanhamento
+
+**Papel:** participante opcional que acompanha estados, pendências, falhas e resultados permitidos pela aplicação.
+
+**Interesse:** receber visibilidade operacional sem assumir atribuições de administração ou autorização financeira.
+
+**Interações:** consulta o acompanhamento por intermédio das interfaces autorizadas do serviço, mediante identidade/permissões aplicáveis ao grupo Linux.
+
+**Limites:** não acessa diretamente o banco ou arquivos de segredos; não gerencia credenciais, não inicia despesas por conta própria, não altera permissões nem aprova operações Git ou integrações ao repositório. A existência deste papel não comprova implementação de um guardião.
+
 ## Relações
 - [OBJ-001](../objectives/OBJ-001-agentes-documentais-especializados.md)
 - [OBJ-002](../objectives/OBJ-002-contexto-compacto-rastreavel.md)
