@@ -319,7 +319,7 @@ A liberação exige que **todas** as PRs abertas para `develop` deixem de estar 
 - **Cofre administrado:** após instalação, apenas administrador autorizado ou superusuário configura, substitui e revoga credenciais. O usuário comum não pode cadastrar, visualizar ou exportar chaves. Serviço com **identidade exclusiva e acesso mínimo** consome os segredos autorizados sem executar continuamente como superusuário por mera conveniência.
 - **Execução autônoma:** a aplicação recebe comandos e registra pendências; o serviço processa tarefas já autorizadas independentemente do login do usuário e registra estados/resultados no **banco local**, que não armazena valores de credenciais.
 - **Guardião opcional:** acompanha e comunica somente as tarefas/resultados autorizados, sem acesso ao cofre, poder de execução ou autorização de despesa.
-- **Consultas protegidas:** solicitante e pessoas/consumidores expressamente autorizados acessam apenas escopos concedidos e auditáveis; leitura não é permissão de exclusão, administração ou aprovação financeira.
+- **Consultas protegidas — atualização de 2026-10-22:** o escopo de leitura individual da decisão anterior foi substituído pelo acesso compartilhado dos membros do **grupo Linux autorizado**, exclusivamente pela aplicação/serviço e com auditoria. Leitura não é permissão de exclusão, administração de segredos ou aprovação financeira.
 - **Cobranças:** chamadas remuneradas são **pré-autorizadas uma a uma**; cada operação executada posteriormente exige verificar autorização, orçamento e **proteção remota realmente bloqueante**. Revisão por segundo LLM e correções extras requerem autorizações próprias.
 - **Falhas:** ausência, revogação ou indisponibilidade de credencial **bloqueia a operação dependente**, conserva o histórico e aguarda regularização e **liberação autorizada** antes de retomar, sem substituição automática de credenciais.
 
@@ -328,3 +328,17 @@ A manutenção das exigências de proteção financeira e segregação de projet
 **Relações canônicas:** [OPEN-001](open-questions/OPEN-001-politica-credenciais.md), [CON-002](conditions/CON-002-protecao-credenciais.md), [PCH-001](project-context/PCH-001-contexto-integracao-openai-dsl.md), [CON-005](conditions/CON-005-persistencia-local-de-inferencias.md), [OBJ-008](objectives/OBJ-008-historico-local-de-inferencias.md). Estas são decisões documentais `DOCUMENTED`, não `IMPLEMENTED`, sem autorização adicional para branches, PRs ou merge; aplica-se [OPEN-003](open-questions/OPEN-003-politica-de-branches.md).
 
 **Pendências:** validar isolamento efetivo, identidade do serviço, permissões de cofre, consultas autorizadas, continuidade após logout, retomada supervisionada e proteção financeira remota. A `OPEN-001` e a baseline permanecem em `refinement`; contratos técnicos são responsabilidades de Scope/Implementation.
+
+## Política vigente — grupo Linux e acesso exclusivo pela aplicação (2026-10-22)
+
+**Origem:** o responsável aprovou servidor administrado com autenticação pelo Linux, associação ao grupo Linux de acesso, consulta compartilhada de tarefas/resultados e proibição de acesso direto de usuários comuns ao banco.
+
+- **Acesso funcional:** somente usuários Linux autenticados e membros do grupo autorizado podem usar a aplicação. O administrador do servidor gerencia o grupo; a aplicação não mantém cadastro paralelo de usuários, senhas ou permissões individuais de leitura.
+- **Consulta compartilhada:** integrantes do grupo podem consultar pela aplicação tarefas, estados, métricas e resultados de outros integrantes. A autoria e as autorizações financeiras permanecem vinculadas às respectivas identidades Linux e operações.
+- **Mediação obrigatória:** a aplicação cliente e o guardião opcional obtêm dados **somente pelo serviço**, que consulta/grava no **banco local canônico** com sua identidade técnica. Usuário comum não recebe credenciais nem permissões diretas ao banco, mesmo sendo membro do grupo.
+- **Separação de responsabilidades:** acesso para consulta não habilita administração do cofre, exclusão de histórico, nova despesa, modificação indevida, aprovação de publicação ou operações Git fora da norma. Cofre administrativo, autorizações financeiras individuais e proteções remotas permanecem exigíveis.
+- **Retenção:** o histórico permanece até exclusão manual autorizada conforme [OPEN-006](open-questions/OPEN-006-retencao-e-protecao-do-historico.md); a localização física do banco ou sua tecnologia não foram alteradas nesta decisão.
+
+**Relações canônicas:** [OPEN-001](open-questions/OPEN-001-politica-credenciais.md), [CON-005](conditions/CON-005-persistencia-local-de-inferencias.md), [OBJ-008](objectives/OBJ-008-historico-local-de-inferencias.md), [OPEN-006](open-questions/OPEN-006-retencao-e-protecao-do-historico.md), [PCH-001](project-context/PCH-001-contexto-integracao-openai-dsl.md), [CON-002](conditions/CON-002-protecao-credenciais.md) e [OBJ-005](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md).
+
+**Histórico e gate:** superam-se **somente** as concessões individuais de leitura por tarefa/projeto, mantendo as decisões anteriores como histórico; não se presume serviço, sistema de grupos ou banco já homologados. Permanecem as restrições de `develop`, a baseline em `refinement` e as verificações de segurança pendentes. `DOCUMENTED`, não `IMPLEMENTED`.

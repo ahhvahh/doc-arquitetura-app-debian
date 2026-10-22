@@ -6,7 +6,7 @@
 Decisão funcional de retenção e proteção resolvida; execução dos controles ainda sujeita a validação.
 
 ## Questão
-**Decidida:** manter prompts, respostas, avaliações, custos, medições e métricas JSON até exclusão manual. Somente o operador e consumidores expressamente autorizados podem consultar o histórico, observadas as medidas de proteção de segredos.
+**Decidida:** manter prompts, respostas, avaliações, custos, medições e métricas JSON até exclusão manual. Pela decisão complementar de 2026-10-22, os **membros autenticados do grupo Linux autorizado** podem consultar o histórico compartilhado **exclusivamente por intermédio da aplicação/serviço**, sem acesso direto ao banco e sem alterar a proteção de segredos.
 
 ## Contexto e origem
 O histórico local solicitado inclui conteúdo enviado e recebido que pode carregar informações confidenciais. A decisão de manter um banco local não resolve controle de acesso, descarte ou tratamento de segredos.
@@ -36,3 +36,17 @@ Verificar em Scope/Implementation os controles de acesso, a proteção de conte�
 **Destinação canônica:** [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md) e [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md). Mecanismos técnicos para Scope e Implementation.
 
 **Situação do documento:** decisão de produto concluída, mas o badge permanece em `refinement`, pois falta o asset `badge-status-refined.svg` em `docs/assets/` e sua criação está fora do escopo desta alteração de Charter. O encerramento da análise não é comprovação de implementação; pendências de segurança continuam em [OPEN-001](OPEN-001-politica-credenciais.md).
+
+## Complemento vigente — leitura compartilhada por grupo Linux via aplicação (2026-10-22)
+
+**Origem:** aprovação expressa da simplificação da autorização pelo grupo Linux do servidor administrado, sem acesso direto ao banco por usuários comuns.
+
+- A decisão original **C de retenção até exclusão manual** permanece integralmente vigente, assim como o descarte manual autorizado e a auditoria.
+- **Consulta:** todos os usuários Linux autenticados e associados ao grupo autorizado podem consultar pela aplicação tarefas e resultados compartilhados, mesmo quando solicitados por outro integrante. A inclusão ou exclusão do grupo cabe à administração Linux; a aplicação não cria concessões individuais de leitura.
+- **Meio obrigatório:** o usuário comum e o guardião opcional recebem dados somente pela aplicação/serviço, que utiliza a identidade técnica autorizada para consultar o banco local. A participação no grupo não dá acesso direto aos arquivos, credenciais ou consultas do banco.
+- **Limites:** consulta não concede exclusão de registros, leitura de segredos, autorização financeira, controle administrativo ou publicação Git. Preservar autoria e trilha de auditoria.
+- **Histórico:** os termos anteriores “operador” e “consumidores expressamente autorizados” permanecem como registro da decisão original, mas a **forma vigente de autorizar a consulta compartilhada** é a associação ao grupo Linux, sem permissões individuais por tarefa.
+
+**Pendência:** verificar tecnicamente no ambiente controlado autenticação/grupo, restrições ao acesso direto, exposição da aplicação e rastreabilidade. `DOCUMENTED`, não `IMPLEMENTED`; badge permanece em `refinement`.
+
+**Relações:** [OPEN-001](OPEN-001-politica-credenciais.md), [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md) e [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md).

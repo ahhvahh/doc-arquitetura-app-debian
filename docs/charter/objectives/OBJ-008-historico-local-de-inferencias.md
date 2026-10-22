@@ -159,10 +159,23 @@ A forma de persistência e de consulta desses eventos pertence a Scope/Implement
 
 **Critérios verificáveis futuros:**
 - Distinguir solicitação **pendente, em execução, concluída, interrompida ou bloqueada**, com causa, instante, projeto, tarefa e transições auditáveis; manter autoria da solicitação separada da identidade de serviço executora e da identidade que autorizou a despesa.
-- O solicitante consulta suas tarefas; pessoas/consumidores explicitamente autorizados veem **somente o escopo concedido**. Toda consulta protegida é verificável; a autorização de consulta não concede exclusão, acesso ao cofre nem gasto.
+- **Regra vigente de consulta (2026-10-22):** membros autenticados do grupo Linux autorizado podem consultar, **via aplicação/serviço**, também tarefas e resultados de outros membros. A consulta continua auditável e não autoriza exclusão, acesso ao cofre, gasto nem conexão direta ao banco.
 - O **guardião opcional** apenas recupera e apresenta estados/resultados visíveis, não executa inferência nem atua como administrador de segredos. Sua ausência não elimina ou invalida tarefas.
 - Após logout/reinício do usuário, solicitações, estados e histórico continuam disponíveis ao serviço; indisponibilidade ou revogação da credencial produz registro de **bloqueio com preservação do contexto**, não execução presumida.
 - Regularização da credencial e **liberação autorizada** geram evento vinculado à tarefa, com revalidação de integridade, identidade e autorização financeira específica. Nunca inventar sucesso, cobrança zero ou retomada automática.
 - Preserve-se a retenção até exclusão manual e o acesso restrito de [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md), sem persistir valores do cofre no histórico.
 
 **Limites:** formato de armazenamento e interface de consulta não são definidos neste objetivo. Política `DOCUMENTED`, não `IMPLEMENTED`. Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [CON-002](../conditions/CON-002-protecao-credenciais.md), [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md), [OBJ-005](OBJ-005-orcamento-previsivel-e-bloqueio.md).
+
+## Auditoria de acesso por grupo Linux e consulta exclusiva via aplicação (2026-10-22)
+
+**Resultado esperado:** identificar a pessoa que usou a aplicação pelo usuário Linux autenticado e condicionar consultas à participação no grupo autorizado, **sem contas ou permissões individuais de leitura próprias da aplicação**.
+
+**Critérios verificáveis futuros:**
+- Membros do grupo consultam tarefas/estados/resultados compartilhados de qualquer integrante somente pelas funções da aplicação; não membros não podem consultar. O serviço é o único mediador de leitura e atualização do banco local.
+- Identidade Linux e vínculo entre usuário, consulta/solicitação, tarefa, evento e momento continuam rastreáveis, mesmo quando a identidade de execução pertence ao serviço. A consulta de tarefa alheia não transfere autoria ou autorização de gasto.
+- Usuários comuns e guardião opcional não recebem conexão direta, credenciais ou permissões de leitura/escrita do banco; tentativas não autorizadas são negadas. O guardião obtém as informações disponibilizadas pela aplicação/serviço.
+- Revogação da associação ao grupo impede novos acessos funcionais; não apaga automaticamente as tarefas anteriores. Consulta, exclusão manual, autorização financeira individual, administração do cofre e operações Git são autoridades distintas.
+- Persistência local canônica, retenção até exclusão manual e proteção contra segredos no histórico permanecem inalteradas em [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md) e [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md).
+
+**Superação:** o critério precedente de leitura pelo solicitante ou por destinatários com concessão individual foi superado **somente para consultas compartilhadas via grupo Linux**. Não altera auditoria, proteção de segredos ou exigências financeiras. `DOCUMENTED`, não `IMPLEMENTED`.

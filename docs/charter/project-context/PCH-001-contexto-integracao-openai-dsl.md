@@ -90,7 +90,7 @@ Não confundir o **agente AWS** com um **modelo de fundação específico**: ide
 
 ## Delimitação de atores — cofre administrado e serviço autônomo (2026-10-22)
 
-- **ACT-001 — Operador/solicitante:** registra comandos, aprova despesas **individualmente** e consulta suas próprias tarefas e informações para as quais foi expressamente autorizado; não cadastra ou consulta segredos, salvo se também possuir **atribuição administrativa específica**.
+- **ACT-001 — Operador/solicitante:** é usuário Linux autenticado que integra o grupo autorizado para utilizar a aplicação, registra comandos, pré-autoriza despesas **individualmente** e consulta via aplicação tarefas/resultados compartilhados do grupo; não acessa diretamente o banco nem cadastra ou consulta segredos, salvo atribuição administrativa específica.
 - **ACT-005 — Administrador de credenciais:** configura, substitui e revoga segredos após a instalação, por identidade administrativa autorizada, sem expor valores aos operadores.
 - **ACT-006 — Serviço executor local:** com identidade exclusiva e acesso mínimo, consome tarefas autorizadas, utiliza os segredos estritamente necessários, executa sem depender da sessão interativa do solicitante e atualiza estados/resultados no banco local.
 - **ACT-007 — Guardião opcional:** acompanha exclusivamente as pendências e resultados autorizados, sem ler o cofre, iniciar inferências por conta própria ou aprovar despesas.
@@ -99,3 +99,15 @@ Não confundir o **agente AWS** com um **modelo de fundação específico**: ide
 **Limites de autoridade:** o cofre pertence à esfera de administração; o banco de tarefas mantém solicitações e auditoria, **não segredos**; permissão para acompanhar ou consultar não é permissão para executar, excluir, administrar credenciais ou aprovar gastos. Operações Git continuam sujeitas à [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md) e à restrição normativa de escrita exclusiva em `develop`.
 
 **Situação:** papéis e limites `DOCUMENTED`, não `IMPLEMENTED`. Contratos técnicos de processos, autorizações e persistência pertencem a Scope/Implementation. Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [CON-002](../conditions/CON-002-protecao-credenciais.md), [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md), [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md).
+
+## Limite de confiança — autenticação Linux e mediação exclusiva da aplicação (2026-10-22)
+
+- **Administração do servidor Linux:** gerencia usuários do sistema e associação ao grupo de acesso à aplicação. Autenticação Linux e participação no grupo bastam para utilização das funcionalidades comuns; **não haverá cadastro, senha ou concessões individuais de leitura paralelos na aplicação**.
+- **ACT-001 — Usuário do grupo:** utiliza a aplicação instalada para submeter solicitações e consultar resultados compartilhados com os demais membros. A identidade Linux é registrada como autoria, sem confundi-la com a identidade executora.
+- **ACT-006 — Serviço executor local:** é o intermediário obrigatório entre o cliente e o **banco de dados local canônico**, usando exclusivamente sua identidade técnica autorizada para leitura/escrita. Impede conexões diretas de usuários comuns e controla operações distintas de mera consulta.
+- **ACT-007 — Guardião opcional:** acompanha dados somente pelas funções autorizadas da aplicação/serviço; não recebe acesso ao banco ou ao cofre.
+- **ACT-005 — Administrador de credenciais:** permanece responsável pela gestão do cofre. Associação ao grupo de acesso **não** confere esses poderes.
+
+**Separação preservada:** consulta compartilhada não autoriza exclusão de registros, pagamento, uso de credenciais, publicação de mudanças ou operações Git fora da norma. Localização concreta do banco, protocolo e mecanismos de permissão pertencem a Scope/Implementation.
+
+**Superação documental:** a antiga limitação de leitura individual e concessões explícitas por tarefa/projeto foi superada **somente para consulta**; seguem válidas as responsabilidades dos atores e a auditoria. Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md), [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md), [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md). `DOCUMENTED`, não `IMPLEMENTED`.

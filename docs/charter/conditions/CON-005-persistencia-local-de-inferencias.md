@@ -46,8 +46,23 @@ Credenciais e segredos não devem ser persistidos nem expostos em registros, rel
 **Verificações pretendidas:**
 - Cada tarefa mantém identidade, solicitante, projeto, especialização, autorização financeira correspondente, estado, histórico de transições, justificativa de bloqueio e resultados conhecidos.
 - Encerrar sessão interativa não implica conclusão, perda, cancelamento nem aprovação automática da tarefa. O serviço continua apenas as operações já elegíveis e autorizadas.
-- O solicitante e identidades/consumidores **expressamente autorizados** consultam somente o escopo permitido; consulta não confere permissão de exclusão, administração de cofre, nova despesa ou execução.
+- **Regra de consulta vigente:** usuários Linux autenticados pertencentes ao grupo autorizado podem consultar o histórico compartilhado **somente pela aplicação e pelo serviço**, inclusive resultados de outros integrantes; não recebem acesso direto ao banco, permissão de exclusão, administração de cofre, nova despesa ou execução por essa razão.
 - O guardião opcional consulta informações autorizadas sem adquirir poder executivo. Falha de credencial preserva a solicitação como impedida até regularização e liberação autorizada.
 - O banco **não contém valores de credenciais**; a retenção até exclusão manual de [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md) permanece vigente.
 
 **Limite:** nenhuma escolha de tecnologia de banco, esquema físico, fila, sessão ou transporte é feita no Charter. `DOCUMENTED`, não `IMPLEMENTED`. Relações: [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [CON-002](CON-002-protecao-credenciais.md) e [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md).
+
+## Restrição vigente — acesso à base somente pelo serviço (2026-10-22)
+
+**Origem:** autorização do responsável para confiar no controle de identidade/grupo Linux e oferecer consultas por intermédio exclusivo da aplicação instalada.
+
+- O **banco de dados local continua sendo o histórico canônico** de solicitações, autorizações, estados, inferências, métricas, pendências e auditoria; localização física e esquema não são redefinidos no Charter.
+- **Usuários comuns e guardião opcional não podem acessar diretamente o banco.** A aplicação cliente não lhes disponibiliza credenciais do banco, acesso SQL, leitura direta dos arquivos ou meios de contornar o serviço.
+- A **identidade técnica autorizada do serviço** consulta e modifica os dados necessários. O serviço verifica o acesso funcional da identidade Linux e a participação no grupo autorizado antes de entregar resultados.
+- Membros do grupo podem consultar através da aplicação **dados compartilhados do serviço, inclusive de outros membros**. Não haverá cadastro de leitores, senhas ou concessões de leitura por tarefa mantidas em paralelo pela aplicação.
+- Consulta não significa aprovação de gasto, permissão de exclusão, acesso ao cofre nem poder de modificar registros fora das operações autorizadas. Eventos mantêm identidade do solicitante e evidências suficientes de consulta/alteração.
+- Falha na autenticação Linux, ausência do grupo ou tentativa de acesso direto por usuário comum devem resultar em **acesso negado**; não se presumem controles implementados sem comprovação.
+
+**Preservação histórica:** na política de 2026-10-21 e na extensão anterior de 2026-10-22, referências à leitura somente pelo operador responsável ou por concessionários individuais estão **superadas exclusivamente quanto à autorização de consulta**. Preservam-se retenção até exclusão manual, sigilo, segregação de responsabilidades, descarte auditável e proibição de segredos no banco.
+
+**Relações:** [OPEN-001](../open-questions/OPEN-001-politica-credenciais.md), [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md) e [OBJ-008](../objectives/OBJ-008-historico-local-de-inferencias.md). `DOCUMENTED`, não `IMPLEMENTED`; definição técnica em Scope/Implementation.
