@@ -134,3 +134,17 @@ As únicas integrações planejadas da primeira entrega seguem **OpenAI direta**
 A escolha de motor, modelo, tamanho de contexto admissível e prompt a cada inferência continua possível por decisão explícita do operador, sem apagar a origem dos padrões e o histórico. **Arquivo de configuração** e **tela anterior à sessão** são intenções funcionais; sua forma técnica fica para Scope/Implementation. Configuração persistente não guarda segredos nem autoriza gasto por si; valem segregação, controles locais, proteção financeira remota bloqueante comprovada e aprovação por chamada paga.
 
 **Pendente:** homologação dos serviços/modelos, demonstração da herança em combinação válida e inválida e definição técnica da representação sem inserir implementações no Charter. `OPEN-005` mantém status `refinement`. Relações: [OBJ-001](../objectives/OBJ-001-agentes-documentais-especializados.md), [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md), [OPEN-002](OPEN-002-fidelidade-e-custo.md).
+
+## Decisão vigente — exibição e homologação OpenAI antes da AWS (2026-10-22)
+
+**Origem:** aprovação do grupo Homologação financeira e provedores **1A/2A/3A**. Complementa, sem revogar, decisões 21 a 25 sobre entrega parcial, duas integrações, AgentCore, modelos e configurações iniciais.
+
+- **Visibilidade funcional:** apresentar as integrações **OpenAI direta** e **Amazon Bedrock AgentCore** inclusive quando não homologadas, com estado **indisponível**, motivo não sensível e condição pendente. O cliente acessa essas informações **somente pelo serviço**, sem obter chaves ou executar diretamente operações nos provedores.
+- **Ordem de habilitação:** priorizar primeiro a homologação dos quatro projetos OpenAI `charter`, `scope`, `implementation` e `source`; depois homologar AgentCore/AWS, suas cobranças e modelos subjacentes. A ordem não elimina a meta das duas integrações nem transforma homologação de OpenAI em permissão de AWS.
+- **Homologação administrativa independente:** para qualquer integração/projeto/operação remunerada, exigir fontes oficiais e evidências verificáveis de **controle remoto efetivo e bloqueante**, identidade autorizada, orçamento local e **autorização financeira específica por chamada**. A disponibilidade parcial não autoriza fallback para provedor não homologado ou substituição silenciosa.
+- **Dois LLMs e resultado validado:** para produção documental validada, preservar **gerador e revisor efetivamente distintos, homologados e disponíveis**, aferindo o modelo efetivo em AgentCore e as verificações prévias de custo. Na falta de revisor elegível, bloquear o ciclo dependente. Preservar o máximo de quatro correções por tarefa e aprovação humana.
+- **Limites:** permanecem as exclusões de integrações diretas adicionais, controles de credenciais e Git, perfis por especialização/papel, herança por operação e a decisão de entrega parcial com lacunas identificadas. Configurar um padrão não autoriza despesa.
+
+**Comprovação pendente:** disponibilidade de contas/modelos, capacidade dos mecanismos financeiros remotos e independência dos modelos; todos dependem de evidência real e não são declarados `IMPLEMENTED` por registro documental.
+
+**Resultado:** `DOCUMENTED`, status documental `refinement` / `v1`. Relações: [OPEN-004](OPEN-004-projeto-openai-e-hard-limit.md), [OPEN-002](OPEN-002-fidelidade-e-custo.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md).

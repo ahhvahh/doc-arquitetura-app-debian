@@ -369,3 +369,17 @@ A manutenção das exigências de proteção financeira e segregação de projet
 - **Limite de entrega:** esta redução de escopo não habilita a publicação Git futura, a parametrização da norma nem a inferência paga sem homologação. A documentação técnica e os testes necessários continuam pendentes; não declarar funcionalidade `IMPLEMENTED` sem evidência.
 
 **Resultado e rastreabilidade:** decisões `DOCUMENTED`; [OPEN-003](open-questions/OPEN-003-politica-de-branches.md) conserva o bloqueio normativo sobre a automação planejada e [CON-001](conditions/CON-001-referencia-normativa-main.md) mantém a fonte fixa vigente. Todos os documentos alterados permanecem em `refinement` / `v1` até cumprirem critérios de refinamento; o asset `badge-status-refined.svg` não consta na baseline alvo observada. Não declarar `READY_FOR_SCOPE` automaticamente.
+
+## Homologação financeira — visibilidade, evidências e ordem de integração (2026-10-22)
+
+**Origem:** escolha expressa do responsável para **1A — mostrar integrações não homologadas como indisponíveis**, **2A — homologação administrativa documentada** e **3A — OpenAI antes da AWS AgentCore**.
+
+- **Provedores planejados:** OpenAI direta e Amazon Bedrock AgentCore, visíveis mesmo se indisponíveis, com indicação segura de motivos e condições pendentes. Mostrar não habilita chamadas pagas nem entrega segredos ao cliente.
+- **Evidência administrativa:** o administrador precisa demonstrar, com fontes oficiais e verificações pertinentes ao escopo, mecanismo **remoto suficiente, efetivo e comprovadamente bloqueante**. Alertas de custos, orçamentos informativos e aprovação humana isolada não substituem tal garantia.
+- **Ordem:** investigar primeiro cada um dos **quatro projetos OpenAI independentes** (`charter`, `scope`, `implementation`, `source`), depois a integração AgentCore/AWS, incluindo serviços subjacentes potencialmente cobrados. A meta de duas integrações não foi reduzida.
+- **Financeiro:** **cada chamada remunerada** depende separadamente de autorização individual, preço/cotação e reserva local válidos, credenciais e proteção remota bloqueante comprovada; ausência de qualquer condição **bloqueia antes da requisição paga**.
+- **Revisão independente:** um resultado documental validado exige **dois modelos LLM efetivos distintos, disponíveis e homologados** para gerador e revisor; AgentCore não prova sozinho qual modelo subjacente foi usado. Nenhum fallback automático, publicação Git extra ou gasto sem autorização foi introduzido.
+
+**Relações:** [OPEN-004](open-questions/OPEN-004-projeto-openai-e-hard-limit.md), [OPEN-005](open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md), [CON-004](conditions/CON-004-orcamento-obrigatorio.md), [OBJ-005](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OPEN-002](open-questions/OPEN-002-fidelidade-e-custo.md).
+
+**Pendências:** comprovação real de controles financeiros remotos por escopo, elegibilidade de conta e modelos, viabilidade AgentCore e testes de não cobrança. Decisão `DOCUMENTED`, integração/homologação não `IMPLEMENTED`. Documentos permanecem em `refinement` / `v1`; não se libera o gate Charter → Scope por esta escolha.
