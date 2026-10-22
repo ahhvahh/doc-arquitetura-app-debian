@@ -90,3 +90,13 @@ Os resultados constituem **critérios de teste pretendidos**, não evidência de
 - A falha e a recuperação não mudam retroativamente os padrões fixados na sessão, não ignoram a herança controlada, não dispensam validações de integridade/DSL e **não reiniciam ou ampliam** as até quatro correções da mesma tarefa por artifício.
 
 As condições financeiras remotas, credenciais, autorizações por chamada e restrições normativas/Git também precisam de evidência própria antes da operação e do aceite. Relações: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md) e [OBJ-007](OBJ-007-comparacao-controlada-de-modelos.md).
+
+## Testes pretendidos para retomada da avaliação pendente — decisão 28
+Os critérios de verificação futuros deverão demonstrar, **sem presumir testes já executados**:
+- **Falha do revisor após geração íntegra:** a tarefa continua identificável, com proposta exata, baselines e documentos originais preservados, registro da interrupção e nenhum commit/aceite de resultado validado.
+- **Retomada autorizada:** operador seleciona **revisor distinto, homologado e disponível**; a revisão pendente recebe **nova autorização financeira individual** e controles local/remoto comprovados; a aplicação avalia a **mesma proposta, sem gerar outra**, e vincula o parecer ao histórico original.
+- **Falhas negativas:** proposta ou contexto alterado/corrompido, baseline diferente, revisor não distinto, desabilitado, sem capacidade de contexto ou sem controles financeiros suficientes **bloqueiam a retomada** e comunicam o motivo, sem modelo substituto automático.
+- **Contabilidade de ciclos:** repetir apenas a revisão pendente **não consome, por si só, um ciclo de correção**, não adiciona nova geração e não reinicia o máximo de **quatro correções por tarefa**; eventual alteração corretiva real consome o ciclo correspondente e requer reavaliação.
+- **Integridade e governança:** conservar hashes, uso/tokens/custos, versão de modelos/prompt, versões dos padrões carregados na sessão e escolhas por inferência; não permitir aprovação humana ou commit como substituto para avaliação por segundo LLM.
+
+Esta decisão trata de **comportamento exigido para homologação futura**, não de implementação. Relações: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md) e [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md).
