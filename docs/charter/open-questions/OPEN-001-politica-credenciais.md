@@ -3,15 +3,15 @@
 ![Tipo: OPEN](../../assets/documentation-style/badges/badge-type-open.svg) ![Status: refinement](../../assets/documentation-style/badges/badge-status-refinement.svg) ![Versão: v1](../../assets/documentation-style/badges/badge-version-v1.svg)
 
 ## Tipo
-Diretriz funcional aprovada de cofre administrado e execução autônoma com acesso mínimo; comprovação de permissões, isolamento de dados, continuidade e controles financeiros permanece pendente.
+Diretriz funcional aprovada para a primeira entrega: arquivos administrativos de segredos protegidos pelo Linux, entrega restrita ao serviço por `systemd` e execução com identidade exclusiva e privilégios mínimos, sem cofre dedicado obrigatório. Comprovação efetiva das permissões, da continuidade e dos controles financeiros permanece pendente.
 ## Questão
-**Política vigente (2026-10-22):** administrador autorizado ou superusuário configura, substitui e revoga os segredos após a instalação; usuário comum não lê nem administra credenciais. A identidade exclusiva do serviço, com acesso mínimo, executa operações autorizadas independentemente da sessão Linux do solicitante. Guardião opcional acompanha somente tarefas e resultados autorizados. A pré-autorização financeira é individual por chamada paga; falhas de credencial preservam a tarefa bloqueada até liberação autorizada. Decisões 03 e 11 permanecem como histórico, parcialmente superadas nos pontos indicados abaixo.
+**Política vigente (2026-10-22, Segurança — decisão 1, opção A):** administrador Linux autorizado ou superusuário configura, substitui e revoga segredos mantidos em arquivos administrativos protegidos e separados da configuração geral; o serviço com identidade exclusiva e privilégios mínimos os recebe por mecanismo restrito de `systemd`, sem cofre dedicado obrigatório na primeira entrega. Usuários comuns e guardião não leem nem administram segredos. A execução independe da sessão do solicitante; grupo Linux habilita somente uso e consulta via aplicação, sem banco direto. Cada chamada paga requer autorização financeira individual, e falhas de credencial preservam tarefas bloqueadas até liberação autorizada. As decisões anteriores de cofre ficam preservadas como histórico, parcialmente superadas quanto ao armazenamento obrigatório.
 ## Contexto
 A aplicação existente é executada em contexto de usuário; o daemon isolado está descrito, mas ainda não está implementado. Passar a chave na linha de comando pode expô-la em argumentos e histórico.
 ## Impacto
 **Bloqueadora:** sim; afeta a segurança e a autorização da integração.
 ## Próxima ação
-Comprovar configuração administrativa, identidade exclusiva e privilégios mínimos do serviço, impossibilidade de acesso de usuários/guardiões ao cofre, segregação das consultas, execução sem sessão Linux ativa, pré-autorização financeira individual, preservação de pendências e retomada autorizada após falha. Especificações de mecanismo, cofre, permissões Linux, interface e armazenamento pertencem a Scope/Implementation.
+Comprovar que somente o administrador gerencia arquivos secretos, que a configuração geral não contém segredos, que o serviço não privilegiado recebe credenciais por `systemd` sem ler os arquivos de origem e que usuários comuns/guardiões não extraem chaves; testar acesso por grupo Linux via aplicação, ausência de acesso direto ao banco, execução sem sessão interativa, pré-autorização financeira por chamada, revogação e retomada autorizada de tarefas bloqueadas. Detalhes de unidade, caminhos, permissões, rotação e formatos pertencem às etapas responsáveis.
 ## Destino previsto
 Scope de administração/credenciais, após decisão do Charter.
 
@@ -56,6 +56,7 @@ Scope de administração/credenciais, após decisão do Charter.
 **Relações canônicas:** [CON-002 — Proteção de credenciais](../conditions/CON-002-protecao-credenciais.md), [OBJ-005 — Política financeira](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [PCH-001 — Contexto e participantes](../project-context/PCH-001-contexto-integracao-openai-dsl.md).
 
 ## Política vigente — cofre administrativo e serviço autônomo (2026-10-22)
+**Nota de atualização da Segurança — decisão 1, opção A (2026-10-22):** esta subseção registra a escolha anterior de administração centralizada. A expressão “cofre” **não obriga mais um produto ou serviço de cofre dedicado** na primeira entrega; a política de armazenamento vigente é a de arquivos administrativos protegidos com entrega restrita via `systemd`, definida ao final desta OPEN. Continuam válidas identidade exclusiva, privilégios mínimos, sigilo, bloqueio e auditoria.
 
 **Origem:** o responsável escolheu explicitamente as cinco alternativas: identidade de serviço **A**, guardião **A**, acesso aos resultados **B**, pré-autorização financeira **A** e tratamento de falha de credencial **B**. Decisão de produto **DOCUMENTED**, não `IMPLEMENTED`.
 
@@ -90,3 +91,23 @@ Scope de administração/credenciais, após decisão do Charter.
 **Situação:** `DOCUMENTED`, não `IMPLEMENTED`; controle efetivo de grupo Linux, exposição do serviço, privilégios e proteção da base dependem de validação posterior. A `OPEN-001` permanece em `refinement`.
 
 **Relações:** [CON-005 — Banco local](../conditions/CON-005-persistencia-local-de-inferencias.md), [OBJ-008 — Histórico](../objectives/OBJ-008-historico-local-de-inferencias.md), [OPEN-006 — Retenção e acesso](OPEN-006-retencao-e-protecao-do-historico.md), [PCH-001 — Atores](../project-context/PCH-001-contexto-integracao-openai-dsl.md), [CON-002 — Segredos](../conditions/CON-002-protecao-credenciais.md) e [OBJ-005 — Controle financeiro](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md).
+
+## Decisão vigente — Segurança 1: arquivos Linux protegidos e entrega por systemd (2026-10-22)
+
+**Origem:** opção **A** selecionada e autorizada pelo responsável para a primeira entrega do `doc-arquitetura-app-debian`. Trata-se de política de produto `DOCUMENTED`, não comprovação de implementação.
+
+- **Custódia administrativa:** somente usuário Linux com privilégios administrativos autorizados poderá cadastrar, substituir ou revogar chaves e senhas de OpenAI, AWS/Amazon Bedrock, GitHub e integrações autorizadas. A operação administrativa deverá proteger a entrada e jamais exibir o valor secreto.
+- **Proteção simples sem cofre obrigatório:** segredos permanecerão em **arquivos administrativos protegidos pelo Linux**, separados da configuração geral da aplicação. **Não é obrigatório implantar ou administrar cofre externo/dedicado** na primeira entrega. A escolha não autoriza arquivos legíveis por usuários comuns.
+- **Entrega exclusiva:** a identidade técnica exclusiva do serviço deverá receber apenas os segredos necessários às operações elegíveis **por mecanismo restrito do `systemd`**, sem ganhar acesso direto de leitura aos arquivos administrativos de origem. A administração pode requerer privilégios elevados; o serviço contínuo não poderá depender de rodar como `root`.
+- **Restrições de divulgação:** usuário comum ou guardião opcional não pode ler, cadastrar, exportar ou alterar segredos. Chaves/senhas não irão para argumentos da CLI, histórico do shell, logs, DSL, Markdown, Git, relatórios, exportações, arquivos de configuração comum ou banco de tarefas.
+- **Isolamento já aprovado:** autenticação e participação no grupo Linux permitem usar a aplicação e consultar o histórico compartilhado **somente por meio da aplicação/serviço**. Nem associação ao grupo nem acesso de leitura conferem acesso direto ao banco, à origem dos segredos, à administração ou a gastos de terceiros.
+- **Bloqueio seguro:** segredo ausente, revogado, inacessível ou inválido mantém a operação dependente **bloqueada**, com tarefa e histórico preservados. Depois da correção administrativa, a retomada exige liberação autorizada e revalidação de condições, sem credencial substituta automática.
+- **Financeiro e Git inalterados:** continuam válidas pré-autorização **por chamada paga**, orçamento local, proteção remota bloqueante comprovada e restrição normativa de gravação exclusiva em `develop`, sem merges ou operações Git não permitidas.
+
+**Registro de superação:** a decisão 03 (cofre individual) e o armazenamento em “cofre administrado” da política intermediária permanecem documentados como histórico. Ficam superadas **somente as exigências de cofre individual/dedicado e a execução sob credenciais pessoais**; **não** os requisitos de proteção, custódia, privilégios mínimos, autoria, sigilo, auditoria e orçamento. A decisão de acesso compartilhado por grupo Linux permanece íntegra.
+
+**Evidências requeridas futuramente:** verificar permissões negativas para usuário comum/guardião e para serviço sobre arquivos de origem; entrega restrita via `systemd`; separação de configuração/segredos; identidade efetiva não-root; revogação e rotação sem vazamento; bloqueio de chamada paga sem autorização ou controles suficientes; continuidade segura das tarefas.
+
+**Status da decisão:** `DOCUMENTED`. Manter o badge documental `refinement` até os critérios pertinentes serem verificados, sem afirmar `IMPLEMENTED`. Caminhos, permissões numéricas e configuração concreta do `systemd` pertencem a Scope/Implementation.
+
+**Relações:** [CON-002 — Proteção de credenciais](../conditions/CON-002-protecao-credenciais.md), [CON-005 — Banco local](../conditions/CON-005-persistencia-local-de-inferencias.md), [OBJ-005 — Controle financeiro](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OPEN-006 — Histórico](OPEN-006-retencao-e-protecao-do-historico.md).
