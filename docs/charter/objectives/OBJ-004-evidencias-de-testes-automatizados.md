@@ -165,7 +165,7 @@ Checks de PR e aprovação humana final de integração são distintos da aprova
 ## Evidências previstas para bloquear sessão com PR aberta — decisão 35
 **Cenários futuros, não executados:**
 - Abertura solicitada quando existe PR **aberta para `develop` no repositório-alvo** é bloqueada **antes de criar sessão ou branch**; oferecer explicitamente **aguardar** ou **cancelar inicialização**.
-- Escolha **aguardar** registra opção e período permitido (valores a definir posteriormente); rechecagens não produzem branch, alteração Git ou chamada paga. Permanecendo PR aberta, não liberar; tempo esgotado nunca libera por padrão.
+- Escolha **aguardar** registra autorização para consultas **a cada 15 segundos durante até 5 minutos**; rechecagens não produzem branch, alteração Git ou chamada paga. Permanecendo PR aberta após o prazo, oferecer **aguardar mais 5 minutos com autorização expressa** ou **cancelar inicialização**, sem liberar por padrão.
 - Escolha **cancelar inicialização** encerra a tentativa sem criar sessão, branch ou PR e sem interferir na PR pendente.
 - PR concluída por **merge** e nenhuma outra PR aberta: atualizar/verificar baseline SHA de `develop` após a integração antes de liberar; PR **fechada sem merge**: revalidar `develop` sem inventar alteração do SHA.
 - Múltiplas PRs abertas com base `develop`: liberar somente quando **todas** deixarem de estar abertas; uma PR aberta para outra base/repositório não bloqueia por essa regra.
@@ -173,3 +173,15 @@ Checks de PR e aprovação humana final de integração são distintos da aprova
 - O fluxo real de criação de branch/PR depende de resolver o bloqueio normativo em [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). Nenhuma verificação aqui constitui teste real ou implementação.
 
 Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
+
+## Critérios de verificação da espera por PR — decisão 38 (2026-10-22)
+**Cenários futuros, não executados:**
+- PR aberta com base `develop`: a aplicação não cria sessão nem branch e oferece aguardar ou cancelar.
+- Ao escolher aguardar, registrar verificações **a cada 15 segundos**, sem exceder **5 minutos por autorização**; o encerramento da espera não produz autorização implícita de abertura.
+- Se a PR permanecer aberta ao esgotar cinco minutos, mostrar **nova espera de cinco minutos ou cancelamento**; continuar aguardando exige decisão humana independente, sem renovação automática.
+- Se todas as PRs abertas deixarem de estar abertas dentro do período, confirmar o SHA atual de `develop` e a exclusividade de sessão antes da abertura; se houve fechamento sem merge, não presumir atualização da baseline.
+- Várias PRs abertas com base `develop` permanecem bloqueadoras até todas serem encerradas; PR aberta com outra base não cria esse impedimento.
+- Erro, paginação incompleta, falha de acesso ou consulta indeterminada deixam a tentativa bloqueada e registram o motivo, sem inferência remunerada nem mudança Git.
+- Cancelamento ou término sem renovação deixam **zero sessões/branches criadas** e preservam as PRs existentes.
+
+**Relações:** [OPEN-003 — decisão 38](../open-questions/OPEN-003-politica-de-branches.md), [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md). Nenhum destes testes foi executado; a referência normativa vigente continua restringindo a escrita à `develop`.

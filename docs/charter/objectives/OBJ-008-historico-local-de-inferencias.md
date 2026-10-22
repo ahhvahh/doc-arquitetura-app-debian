@@ -125,3 +125,16 @@ A forma de persistência e de consulta desses eventos pertence a Scope/Implement
 - Eventos de recuperação ou suspensão não equivalem a commit, PR, merge ou aprovação financeira; preservar a rastreabilidade da decisão 35 sobre PR aberta para `develop`.
 
 **Relações:** [OPEN-003 — decisão 37](../open-questions/OPEN-003-politica-de-branches.md), [OPEN-002 — decisão 29](../open-questions/OPEN-002-fidelidade-e-custo.md) e [OPEN-006 — retenção e proteção](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md). O formato dos registros e os controles técnicos ficam para Scope/Implementation. **DOCUMENTED**, não `IMPLEMENTED`; as restrições atuais de escrita Git permanecem inalteradas.
+
+## Rastreabilidade do período de espera por PR — decisão 38 (2026-10-22)
+**Resultado esperado adicional:** registrar a espera autorizada por Pull Requests abertas para `develop`, respeitando a decisão 35 e os parâmetros definidos na [OPEN-003 — decisão 38](../open-questions/OPEN-003-politica-de-branches.md).
+
+**Critérios verificáveis:**
+- Identificar repositório, tentativa de abertura, operador autorizado e escolha inicial (**aguardar** ou **cancelar**), sem criar identidade de sessão ativa por mera espera.
+- Registrar início e término de **cada período autorizado de até 5 minutos**, verificações previstas **a cada 15 segundos**, estado observado das PRs e eventuais erros ou consultas inconclusivas.
+- Distinguir esgotamento da espera, **nova autorização expressa de outros 5 minutos**, cancelamento e liberação por ausência confirmada de PR aberta; jamais registrar renovação ou autorização por presunção.
+- Registrar resultado da verificação da baseline/SHA de `develop` e da exclusividade de sessão por repositório quando a abertura passar a ser elegível; distinguir PR integrada de PR fechada sem merge.
+- Tentativas bloqueadas ou canceladas não podem aparecer como sessões efetivamente ativas nem como operações de inferência, commit, PR ou merge ocorridas.
+- Proteger dados e aplicar a retenção e o acesso já previstos na [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md), sem armazenar segredos.
+
+**Situação:** `DOCUMENTED`, não `IMPLEMENTED`; formato dos registros e mecanismos técnicos pertencem a Scope/Implementation. A restrição normativa de escrita exclusiva em `develop` continua em vigor.
