@@ -113,3 +113,10 @@ A rastreabilidade de geração e revisão deverá distinguir a **versão dos pad
 A comparação deverá informar a origem dos valores (herança da especialização, exceção da operação e seleção pontual), as versões e o modelo realmente empregado. **Não pressupor** que um modelo configurado anteriormente continua elegível. Um resultado só é considerado validado quando houver **gerador e revisor distintos e homologados**, com evidências de revisão independente, integridade e autorizações aplicáveis.
 
 Esta regra não comprova existência de modelos homologados, nem autoriza chamadas financeiras sem controles ou escrita Git fora de `develop`. Relações: [OBJ-001](OBJ-001-agentes-documentais-especializados.md), [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md), [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Disponibilidade dos modelos de ambos os papéis como pré-condição — decisão 27
+O fluxo documental **destinado a validação** só poderá começar depois de verificar os **dois LLMs distintos, homologados, identificáveis e disponíveis** que exercerão os papéis de gerador e revisor, inclusive a identidade efetiva do modelo associado a Amazon Bedrock AgentCore. Dois agentes não constituem necessariamente dois modelos.
+
+A aplicação deve apresentar o **pareamento efetivo**, indicar a **versão dos padrões iniciais de sessão** e as escolhas explícitas naquela inferência e registrar bloqueio fundamentado quando faltar uma das condições. **Não** permitir geração apenas por indisponibilidade de revisor, fallback automático para outro modelo, aceite sem parecer independente ou commit de resultado validado. Disponibilidade confirmada previamente **não garante** execução futura: falha posterior suspende o ciclo e impede validação, conservando evidências e gastos autorizados.
+
+Mantêm-se comparação por baseline íntegra, autorização financeira separada para chamadas de geração e revisão, homologação individual, avaliação das divergências materiais, revisão humana e limites de quatro correções por tarefa. Relação: [OPEN-002 — decisão 27](../open-questions/OPEN-002-fidelidade-e-custo.md).

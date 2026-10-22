@@ -80,3 +80,13 @@ O produto deverá demonstrar, por casos auditáveis, que a revisão independente
 - conserva a geração inicial, as até **quatro correções** admissíveis, os testes estruturais repetidos, a revisão por outro LLM e os registros de custo/autorização, impedindo uma quinta rodada ou um aceite com falha material pendente.
 
 Os resultados constituem **critérios de teste pretendidos**, não evidência de testes executados ou de critérios de relevância já homologados. Relação: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+## Casos de verificação da indisponibilidade do segundo LLM — decisão 27
+**Evidências esperadas para aceitação futura do produto, não testes já executados:**
+- Com **dois modelos distintos, homologados e disponíveis** e controles obrigatórios comprovados, a aplicação admite o início do fluxo validado, sujeitando cada chamada paga à sua própria autorização.
+- Com gerador indisponível, revisor indisponível, identificação insuficiente do modelo subjacente no AgentCore, dois papéis apontando para o **mesmo LLM**, ou modelo desabilitado/não homologado, a aplicação **interrompe antes da primeira inferência documental validada**, informando o motivo verificável ao operador e registrando o bloqueio.
+- É proibido tratar automaticamente a falha do revisor como autorização para uma **geração exploratória paga**, dispensar a segunda avaliação ou trocar silenciosamente o modelo indicado.
+- Se a pré-verificação foi satisfeita, mas o revisor falhou **após** gerar conteúdo, o sistema preserva o histórico, registra custos/ocorrência, **não declara resultado validado e não produz commit de resultado validado**.
+- A falha e a recuperação não mudam retroativamente os padrões fixados na sessão, não ignoram a herança controlada, não dispensam validações de integridade/DSL e **não reiniciam ou ampliam** as até quatro correções da mesma tarefa por artifício.
+
+As condições financeiras remotas, credenciais, autorizações por chamada e restrições normativas/Git também precisam de evidência própria antes da operação e do aceite. Relações: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md) e [OBJ-007](OBJ-007-comparacao-controlada-de-modelos.md).
