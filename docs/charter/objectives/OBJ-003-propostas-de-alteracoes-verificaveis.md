@@ -207,3 +207,17 @@ Na espera, realizar consultas de acompanhamento sem despesa de inferência e sem
 - Falha de verificação do estado ou da identidade do repositório impede ativação; nenhum bloqueio deve produzir inferência paga, branch nova ou alteração documental válida por presunção.
 
 A definição de estados operacionais, controle de concorrência e testes de reinicialização pertence às próximas etapas. **Não há implementação comprovada**. A política de branches e PRs continua impedida pela norma de escrita exclusiva em `develop`, conforme [OPEN-003 — decisões 35 e 36](../open-questions/OPEN-003-politica-de-branches.md). Esta complementação não modifica [NOBJ-003 — exclusão de resolução automática de conflitos na mesma branch](../non-objectives/NOBJ-003-nao-gerenciar-concorrencia-na-branch-da-sessao.md).
+
+## Recuperação supervisionada após interrupção — decisão 37 (2026-10-21)
+
+**Resultado esperado adicional:** recuperar uma sessão interrompida inesperadamente **somente sob supervisão de operador autorizado e após verificar ausência de execução remanescente**, oferecendo escolha entre **retomar a mesma sessão** ou **suspender e liberar a vaga**. A interrupção não conclui nem libera automaticamente a sessão; permanece a exclusividade de **uma sessão ativa por repositório** da [OPEN-003 — decisão 36](../open-questions/OPEN-003-politica-de-branches.md).
+
+**Critérios verificáveis:**
+- Queda, reinicialização ou perda de conexão não produzem encerramento, suspensão automática, nova sessão, novo SHA de baseline, commit ou PR.
+- Antes de qualquer retomada ou liberação, comprovar ausência de trabalho efetivamente em curso, vínculo e integridade da sessão e autorização do operador; incerteza bloqueia.
+- Retomar reutiliza identidade, tarefa, pendências, contexto e histórico originais, sem reiniciar o limite de quatro correções, sem autorização automática de despesa ou nova geração/revisão.
+- Suspender somente após confirmação segura preserva todo o material e libera a vaga do repositório, sem autorizar integração Git. A próxima abertura continua sujeita à checagem de PR aberta para `develop`.
+- Com duas solicitações concorrentes de recuperação/abertura no mesmo repositório, no máximo uma sessão pode ficar ativa; repositórios diferentes permanecem independentes.
+- Uma sessão formalmente concluída não pode ser reaberta, e a suspensão não equivale a sua conclusão ou ao aceite documental.
+
+A definição do mecanismo de verificação e recuperação cabe a Scope/Implementation, não a este objetivo. A decisão 37 está [documentada em OPEN-003](../open-questions/OPEN-003-politica-de-branches.md) e permanece **planejada**, sem comprovação de implementação; a referência normativa fixa continua impedindo branches de sessão e PRs por agentes.

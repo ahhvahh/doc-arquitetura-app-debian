@@ -111,3 +111,17 @@ Falhas de consulta, cancelamento de inicialização, PR ainda aberta e encerrame
 - Permitir reconstruir se duas ativações concorrentes no mesmo repositório foram corretamente serializadas ou bloqueadas e se repositórios distintos puderam manter sessões ativas independentes.
 
 A forma de persistência e de consulta desses eventos pertence a Scope/Implementation. A retenção e o controle de acesso continuam sujeitos a [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md). **DOCUMENTED**, não `IMPLEMENTED`; nenhuma gravação em branches de sessão ou PR é autorizada por esta decisão.
+
+## Auditoria da recuperação supervisionada — decisão 37 (2026-10-21)
+
+**Resultado esperado adicional:** o histórico local deve distinguir interrupção inesperada, recuperação pendente, verificação de execução remanescente, decisão humana de retomada, suspensão liberadora de vaga e bloqueios, associados **à identidade da mesma sessão e ao repositório original**.
+
+**Critérios verificáveis:**
+- Registrar operador autorizado, repositório, sessão/tarefa, evento e horário, causa conhecida ou desconhecida da interrupção, estado anterior e posterior, evidências/resultado da verificação de ausência de execução, alternativa oferecida, escolha expressa e efeito sobre a vaga.
+- Preservar baselines e hashes, branch vinculada, propostas e pareceres, pendências, número de correções, histórico de autorizações e custos, sem reescrever registros anteriores.
+- Distinguir retomada autorizada da **mesma sessão** de criação de nova sessão e distinguir suspensão confirmada de encerramento, cancelamento, liberação por suposição e mera perda de conexão.
+- Registrar falhas e estados inconclusivos como **bloqueados**, sem marcar vaga liberada ou trabalho concluído; não registrar gasto ou autorização de inferência inexistentes.
+- Permitir auditoria de tentativas concorrentes: duas ativações no mesmo repositório não podem ser registradas como simultaneamente permitidas, enquanto repositórios diferentes podem operar de modo independente.
+- Eventos de recuperação ou suspensão não equivalem a commit, PR, merge ou aprovação financeira; preservar a rastreabilidade da decisão 35 sobre PR aberta para `develop`.
+
+**Relações:** [OPEN-003 — decisão 37](../open-questions/OPEN-003-politica-de-branches.md), [OPEN-002 — decisão 29](../open-questions/OPEN-002-fidelidade-e-custo.md) e [OPEN-006 — retenção e proteção](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md). O formato dos registros e os controles técnicos ficam para Scope/Implementation. **DOCUMENTED**, não `IMPLEMENTED`; as restrições atuais de escrita Git permanecem inalteradas.
