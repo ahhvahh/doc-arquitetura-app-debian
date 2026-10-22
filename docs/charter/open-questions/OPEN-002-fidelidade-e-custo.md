@@ -248,3 +248,27 @@ Relações: [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md)
 **Critério verificável proposto:** uma tarefa T em avaliação pendente resiste ao fechamento e reinício da aplicação; o operador autorizado pode identificar T, verificar hashes/baselines, escolher o revisor e autorizar somente a revisão faltante; o contador original de correções, os registros e custos permanecem consistentes. Falhas de dados, permissão ou controles bloqueiam sem novas inferências.
 
 **Pendências:** comprovar esses resultados em testes de reinício, interrupção, restauração, proteção e integridade, bem como homologar modelos e controles financeiros. **DOCUMENTED**, não `IMPLEMENTED`; `OPEN-002` permanece em `refinement`. O formato do banco, esquema, política operacional de recuperação e interface técnica pertencem a Scope/Implementation.
+
+## Política de avaliação de qualidade — critérios eliminatórios e pontuação consolidada (2026-10-22)
+
+**Origem e decisão:** o responsável escolheu e aprovou a **opção B — critérios obrigatórios de validade seguidos de avaliação de qualidade com possibilidade de pontuação consolidada**. A presente diretriz complementa as decisões 10, 12, 14, 20 e 24–29, sem substituí-las. Nenhum número global de decisão é atribuído nesta alteração, para preservar a numeração histórica e evitar colisão com propostas ainda não persistidas.
+
+**Resultado da triagem:** política funcional **aceita** para o produto e encaminhada aos objetivos existentes; pontuação numérica, pesos e limiares **não homologados**. `DOCUMENTED`, não `IMPLEMENTED`.
+
+**Critérios eliminatórios obrigatórios para elegibilidade à pontuação:**
+- Comprovar integridade da proposta documental e da conversão Markdown ↔ DSL, preservação do conteúdo não alterado, links, diagramas, estruturas obrigatórias, escopo da tarefa, baseline e aderência à referência normativa aplicável.
+- Cumprir a avaliação independente por **segundo LLM efetivamente distinto, identificado e homologado**, com parecer rastreável; divergências **materiais** ou incertezas relevantes não resolvidas impedem declarar validade. Sugestões exclusivamente editoriais continuam registradas para decisão humana, conforme decisão 20.
+- Respeitar o limite de **até quatro correções por tarefa**, critérios de segurança, segregação de credenciais, contexto integral autorizado e autorizações financeiras por chamada com proteção remota bloqueante comprovada.
+- Qualquer falha obrigatória, evidência insuficiente ou verificação inconclusiva mantém o resultado **não elegível para pontuação válida e para aceite**; nenhuma média, nota elevada ou parecer global substitui a correção e as verificações exigidas.
+
+**Avaliação de qualidade para resultados elegíveis:** registrar separadamente **completude**, **clareza**, **consistência**, **rastreabilidade** e **necessidade/importância de correções**. Cada apreciação deverá ter fonte, evidência, contexto e possibilidade de explicação ou revisão humana. A nota consolidada será um indicador **comparativo e auxiliar**, não requisito suficiente para aceitar ou publicar alterações.
+
+**Calibração pendente:** pesos, fórmula de agregação, escala numérica, tratamento de evidências incompletas, limiares e critérios de homologação da pontuação dependem de definição e validação posterior; **não fixar valores nem divulgar nota numérica como homologada** até sua comprovação. Antes disso, apresentar avaliações individuais qualitativas e indicar a pontuação geral como **não calibrada/indisponível**, nunca como zero. Custos, tokens, tempo e consumo de correções permanecem indicadores independentes, não substitutos automáticos de qualidade.
+
+**Comparabilidade e decisão final:** comparar apenas resultados com tarefa, prompt, contexto e baselines equivalentes; quando houver diferenças, identificá-las explicitamente e não produzir ranking como se houvesse equivalência. Mesmo pontuação homologada e elevada **não aprova automaticamente** a proposta, não dispensa revisão humana nem autoriza commit, PR ou integração Git. Continuam vigentes [OPEN-003](OPEN-003-politica-de-branches.md), [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [CON-004](../conditions/CON-004-orcamento-obrigatorio.md).
+
+**Critérios verificáveis futuros:** rejeitar pontuação capaz de liberar resultado inválido; comprovar a distinção entre parecer editorial e divergência material; impedir nota numérica não calibrada; preservar evidências individuais e a versão do método quando houver homologação; demonstrar que nenhuma nota dispensa as aprovações humanas e os bloqueios normativos.
+
+**Pendências:** homologar fidelidade DSL/Markdown, critérios quantitativos, escala, pesos, fórmula, mínimos de aprovação e critérios de comparação representativos em evidências/testes. Essas pendências preservam a `OPEN-002` em `refinement` e os bloqueios já documentados para operação de inferência em produção.
+
+**Relações:** [OBJ-007 — Comparação de modelos](../objectives/OBJ-007-comparacao-controlada-de-modelos.md), [OBJ-004 — Evidências](../objectives/OBJ-004-evidencias-de-testes-automatizados.md), [OBJ-008 — Histórico](../objectives/OBJ-008-historico-local-de-inferencias.md), [OPEN-005 — Modelos e provedores](OPEN-005-estrategia-de-provedores-e-modelos.md).

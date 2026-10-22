@@ -138,3 +138,17 @@ A forma de persistência e de consulta desses eventos pertence a Scope/Implement
 - Proteger dados e aplicar a retenção e o acesso já previstos na [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md), sem armazenar segredos.
 
 **Situação:** `DOCUMENTED`, não `IMPLEMENTED`; formato dos registros e mecanismos técnicos pertencem a Scope/Implementation. A restrição normativa de escrita exclusiva em `develop` continua em vigor.
+
+## Rastreabilidade de critérios eliminatórios e avaliação comparativa de qualidade (2026-10-22)
+
+**Resultado esperado adicional:** permitir recuperar o motivo pelo qual uma tentativa foi declarada **elegível ou não elegível à pontuação**, distinguindo verificações eliminatórias, avaliações qualitativas e eventual pontuação quantitativa homologada.
+
+**Critérios verificáveis:**
+- Relacionar a tarefa, tentativa, modelo gerador efetivo, segundo revisor distinto, suas versões, prompts, contexto e SHAs documentais e normativos ao resultado de cada **critério obrigatório**, com fonte, data, evidência e justificativa da eventual falha.
+- Registrar os resultados individuais de **completude, clareza, consistência, rastreabilidade e necessidade/importância de correção**, a natureza material/editorial dos apontamentos e a decisão humana associada, sem substituir registros anteriores.
+- Distinguir **não elegível por falha obrigatória**, **pontuação não calibrada/indisponível** e **pontuação calculada com método homologado**. Campos ausentes ou indeterminados não serão transformados em zero ou aprovação presumida.
+- Quando houver pontuação numérica, manter referência à versão do método, critérios, parâmetros, evidências, validade da comparação e eventual nota efetivamente apurada; **pesos, fórmula, escala e limiares não estão estabelecidos nesta decisão**.
+- Preservar **custos, tokens, duração, quantidade de correções e aprovações humanas** como campos separados de qualquer indicador de qualidade. Não misturar resultados de tarefas ou baselines incompatíveis em um ranking.
+- Vincular revisões posteriores ao registro de origem e permitir reconstrução de avaliações antigas de acordo com seus métodos históricos, sem alterar retroativamente fatos ou registrar execução de teste não ocorrida.
+
+**Limites:** a retenção, o controle de acesso e a proteção de segredos permanecem sujeitos à [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md). O mecanismo técnico de representação pertence às etapas posteriores. `DOCUMENTED`, não `IMPLEMENTED`. Relações: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), [OBJ-007](OBJ-007-comparacao-controlada-de-modelos.md) e [OBJ-004](OBJ-004-evidencias-de-testes-automatizados.md).

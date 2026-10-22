@@ -127,3 +127,17 @@ A revisão interrompida **depois da geração** pode ser retomada **sobre a mesm
 A comparação deverá distinguir **modelo gerador original** e **modelo revisor efetivo da retomada**, registrar suas versões, baselines, validade de integridade, evidências da falha e novos custos/pareceres. **Não comparar como equivalentes** resultados de contexto/baseline modificados sem explicitar a diferença; se essa diferença impedir uma avaliação independente íntegra da proposta original, bloquear a retomada.
 
 **Não repetir a geração** apenas porque o revisor falhou, nem considerar a revisão pendente como correção documental automática. O teto de quatro correções continua atrelado à mesma tarefa, incluindo correções eventualmente executadas **antes** da interrupção. Sem revisor elegível ou proteção financeira suficiente, nenhum aceite/commit de resultado validado pode ocorrer. Referências: [OPEN-002 — decisão 28](../open-questions/OPEN-002-fidelidade-e-custo.md) e [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md).
+
+## Avaliação de qualidade com barreiras de validade — política aprovada (2026-10-22)
+
+**Resultado esperado adicional:** cada comparação deverá separar a **elegibilidade documental obrigatória** da **avaliação comparativa de qualidade**, conforme a [política da OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md). Os resultados devem permitir compreender a qualidade sem que uma pontuação compense falhas normativas, estruturais, de fidelidade, contexto, segurança ou da avaliação independente.
+
+**Critérios verificáveis:**
+- Apresentar, por tentativa e modelo efetivamente utilizado, o estado de cada verificação eliminatória, evidências e razões de bloqueio. Com divergência material pendente, falha de integridade, ausência de revisor distinto ou verificação inconclusiva, informar **não elegível**, sem nota capaz de liberar aceite.
+- Quando elegível, apresentar avaliações individuais de **completude**, **clareza**, **consistência**, **rastreabilidade** e **necessidade/importância das correções**, com justificativas e proveniência; sugestões somente editoriais não geram correções obrigatórias por si.
+- Exibir **pontuação consolidada apenas se houver método quantitativo calibrado e homologado**, identificando versão, critérios e condições de aplicação. Pesos, fórmula, escala e nota mínima ainda não estão definidos; antes da homologação, mostrar **pontuação indisponível/não calibrada**, sem inventar valores ou classificar resultados sem base comparável.
+- Garantir que tarefa, prompt efetivo, contexto, SHA normativo e baseline documental sejam equivalentes na comparação; variações de modelo, escopo ou fonte devem ser sinalizadas e impedem atribuir equivalência indevida.
+- Mostrar **tempo, tokens, custos e correções como indicadores separados da nota de qualidade**; ausência de medição significa desconhecido, não zero. Não tratar menor custo como maior qualidade nem a nota como homologação automática.
+- Manter revisão humana e a autorização específica para publicação Git independentes de qualquer pontuação. O controle prévio de dois modelos distintos e o limite de quatro correções por tarefa permanecem exigíveis.
+
+**Situação:** critérios de produto `DOCUMENTED`, não `IMPLEMENTED`; escalas, pesos, fórmula, testes de calibração e homologação ficam pendentes, sem escolhas técnicas neste Charter. Relações: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), [OBJ-004](OBJ-004-evidencias-de-testes-automatizados.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).

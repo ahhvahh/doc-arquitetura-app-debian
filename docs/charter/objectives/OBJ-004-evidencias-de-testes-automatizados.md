@@ -185,3 +185,18 @@ Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-00
 - Cancelamento ou término sem renovação deixam **zero sessões/branches criadas** e preservam as PRs existentes.
 
 **Relações:** [OPEN-003 — decisão 38](../open-questions/OPEN-003-politica-de-branches.md), [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md). Nenhum destes testes foi executado; a referência normativa vigente continua restringindo a escrita à `develop`.
+
+## Evidências de qualidade: critérios eliminatórios e pontuação calibrada (2026-10-22)
+
+**Cenários futuros, não executados**, vinculados à [política de qualidade da OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md):
+
+- Resultado com conteúdo perdido na DSL/Markdown, alteração fora do escopo, link obrigatório quebrado, baseline divergente ou violação normativa **falha na validação eliminatória**, independentemente de eventual parecer positivo ou nota alta.
+- Revisão por modelo não distinto, ausente ou não homologado, bem como divergência material pendente ou classificação inconclusiva, impedem resultado validado, pontuação apta a justificar aceite e publicação automática.
+- Sugestão **exclusivamente editorial comprovada** é registrada e apresentada ao operador, sem impor por si só novo ciclo pago ou consumir uma das quatro correções; erro material exige correção e reavaliação dentro do limite.
+- Resultado que passou pelas verificações obrigatórias apresenta, com justificativas, **completude, clareza, consistência, rastreabilidade e necessidade de correção**. Não há nota geral numérica homologada enquanto pesos, fórmula e escala continuarem não calibrados.
+- Cenários com método futuramente homologado devem permitir reproduzir a nota, conhecer sua versão, detectar mudanças de pesos/escala e impedir aplicação de regras incompatíveis ou desconhecidas.
+- Dois resultados com tarefas, prompts, baselines ou contextos diferentes **não recebem ranking de equivalência indevido**. Valores de qualidade, custos ou tokens ausentes não podem ser registrados como zero.
+- Mesmo com nota alta e método homologado, a validação obrigatória, revisão humana e autorização separada de integração permanecem exigidas; nenhuma nota libera commit, PR ou merge por si.
+- Proteger histórico e registros de avaliação sem criar inferências pagas, operações Git ou testes externos durante a documentação deste objetivo.
+
+**Critério de conclusão:** registrar sucesso e falha de cada cenário em evidências futuras, sem declarar testes feitos nesta alteração. A calibração quantitativa e implementação ficam pendentes. Relações: [OBJ-007](OBJ-007-comparacao-controlada-de-modelos.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
