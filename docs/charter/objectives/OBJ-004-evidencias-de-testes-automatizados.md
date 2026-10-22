@@ -161,3 +161,15 @@ Nenhum teste comprova execução atual, pois operações de branches de sessão,
 **Critérios futuros ainda não executados:** (1) a sessão cria sua branch exclusiva a partir do SHA vigente da `develop`; (2) "Cancelar" pergunta **encerrar ou continuar**; (3) continuar conserva sessão e branch; (4) encerramento **aprovado** com documentação validada cria PR para `develop` e **não** faz merge; (5) encerramento **reprovado** termina sem PR, **sem excluir nem alterar a branch**; (6) não oferecer PR quando o conteúdo não está validado; (7) sem autorização ou enquanto a norma bloquear a operação, não executar ações Git proibidas.
 
 Checks de PR e aprovação humana final de integração são distintos da aprovação do encerramento. A reprovação não descarta o histórico de inferências e custos nem reinicia quatro correções. Não converter este planejamento em alegação de teste, implementação ou homologação. Relações: [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md), [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md).
+
+## Evidências previstas para bloquear sessão com PR aberta — decisão 35
+**Cenários futuros, não executados:**
+- Abertura solicitada quando existe PR **aberta para `develop` no repositório-alvo** é bloqueada **antes de criar sessão ou branch**; oferecer explicitamente **aguardar** ou **cancelar inicialização**.
+- Escolha **aguardar** registra opção e período permitido (valores a definir posteriormente); rechecagens não produzem branch, alteração Git ou chamada paga. Permanecendo PR aberta, não liberar; tempo esgotado nunca libera por padrão.
+- Escolha **cancelar inicialização** encerra a tentativa sem criar sessão, branch ou PR e sem interferir na PR pendente.
+- PR concluída por **merge** e nenhuma outra PR aberta: atualizar/verificar baseline SHA de `develop` após a integração antes de liberar; PR **fechada sem merge**: revalidar `develop` sem inventar alteração do SHA.
+- Múltiplas PRs abertas com base `develop`: liberar somente quando **todas** deixarem de estar abertas; uma PR aberta para outra base/repositório não bloqueia por essa regra.
+- Consulta inacessível, incompleta ou sem permissão: **falha fechada**, com motivo claro; teste separado deverá verificar que **não há garantia de sessão ativa única** apenas por ausência de PR.
+- O fluxo real de criação de branch/PR depende de resolver o bloqueio normativo em [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). Nenhuma verificação aqui constitui teste real ou implementação.
+
+Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).

@@ -91,3 +91,10 @@ O cancelamento de sessão e a exclusão da **ref Git de trabalho** não equivale
 Distinguir no histórico **pedido de cancelar**, **decisão de continuar**, **encerramento aprovado com PR solicitada**, **encerramento reprovado sem PR**, suspensão e conclusão sem publicação. Na reprovação registrar operador, sessão, branch, SHA da baseline, propostas, custos, revisões e **ausência de exclusão da branch e de operações posteriores**. Na aprovação registrar o conjunto validado, PR para `develop`, checks e autorização de merge posterior, sem considerá-lo automaticamente integrado.
 
 Todos os registros continuam sujeitos à retenção até exclusão manual em [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md); manter a branch de uma sessão encerrada **não** reativa a sessão ou as tarefas. A intenção de criar branch/PR continua impedida pela norma vigente conforme [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). `DOCUMENTED`, não `IMPLEMENTED`.
+
+## Rastreabilidade da espera por PR para liberar abertura — decisão 35
+Antes de iniciar nova sessão, a aplicação deverá registrar de maneira auditável as **condições verificadas para abertura**: repositório, destino `develop`, detecção de PRs abertas, decisão do operador (**aguardar ou cancelar**), eventuais verificações seguintes, resultado do período de espera e, **somente quando elegível**, a baseline SHA da `develop` utilizada para a sessão.
+
+Falhas de consulta, cancelamento de inicialização, PR ainda aberta e encerramento por esgotamento da espera **não criam sessão ativa nem inferências remuneradas**. A evidência histórica deve distinguir PR **integrada** de PR **fechada sem merge** e não atribuir alteração à baseline sem verificação.
+
+**Limite:** nenhuma evidência de ausência de PR aberta substitui prova de exclusividade de sessão ativa, cuja política está pendente em [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). A proteção dos dados e eventual descarte permanecem regidos por [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md); nenhuma implementação é presumida.
