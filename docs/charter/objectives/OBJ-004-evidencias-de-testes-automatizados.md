@@ -100,3 +100,14 @@ Os critérios de verificação futuros deverão demonstrar, **sem presumir teste
 - **Integridade e governança:** conservar hashes, uso/tokens/custos, versão de modelos/prompt, versões dos padrões carregados na sessão e escolhas por inferência; não permitir aprovação humana ou commit como substituto para avaliação por segundo LLM.
 
 Esta decisão trata de **comportamento exigido para homologação futura**, não de implementação. Relações: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md) e [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md).
+
+## Evidências de recuperação após reinício — decisão 29
+Os testes **a serem definidos e executados posteriormente** deverão demonstrar:
+- Uma tarefa com geração concluída e revisão pendente permanece **identificável pelo operador autorizado após fechar e reiniciar a aplicação**, recuperando **a mesma sessão, tarefa, proposta integral, material original, baseline, histórico, custos e contador de correções**.
+- **Somente após** confirmação de integridade, identidade/permissão, revisor distinto e homologado, capacidade de contexto, limites locais e proteção remota efetivamente bloqueante, e **nova autorização financeira por chamada**, a revisão pendente pode continuar **sem gerar novamente o documento**.
+- A recuperação cria **registro adicional da continuidade e da revisão**, mas não reescreve os eventos anteriores nem conta a retomada da avaliação como nova correção. Correção documental posterior continua limitada ao **saldo original de quatro ciclos**.
+- Tentativas de recuperação com dados ausentes, hashes/baselines divergentes, contexto insuficiente, conteúdo excluído manualmente, credenciais indevidas, modelo inelegível ou falta de proteção financeira devem **bloquear com motivo**, sem fallback, geração automática ou aceite.
+- Novo estado do perfil geral da aplicação ou mudanças posteriores de `develop` não substituem **silenciosamente** os padrões e a baseline da tarefa preservada. A eventual divergência demanda tratamento humano separado.
+- Reiniciar o programa **não aciona automaticamente chamada paga nem aprova ou publica** a proposta; revisão independente e aprovação humana continuam necessárias.
+
+Estes são **critérios de teste pretendidos**, não relatos de implementação. Relações: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).

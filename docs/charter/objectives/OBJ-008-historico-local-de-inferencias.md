@@ -46,3 +46,12 @@ O Charter não fixa nomes de propriedades, modelo físico de banco ou transporte
 **Critérios de verificação propostos:** não ocorrer expiração automática; registros continuam recuperáveis até descarte manual; exclusões não autorizadas são negadas; consultas indevidas e vazamentos de segredos são impedidos; o descarte gera evidência suficiente de sua execução.
 
 Decisão: [OPEN-006 — Retenção e acesso](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md). Formato, armazenamento, proteção e consultas técnicas serão definidos em Scope/Implementation.
+
+## Recuperabilidade de tarefas pendentes entre execuções — decisão 29
+Além da retenção dos registros de inferência até exclusão manual já aprovada, o produto deverá **preservar informações suficientes para localizar e reconstruir conceitualmente uma tarefa que ficou aguardando revisão**, mesmo quando a aplicação for encerrada ou reiniciada. O operador autorizado deverá conseguir identificar **sessão/tarefa, estado de avaliação pendente, proposta integral gerada, contexto original, baseline e hashes, modelos/prompts usados, autorizações e custos já incorridos, falha do revisor, correções realizadas e limite remanescente**.
+
+**Critério positivo:** depois de reiniciar, a tarefa continua associada à sua identidade e à **mesma proposta**; verificação de integridade e permissão permite **retomar só a revisão independente** com revisor escolhido/confirmado, homologado e distinto e **nova autorização financeira própria**. Eventos novos são acrescentados sem alterar os registros anteriores.
+
+**Critério negativo:** falha de acesso, integridade, vínculo com baseline, disponibilidade e homologação, ou **exclusão manual autorizada de conteúdo necessário** impede recuperar validamente a revisão. Os segredos continuam ausentes do histórico e das exportações; o operador recebe a causa do bloqueio. Não recuperar automaticamente dados legitimamente eliminados, nem usar valores desconhecidos de custo como zero.
+
+**Limites:** a política canônica de retenção, proteção, acesso e exclusão continua em [OPEN-006](../open-questions/OPEN-006-retencao-e-protecao-do-historico.md) e [CON-005](../conditions/CON-005-persistencia-local-de-inferencias.md). Recuperação entre execuções **não é prova de persistência implementada** nem determina banco, formato, esquema, interface ou mecanismo técnico. Relações: [OPEN-002 — decisão 29](../open-questions/OPEN-002-fidelidade-e-custo.md) e [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md).
