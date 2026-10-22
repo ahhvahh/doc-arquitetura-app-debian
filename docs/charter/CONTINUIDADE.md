@@ -69,13 +69,13 @@ Baseline do inventário: `develop` em `84c58183848fcdb3dce0ebdd4963bfa09d9c027c`
 
 | Demanda | Questão / documento | Estado de trabalho | Situação de revisão | Criticidade / motivo | Depende de | Bloqueia | Critério de conclusão | Próxima ação |
 |---|---|---|---|---|---|---|---|---|
-| D-001 | OPEN-004 / CON-004 / OBJ-005 — comprovar bloqueio financeiro remoto | em_analise | ● Revisão pendente | P0 — sem proteção comprovada, inferências pagas devem permanecer bloqueadas | — | D-002; gate de inferência paga | Evidência verificável por projeto/provedor e teste de bloqueio | Investigar documentação oficial e homologação financeira; não presumir hard limit |
+| D-001 | OPEN-004 / CON-004 / OBJ-005 — comprovar bloqueio financeiro remoto | em_analise | ● Revisão pendente | P0 — limite local de US$ 10 por sessão não substitui proteção remota comprovada; chamadas pagas continuam bloqueadas | — | D-002; gate de inferência paga; execução remunerada de D-007 | Evidência verificável por projeto/provedor e teste de bloqueio | Investigar documentação oficial e homologação financeira; não presumir hard limit |
 | D-002 | OPEN-005 / NOBJ-004 — viabilidade de OpenAI e AWS AgentCore | a_analisar | ● Revisão pendente | P0 — integrações essenciais e DSC ainda não verificadas | D-001 para chamadas pagas | OBJ-001; OBJ-007; gate do MVP | Discovery conclusivo, elegibilidade, modelos e restrições validados | Propor investigação DSC por assunto, sem ativar cobrança |
 | D-003 | OPEN-002 / OBJ-002 / OBJ-004 — equivalência e validação DSL | a_analisar | ● Revisão pendente | P1 — compromete confiança nas propostas e seus dependentes | — | OBJ-003; OBJ-006; OBJ-007 | Critérios de fidelidade e testes de preservação rastreáveis | Confirmar evidências de equivalência e critérios aceitos |
 | D-004 | OPEN-003 / OBJ-003 / NOBJ-001 — automação de branches e PR | bloqueado | ● Revisão pendente | P1 — conflito normativo para função futura; automação adiada no MVP | Processo separado de alteração da norma | Automação Git de sessões; não o MVP reduzido | Regra compatível aprovada e controles Git verificados | Manter função desabilitada e preservar decisão de adiamento |
 | D-005 | PCH-001 — consolidar ACT-005, ACT-006 e ACT-007 | concluido | ● Revisão pendente no PCH-001 | P1 — cadastro canônico necessário para governança dos atores | Decisões já documentadas em OPEN-001 e PCH-001 | Rastreabilidade dos papéis | Seções únicas por ID com papel, interesse, interações e limites | Validar inclusão de seções e links no commit desta rodada |
 | D-006 | Controle de continuidade, README e índice OPEN-001 | concluido | ● Revisão pendente nos documentos de Charter | P2 — lacuna de navegação e retomada | Inventário e decisões registradas em develop | Retomadas incrementais | Painel único e índices alinhados à baseline | Validar os quatro arquivos no commit desta rodada |
-| D-007 | OBJ-009 / OBJ-005 — execução automática de tarefas elegíveis (opção B) | aguardando_gravacao | ● Revisão pendente | P1 — condiciona execução autônoma, dependências e controles financeiros | D-001; D-002; D-003 | Fluxo de instruções com tarefas elegíveis; não libera custos nem Git | Critérios de elegibilidade/negação documentados e diffs autorizados materializados | Registrar objetivo e decisões; validar IDs, badges e links; manter bloqueios financeiros |
+| D-007 | OBJ-009 / OBJ-005 — execução automática de tarefas elegíveis (opção B) | concluido | ● Revisão pendente nos documentos canônicos (`refinement`) | P1 — orquestração depende de controles ainda não homologados | D-001; D-002; D-003 para execução paga | Fluxo remunerado continua condicionado; sem liberação Git | Decisão B e limites documentados, IDs e links verificados em develop | Entrega documental concluída; manter dependências de homologação e implementação |
 
 Legenda: **● Revisão pendente**, **○ Não verificado — pendente**, **✓ Validado**, **— Cancelado/histórico**. Criticidades P0 crítica, P1 alta, P2 média e P3 baixa. D-005 e D-006 referem-se à **regularização documental desta rodada**, não à promoção de PCH/OPEN para `refined`.
 
@@ -91,19 +91,21 @@ Legenda: **● Revisão pendente**, **○ Não verificado — pendente**, **✓ 
 | D-005 | Administrador Linux gerencia credenciais; serviço com identidade exclusiva e credenciais restritas via systemd | [OPEN-001](open-questions/OPEN-001-politica-credenciais.md) | [PCH-001](project-context/PCH-001-contexto-integracao-openai-dsl.md) | **Aprovado pelo usuário em 2026-10-22**: regularizar atores | Seções ACT-005/006/007 previstas neste commit |
 | D-003 | Histórico local retido até exclusão manual autorizada, acesso compartilhado somente via aplicação | [OPEN-006](open-questions/OPEN-006-retencao-e-protecao-do-historico.md) | [OBJ-008](objectives/OBJ-008-historico-local-de-inferencias.md) | Nenhum diff canônico novo | DOCUMENTED; comprovação pendente |
 | D-006 | Controle de continuidade e índices vinculados para evitar rediscutir decisões | Aprovação específica do usuário em 2026-10-22 (conversa corrente) | [README](README.md), [índice OPEN](open-questions/README.md) | **Aprovado** para quatro arquivos, somente develop | Painel e links previstos neste commit |
-| D-007 | Executar automaticamente tarefas elegíveis sem aprovação geral do plano; chamadas pagas continuam com pré-autorizações individuais por operação | Escolha B expressa pelo responsável em 2026-10-22 (conversa corrente) | [OBJ-009](objectives/OBJ-009-execucao-automatica-de-tarefas-elegiveis.md) e [OBJ-005](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) | **Aprovado especificamente** em 2026-10-22 para quatro arquivos Charter, somente develop | DOCUMENTED; aplicação no commit desta rodada pendente de verificação |
+| D-007 | Executar automaticamente tarefas elegíveis sem aprovação geral do plano; chamadas pagas continuam com pré-autorizações individuais por operação | Escolha B expressa pelo responsável em 2026-10-22 (conversa corrente) | [OBJ-009](objectives/OBJ-009-execucao-automatica-de-tarefas-elegiveis.md) e [OBJ-005](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) | **Aprovado especificamente** em 2026-10-22 para quatro arquivos Charter, somente develop | DOCUMENTED; regularização aplicada no commit `75d0c1d0c9bfe0ff4c53d912a21ef6665d244c2b` |
+
+| D-001 / D-007 | Parâmetros padrão configuráveis: 1.000.000 de tokens por inferência e orçamento acumulado de US$ 10,00 por sessão; contabilização por chamada e por sessão, reserva preventiva, suspensão antes de exceder limites locais e preservação das autorizações individuais e da proteção remota obrigatória | Decisão expressa do responsável em 2026-10-22 (conversa corrente) | [OBJ-005](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md), [OBJ-009](objectives/OBJ-009-execucao-automatica-de-tarefas-elegiveis.md), [CON-004](conditions/CON-004-orcamento-obrigatorio.md) | **Aprovado especificamente** em 2026-10-22 para estes três documentos e CONTINUIDADE.md, somente develop | DOCUMENTED; execução e homologação ainda pendentes |
 
 **Distinção:** aprovação de decisão funcional não aprova automaticamente diffs futuros. Históricos superados (como a exclusão da branch na decisão 33) permanecem preservados nas fontes, sem reativação.
 
 ## Progresso e próxima ação
 
-- **Rodada:** 2026-10-22 — regularização inicial, sem mudança de decisões de produto.
+- **Rodada:** 2026-10-22 — definição dos limites configuráveis por inferência e sessão, sem habilitação de despesas.
 - **Universo coberto:** 25 documentos canônicos (1 PCH, 9 OBJ, 4 NOBJ, 5 CON e 6 OPEN), mais apresentação e índices.
-- **Demanda atual:** D-007, opção B (orquestração de tarefas sem aprovação geral do plano), documentada e autorizada para materialização; entrega de D-005 e D-006 preservada.
-- **Concluídos por entrega no commit desta rodada:** D-005 e D-006, condicionados à validação pós-publicação.
-- **Revisões de negócio pendentes:** D-001, D-002, D-003, D-004 e D-007 (cinco IDs únicos); todos os 25 documentos canônicos permanecem em `refinement`, inclusive o novo OBJ-009.
+- **Demanda atual:** D-001 (P0), comprovação ainda pendente de bloqueio financeiro remoto; limites locais de inferência/sessão definidos e documentados. D-007 regularizada documentalmente, sem execução implementada.
+- **Concluídos por entrega documental já verificada:** D-005, D-006 e D-007. A regularização de D-007 está comprovada no commit `75d0c1d0c9bfe0ff4c53d912a21ef6665d244c2b`; status documentais continuam `refinement`.
+- **Revisões de negócio pendentes:** D-001, D-002, D-003 e D-004 (quatro IDs únicos); a regularização documental D-007 foi concluída, mas os 25 documentos canônicos permanecem em `refinement` e seus requisitos exigem revisão/homologação posteriores.
 - **Aguardando decisão nova:** nenhuma decisão previamente tomada deve ser perguntada novamente sem evidência de reabertura.
-- **Aguardando gravação:** D-007 na baseline anterior a este commit; após a publicação e validação atômica dos quatro arquivos, considerar a regularização documental concluída e reconciliar o painel na próxima rodada. Esta linha não registra implementação do produto.
+- **Aguardando gravação:** nenhuma demanda documental previamente aprovada e ainda não aplicada; os novos limites são materializados nesta rodada autorizada, sujeitos à conferência pós-commit. Nenhuma funcionalidade foi implementada.
 - **Bloqueados:** D-004 para automação Git; D-001 e D-002 para inferência remunerada/homologação.
 - **Reabertos na rodada:** nenhum.
 - **Próxima demanda:** D-001 (P0); investigar controles financeiros oficiais por provedor, com D-002 (P0) na sequência. D-007 depende de D-001, D-002 e D-003 para execução de inferências pagas. Nenhum uso pago decorre desta análise.
@@ -114,20 +116,21 @@ Legenda: **● Revisão pendente**, **○ Não verificado — pendente**, **✓ 
 |---|---|---|---|---|
 | 2026-10-22 — inventário | D-001 a D-006 | Consolidação sem criar decisões; atores e índices incompletos identificados | `develop` 84c58183848f; norma 20b49b182ea5 | Sem commit da auditoria |
 | 2026-10-22 — regularização | D-005, D-006 | Painel inicial, cadastro ACT-005/006/007 e índice OPEN-001 atualizados | Aprovação expressa limitada a quatro arquivos; estados de negócio preservados | `8e187821780fca45ed4af05d78f442447665f8c8` em develop, verificado |
-| 2026-10-22 — execução automática | D-007 | Opção B aceita: tarefas elegíveis são executadas sem aprovação geral do plano; chamadas pagas continuam individualmente autorizadas | Objetivo novo OBJ-009, índice e OBJ-005; sem homologação financeira ou serviço implantado | Gravação em develop aprovada especificamente, pendente de confirmação após commit |
+| 2026-10-22 — execução automática | D-007 | Opção B aceita: tarefas elegíveis são executadas sem aprovação geral do plano; chamadas pagas continuam individualmente autorizadas | Objetivo novo OBJ-009, índice e OBJ-005; sem homologação financeira ou serviço implantado | Commit `75d0c1d0c9bfe0ff4c53d912a21ef6665d244c2b` confirmado em develop |
+| 2026-10-22 — limites de consumo da sessão | D-001, D-007 | Padrões de 1.000.000 tokens por inferência e US$ 10,00 acumulados por sessão, configuráveis; preservadas autorizações financeiras por chamada e proteção remota | OBJ-005, OBJ-009, CON-004 e painel; requisito `DOCUMENTED`, homologação `UNKNOWN` | Escrita aprovada nesta rodada, confirmação externa após commit |
 
 ## Identificação, baseline e autorização
 
 - **Repositório-alvo:** https://github.com/ahhvahh/doc-arquitetura-app-debian
 - **Branch autorizada:** `develop`; `main` é somente leitura.
 - **Referência normativa:** https://github.com/ahhvahh/doc-arquitetura/tree/main/ProjectCharter/1.0
-- **SHA do alvo antes da rodada:** `8e187821780fca45ed4af05d78f442447665f8c8`.
+- **SHA do alvo antes da rodada:** `75d0c1d0c9bfe0ff4c53d912a21ef6665d244c2b`.
 - **SHA de main do alvo antes da rodada:** `865ec1efc79c9a7dd2de19f2943922b66fabc785` (somente leitura).
 - **SHA normativo:** `20b49b182ea529f8b809e8e009132ab0fd5fe267` (somente leitura).
-- **Skill operacional:** Agente Charter 1.2.0; prompts `objective-refinement.txt` e `open-question-resolution.txt` (normativa main).
-- **Autorização de escrita da rodada:** usuário aprovou especificamente em 2026-10-22 a criação de `docs/charter/objectives/OBJ-009-execucao-automatica-de-tarefas-elegiveis.md` e as alterações em `docs/charter/objectives/README.md`, `docs/charter/objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md` e `docs/charter/CONTINUIDADE.md`, somente em `develop`. A autorização anterior de D-005/D-006 já foi materializada no commit `8e187821780fca45ed4af05d78f442447665f8c8`. Não há autorização contínua para novos diffs, Scope, Implementation, src, assets ou outras refs.
+- **Skill operacional:** Agente Charter 1.2.0; prompts `objective-refinement.txt` e `constraint-assumption-refinement.txt` da normativa main.
+- **Autorização de escrita da rodada:** usuário aprovou especificamente em 2026-10-22 a edição de `docs/charter/objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md`, `docs/charter/objectives/OBJ-009-execucao-automatica-de-tarefas-elegiveis.md`, `docs/charter/conditions/CON-004-orcamento-obrigatorio.md` e `docs/charter/CONTINUIDADE.md` para os limites padrão configuráveis; somente `develop`. A regularização anterior de D-007 está comprovada no commit `75d0c1d0c9bfe0ff4c53d912a21ef6665d244c2b`. Não há autorização contínua para novos diffs ou outras branches/etapas.
 - **Cobertura/limitações:** inventário e itens identificados, sem homologação remota, sem DSC e sem validação total da cadeia implementada.
-- **Persistência:** esta linha descreve a baseline **anterior** ao commit da rodada D-007; conferir commit e branch após a gravação, sem inserir o SHA do próprio commit no arquivo que o contém.
+- **Persistência:** esta linha descreve a baseline **anterior** ao commit da rodada de limites; conferir commit e branch após a gravação, sem inserir o SHA do próprio commit no arquivo que o contém.
 
 ## Gate Charter → Scope
 

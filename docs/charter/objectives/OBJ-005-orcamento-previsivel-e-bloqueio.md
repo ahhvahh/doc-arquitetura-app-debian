@@ -118,3 +118,19 @@ Antes de efetuar cada chamada, continuam obrigatórias a conferência de identid
 A suspensão por falta de autorização não cancela automaticamente outras tarefas independentes já elegíveis nem dispensa o registro das pendências.
 
 Relações: [OBJ-009](OBJ-009-execucao-automatica-de-tarefas-elegiveis.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md).
+
+## Limites padrão configuráveis de inferência e sessão — decisão de 2026-10-22
+
+**Resultado esperado:** cada sessão documental possui orçamento monetário local independente e configurável, com valor padrão de **US$ 10,00 por sessão**. Cada inferência da sessão possui limite padrão configurável de **1.000.000 de tokens**, considerando a soma de entrada e saída da operação e os demais tokens faturáveis quando informados pelo provedor. Os tokens efetivamente utilizados também são acumulados no histórico da sessão, sem converter o limite por inferência em teto de tokens da sessão.
+
+**Critérios verificáveis:**
+- Planejamento, geração, avaliação por segundo LLM e cada correção/reavaliação são operações de consumo rastreáveis, sujeitas aos limites que lhes sejam aplicáveis; os custos de todas as operações remuneradas alimentam o **mesmo total acumulado de US$ 10,00 da sessão**, inclusive quando executadas de forma autônoma.
+- Cada inferência somente inicia se a estimativa conservadora de entrada e saída, acrescida das parcelas cobradas aplicáveis, couber no limite configurado, **na capacidade real de contexto/saída do modelo** e nos demais requisitos de fidelidade. O padrão de um milhão **não garante** que qualquer modelo comporte esse volume em uma única chamada; não autoriza truncar contexto ou fracioná-lo silenciosamente.
+- Antes de cada chamada remunerada, reservar preventivamente seu custo estimado, considerando consumo já realizado e reservas simultâneas da sessão, sem ultrapassar o saldo disponível. Cobrança real ou estimada não informada não é tratada como zero; diferenças de consumo são conciliadas e registradas.
+- Esgotamento do saldo ou impossibilidade de reservar a próxima operação **suspende novas chamadas remuneradas**, preservando tarefas elegíveis independentes que não exijam cobrança, os resultados anteriores e os acumuladores, sem encerrar automaticamente a sessão.
+- Alterações dos valores padrão são configuráveis e rastreáveis, mas **não ampliam automaticamente o orçamento já autorizado de uma sessão**. Uma nova despesa ou elevação de limite exige as autorizações aplicáveis; a sessão não ganha novo orçamento por reinício ou retomada.
+- O teto de sessão e o limite de tokens **não substituem** a autorização financeira individual de cada chamada paga, os limites globais/por especialização nem a **proteção remota comprovadamente bloqueante** exigida em [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md). A existência de limites locais não garante, por si, teto absoluto na fatura do provedor.
+
+**Relações:** [OBJ-009 — tarefas elegíveis](OBJ-009-execucao-automatica-de-tarefas-elegiveis.md), [OBJ-008 — histórico local](OBJ-008-historico-local-de-inferencias.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md), [OPEN-002 — contexto e revisão](../open-questions/OPEN-002-fidelidade-e-custo.md).
+
+**Situação:** decisão funcional documentada; configuração, homologação financeira e execução automática ainda não comprovadas. Manter `refinement` e a restrição de inferências pagas sem proteção remota válida.

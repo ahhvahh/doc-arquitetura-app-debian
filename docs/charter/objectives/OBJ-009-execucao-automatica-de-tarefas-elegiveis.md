@@ -47,3 +47,18 @@ Operador autorizado e serviço executor local, conforme [PCH-001](../project-con
 Escolha expressa do responsável em 2026-10-22: opção B — executar automaticamente tarefas elegíveis com autorizações financeiras prévias, sem aprovação geral do plano.
 
 Decisão funcional aceita, ainda não implementada. Contratos de planejamento, estados e tratamento de dependências pertencem a Scope; mecanismos e testes de execução pertencem a Implementation.
+
+## Limite de tokens por inferência e orçamento acumulado por sessão — 2026-10-22
+
+**Resultado esperado complementar:** o serviço utiliza limite padrão configurável de **1.000.000 de tokens por inferência**, independentemente de quantas inferências integrem a mesma sessão. A sessão acumula os tokens consumidos e o custo monetário das operações realizadas, sob **teto local padrão configurável de US$ 10,00 por sessão**.
+
+**Critérios verificáveis:**
+- O serviço acompanha separadamente o consumo de cada inferência e os totais acumulados da sessão para planejamento, geração, revisão independente e correções; o limite de tokens de uma inferência não é confundido com limite global de tokens da sessão.
+- A elegibilidade de uma tarefa remunerada pressupõe saldo de sessão suficiente para reserva conservadora da operação, autorização financeira individual válida e todas as proteções de [OBJ-005](OBJ-005-orcamento-previsivel-e-bloqueio.md) e [CON-004](../conditions/CON-004-orcamento-obrigatorio.md); o serviço não aceita uma tarefa paga por causa apenas do valor padrão configurado.
+- Uma inferência acima do limite efetivo de contexto, de saída ou de tokens do modelo é bloqueada para redefinição autorizada, sem truncamento silencioso nem alteração automática da baseline.
+- Ao esgotar o orçamento da sessão, o serviço deixa pendentes ou bloqueadas novas tarefas que gerariam cobrança, preserva resultados anteriores, histórico, saldo de correções e a sessão para retomada autorizada.
+- A reabertura, o reinício do serviço ou novas instruções na mesma sessão não reiniciam os acumuladores nem concedem despesa adicional implicitamente.
+
+**Relações:** [OBJ-005](OBJ-005-orcamento-previsivel-e-bloqueio.md), [OBJ-008](OBJ-008-historico-local-de-inferencias.md), [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), [OPEN-004](../open-questions/OPEN-004-projeto-openai-e-hard-limit.md).
+
+**Situação:** comportamento esperado `DOCUMENTED`, não `IMPLEMENTED`; contratos detalhados de contabilização e execução pertencem às próximas etapas.

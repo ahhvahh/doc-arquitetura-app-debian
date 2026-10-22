@@ -41,3 +41,15 @@ Para **as integrações vigentes OpenAI e agentes Amazon Bedrock (AWS)** — e q
 - Evidências da análise de viabilidade, garantias comerciais reais e meios técnicos de comprovação devem ser aprofundados no Discovery pertinente e depois no Scope/Implementation, sem antecipar mecanismo nesta restrição.
 
 **Impacto:** a lista histórica de três provedores foi substituída pela decisão 22 de [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md); nenhuma das duas integrações atualmente previstas (OpenAI/AWS) é declarada apta a operar chamadas pagas por esta decisão. Relações: [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).
+
+## Limites locais configuráveis por inferência e sessão — decisão de 2026-10-22
+
+**Restrição adicional:** o sistema deve respeitar limites padrão **configuráveis** de **1.000.000 de tokens por inferência** (entrada e saída, observando todos os componentes faturáveis informados) e **US$ 10,00 de orçamento monetário acumulado por sessão**. Os tokens gastos pelas inferências são acumulados como métrica da sessão, mas um milhão **não é** o teto de tokens total da sessão.
+
+**Verificação obrigatória:**
+- Conferir capacidade e limites reais do modelo antes da inferência, sem pressupor suporte a um milhão de tokens em uma chamada nem permitir truncamento do contexto exigido.
+- Bloquear preventivamente qualquer nova chamada remunerada cujo custo conservador reservado, somado ao consumo e às demais reservas da sessão, ultrapasse o teto monetário da sessão; contabilizar os custos de planejamento, geração, segunda avaliação e correções no mesmo acumulador.
+- Persistir consumo e reservas, inclusive em interrupção, retomada e concorrência, e impedir reinicialização artificial do orçamento por nova instrução.
+- Negar inferências pagas sem **autorização financeira individual específica**, preço/câmbio válidos, demais orçamentos aplicáveis e **proteção remota efetivamente bloqueante e comprovada**. O teto monetário local não substitui a proteção remota nem assegura teto absoluto na fatura externa.
+
+**Origem:** decisão expressa do responsável em 2026-10-22, vinculada a [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OBJ-009](../objectives/OBJ-009-execucao-automatica-de-tarefas-elegiveis.md). Situação `DOCUMENTED`, sem implementação ou homologação demonstradas; o documento permanece em `refinement`.
