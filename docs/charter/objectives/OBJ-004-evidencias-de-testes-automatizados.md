@@ -131,3 +131,14 @@ A implementação e os contratos técnicos desses comportamentos pertencem às e
 - Os fluxos que impliquem branches de sessão, PRs ou merges continuam **bloqueados pela restrição normativa** de [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md); testar a regra de encerramento sem publicar não equivale a habilitar o Git futuro.
 
 **Estado das evidências:** critérios esperados de verificação do produto, não execução de testes nem implementação. Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
+
+## Evidências esperadas de encerramento terminal da sessão — decisão 32
+**Critérios de testes futuros, não testes realizados:**
+- A sessão S1 formalmente **concluída sem publicação** conserva estado terminal, identidade, baseline, tarefas canceladas e histórico, sem PR, commit documental ou merge decorrente da conclusão.
+- Uma tentativa de **reabrir S1 para novos trabalhos** é rejeitada com indicação de que é necessário iniciar **nova sessão**; a consulta autorizada ao histórico de S1 continua possível.
+- A nova sessão S2, aberta no mesmo repositório e especialização, apresenta **identidade distinta** e baseline definida e verificada na própria abertura, sem herdar tarefas canceladas, aprovações, autorizações financeiras ou contadores de correção de S1.
+- Uma sessão **suspensa** com pendências, ainda não concluída, pode ser reaberta conforme a decisão 30, preservando os dados originais: o bloqueio de reabertura vale **somente depois de conclusão formal**.
+- Novas inferências de S2 exigem novamente homologação, disponibilidade de modelos, revisão independente, credenciais segregadas, proteção remota comprovadamente bloqueante e autorização individual de gasto; nenhuma tarefa de S1 é automaticamente revalidada ou publicada.
+- Histórico de S1 permanece sujeito à retenção até exclusão manual autorizada. Nenhum teste de ciclo de vida autoriza operações Git vedadas em [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
+
+**Status:** critérios futuros, não implementação comprovada. Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
