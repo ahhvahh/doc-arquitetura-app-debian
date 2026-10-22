@@ -383,3 +383,17 @@ A manutenção das exigências de proteção financeira e segregação de projet
 **Relações:** [OPEN-004](open-questions/OPEN-004-projeto-openai-e-hard-limit.md), [OPEN-005](open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md), [CON-004](conditions/CON-004-orcamento-obrigatorio.md), [OBJ-005](objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OPEN-002](open-questions/OPEN-002-fidelidade-e-custo.md).
 
 **Pendências:** comprovação real de controles financeiros remotos por escopo, elegibilidade de conta e modelos, viabilidade AgentCore e testes de não cobrança. Decisão `DOCUMENTED`, integração/homologação não `IMPLEMENTED`. Documentos permanecem em `refinement` / `v1`; não se libera o gate Charter → Scope por esta escolha.
+
+## Qualidade da primeira entrega — análise por critério, sem nota numérica (2026-10-22)
+
+**Origem:** decisões de produto expressamente aprovadas **Qualidade documental e pontuação 1A/2A/3A**. Aplicam-se sobre a política anterior de validade documental com critérios eliminatórios, sem enfraquecer qualquer restrição.
+
+- **Avaliação explicável:** após verificações eliminatórias, analisar **completude, clareza, consistência, rastreabilidade e necessidade/importância de correções**, individualmente e com evidências/justificativas. Falta de comprovação de integridade, fidelidade DSL/Markdown, baseline, norma ou revisão independente significa **não elegível**, não uma nota baixa compensável.
+- **Sem pontuação numérica no MVP:** na primeira entrega, **não apresentar nota consolidada, pesos, escala ou ranking quantitativo não calibrados**; identificar **pontuação indisponível — não calibrada**. O método numérico continua uma evolução possível somente após calibração e homologação próprias.
+- **Relatório humano resumido:** apresentar falhas obrigatórias, divergências **materiais**, sugestões **editoriais** e respectivas evidências, mantendo acesso ao histórico completo do parecer e das verificações. Parecer editorial isolado não aciona correção paga obrigatória; divergência material não resolvida impede aceite.
+- **Proteções preservadas:** dois LLMs **efetivos distintos e homologados**, no máximo quatro correções por tarefa, autorização financeira individual por chamada remunerada, bloqueio remoto de gastos comprovado, sigilo, revisão humana e governança Git. Consumo de tempo/tokens/custo permanece métrica separada e nunca substitui qualidade ou libera publicação.
+- **Comparação responsável:** só declarar equivalência de resultados com tarefa, prompt, contexto e baseline comparáveis; registrar diferenças, falhas e lacunas sem ranking enganoso.
+
+**Documentos canônicos:** [OPEN-002](open-questions/OPEN-002-fidelidade-e-custo.md) e [OBJ-007](objectives/OBJ-007-comparacao-controlada-de-modelos.md). Os critérios de teste já previstos em [OBJ-004](objectives/OBJ-004-evidencias-de-testes-automatizados.md) permanecem inalterados.
+
+**Resultado:** escolhas funcionais `DOCUMENTED`, não `IMPLEMENTED`. Permanecem pendentes evidências de fidelidade e verificação independente; os documentos mantêm `refinement` / `v1`. Não declarar o gate Charter → Scope pronto em razão desta decisão.

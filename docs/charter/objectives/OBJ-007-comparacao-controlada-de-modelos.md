@@ -141,3 +141,19 @@ A comparação deverá distinguir **modelo gerador original** e **modelo revisor
 - Manter revisão humana e a autorização específica para publicação Git independentes de qualquer pontuação. O controle prévio de dois modelos distintos e o limite de quatro correções por tarefa permanecem exigíveis.
 
 **Situação:** critérios de produto `DOCUMENTED`, não `IMPLEMENTED`; escalas, pesos, fórmula, testes de calibração e homologação ficam pendentes, sem escolhas técnicas neste Charter. Relações: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), [OBJ-004](OBJ-004-evidencias-de-testes-automatizados.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
+
+## Resultados da primeira entrega — comparação qualitativa e resumo auditável (2026-10-22)
+
+**Origem:** escolhas de qualidade **1A — avaliação por critério**, **2A — adiar pontuação numérica** e **3A — resumo de divergências e evidências para revisão humana**. Esta delimitação da primeira entrega **não revoga** a política de critérios eliminatórios nem elimina a pontuação quantitativa como possibilidade futura após homologação.
+
+**Resultados esperados verificáveis:**
+- Antes de avaliação positiva, exibir o estado e a razão de cada **verificação eliminatória**: integridade e fidelidade documental/DSL, aderência normativa, escopo, baseline e contexto, segurança e **parecer independente por segundo LLM efetivamente distinto, disponível e homologado**. Falha ou evidência inconclusiva impede declarar o resultado elegível e aprovado.
+- Para resultados elegíveis, exibir individualmente **completude, clareza, consistência, rastreabilidade e necessidade/importância de correções**, com justificativa, origem, evidência e indicação de lacuna ou incerteza; sem síntese numérica de qualidade.
+- No escopo inicial, indicar a nota quantitativa como **indisponível/não calibrada**; não calcular nem mostrar pesos, escala ou nota geral não homologados. A evolução futura exige método documentado, calibrado, versionado e validado, e não substitui julgamento humano.
+- Na revisão humana, oferecer **resumo das falhas, divergências materiais, sugestões editoriais e evidências correspondentes**, com acesso pelo serviço ao **histórico integral de pareceres e verificações**. Divergência material não resolvida continua bloqueadora; sugestão editorial isolada permanece opcional e não consome ciclo por obrigação.
+- Preservar até **quatro correções por tarefa**; custos, tokens, duração e quantidade de correções são indicadores separados, não notas substitutas de qualidade. Comparações somente entre tarefas, prompts, contextos e baselines efetivamente equivalentes ou com diferenças declaradas sem ranking indevido.
+- A revisão humana, a pré-autorização financeira **por chamada paga**, a prova de proteção remota bloqueante, a autorização Git independente e a restrição normativa de escrita permanecem inalteradas, mesmo após avaliação qualitativa favorável.
+
+**Critérios negativos:** nunca transformar falha eliminatória em nota compensável, avaliação inconclusiva em aceite, falta de métrica em zero, dois agentes em prova de dois modelos distintos, relatório resumido em perda do histórico ou parecer de revisão em publicação automática.
+
+**Pendências de comprovação:** evidências de comparações reais, verificações negativas, confiabilidade das justificativas, acesso ao histórico e fidelidade documental; pontuação numérica permanece fora da primeira entrega e sem calibração. Intenção `DOCUMENTED`, não `IMPLEMENTED`; status `refinement` / `v1`. Relações: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), [OBJ-004](OBJ-004-evidencias-de-testes-automatizados.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
