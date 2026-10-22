@@ -26,3 +26,10 @@ A aplicação deverá identificar tamanho solicitado, capacidade admissível, or
 Se não for possível manter todo o material requerido dentro do contexto disponível, interromper e seguir a recuperação com definição humana explícita prevista em [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), **sem truncar silenciosamente nem mudar o modelo automaticamente**. O usuário pode fazer outra escolha de configuração em uma nova inferência da mesma sessão, respeitando orçamento e identidade autorizada.
 
 Esta diretriz não afirma capacidade técnica já implementada ou equivalência semântica comprovada da DSL. Relações: [OBJ-001](OBJ-001-agentes-documentais-especializados.md) e [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md).
+
+## Padrão prévio e escolha do contexto por inferência — decisão 24
+A configuração persistente de motor/modelo e prompt por especialização, operação e papel é um **ponto de partida anterior à sessão**. Ao utilizar tais padrões, a aplicação deve apresentar o **tamanho de contexto realmente admissível** pelo modelo selecionado, considerando toda a entrada obrigatória e a reserva necessária à resposta e à revisão.
+
+A **decisão 17 permanece vigente**: a janela/tamanho de contexto efetivamente solicitada é **escolhida ou confirmada pelo operador em cada inferência**, podendo diferir do padrão anterior. Registrar lado a lado a versão do perfil carregado, o tamanho solicitado, o limite efetivamente admissível, os documentos/baselines e o custo autorizado. Alterar o perfil persistente não altera retroativamente inferências já realizadas.
+
+Não escolher automaticamente outro modelo, nem resumir, omitir ou truncar material obrigatório para fazê-lo caber; falta de capacidade implica **bloqueio e esclarecimento** conforme [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md). Relações: [OBJ-001](OBJ-001-agentes-documentais-especializados.md) e [OBJ-005](OBJ-005-orcamento-previsivel-e-bloqueio.md). O formato do arquivo de configuração e a representação de limites pertencem às etapas seguintes.
