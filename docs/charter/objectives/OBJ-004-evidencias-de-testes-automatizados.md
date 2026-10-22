@@ -111,3 +111,13 @@ Os testes **a serem definidos e executados posteriormente** deverão demonstrar:
 - Reiniciar o programa **não aciona automaticamente chamada paga nem aprova ou publica** a proposta; revisão independente e aprovação humana continuam necessárias.
 
 Estes são **critérios de teste pretendidos**, não relatos de implementação. Relações: [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md), [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
+
+## Evidências de suspensão sem publicação — decisão 30
+**Critérios de testes futuros, não evidências de execução:**
+- Uma sessão com tarefa **em avaliação pendente** permite ao operador **suspender o trabalho ativo**, mas o estado de conclusão para publicação permanece **pendente/bloqueado**, sem disparar PR, commit de proposta inválida ou merge.
+- Após encerrar e reiniciar a aplicação, a sessão suspensa pode ser **reaberta por operador autorizado** com a mesma identidade, tarefas e estados, baselines/hashes, propostas, custos, autorização histórica, perfis iniciais e contadores de correção.
+- Reabertura **não dispara inferência paga automaticamente**. Retomada de revisão exige integridade e segundo modelo distinto/homologado, com **nova autorização financeira** por chamada e proteção remota comprovadamente bloqueante, preservando o saldo de quatro correções.
+- **Negativos:** uma tarefa pendente impede concluir a sessão para publicação; cancelamento implícito por suspensão ou exclusão automática dos registros é proibido; tentativas de publicar sem resolução rastreável e aprovação humana são bloqueadas e auditadas.
+- Após resolver as pendências válidas ou cancelar/retirar expressamente tarefas que não integrarão o conjunto final, exigir **nova decisão humana de conclusão**, mantendo separada a autorização de integração Git e registrando o conjunto realmente elegível.
+
+A implementação e os contratos técnicos desses comportamentos pertencem às etapas posteriores, e nenhum fluxo de PR/branch é autorizado enquanto [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md) permanecer bloqueadora. Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
