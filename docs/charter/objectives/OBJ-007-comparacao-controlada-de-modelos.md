@@ -97,3 +97,12 @@ A configuração da aplicação antes da abertura de sessão deverá permitir es
 **Critério negativo:** **dois agentes/serviços diferentes não são prova de dois modelos de linguagem diferentes**. Falta de segundo modelo distinto, homologado ou identificável impede declarar avaliação independente concluída e **bloqueia o aceite/commit de resultado validado**, sem converter avaliação humana em substituto automático para o segundo LLM. A seleção de um segundo motor, modelo ou prompt durante a sessão exige escolha explícita e deve ser auditável.
 
 Os padrões são diretrizes de produto e não comprovam integração ou homologação; formatos de arquivo, interface e contratos serão definidos após o Charter. Relações: [OBJ-001](OBJ-001-agentes-documentais-especializados.md), [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md) e [OBJ-005](OBJ-005-orcamento-previsivel-e-bloqueio.md).
+
+## Rastreabilidade de valores herdados e validados — decisão 25
+Para cada papel da análise, o produto deverá identificar se **motor, modelo e prompt** vieram do **padrão da especialização**, de uma **exceção da operação** ou de uma **escolha explícita naquela inferência**. Valores específicos da operação têm prioridade sobre o padrão geral da **mesma especialização e mesmo papel**; escolhas por inferência continuam possíveis e auditáveis.
+
+**Critério positivo:** o parecer de revisão de resultado declarado validado identifica **dois modelos efetivamente distintos e homologados**, com valores resolvidos, proveniência e versão da configuração, além da baseline, da autorização financeira por chamada e da comparação da qualidade da proposta.
+
+**Critério negativo:** ausência de configuração completa, modelo ou motor não homologado, par gerador/revisor equivalente ou incompatibilidade entre valores herdados e específicos **não podem liberar aceite**, gerar commit de resultado validado nem iniciar chamada paga indevida. O sistema deve sinalizar o conflito em vez de recorrer silenciosamente a outro modelo. A alteração manual autorizada para uma inferência precisa preservar o registro de origem e os controles anteriores.
+
+A regra de herança não pressupõe homologação da OpenAI ou do Amazon Bedrock AgentCore. Referências: [OBJ-001](OBJ-001-agentes-documentais-especializados.md), [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md), [OPEN-002](../open-questions/OPEN-002-fidelidade-e-custo.md).
