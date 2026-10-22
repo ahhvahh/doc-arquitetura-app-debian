@@ -142,3 +142,14 @@ A implementação e os contratos técnicos desses comportamentos pertencem às e
 - Histórico de S1 permanece sujeito à retenção até exclusão manual autorizada. Nenhum teste de ciclo de vida autoriza operações Git vedadas em [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
 
 **Status:** critérios futuros, não implementação comprovada. Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).
+
+## Critérios de teste pretendidos para cancelamento de branch e PR aprovada — decisão 33
+**Testes esperados depois do alinhamento normativo, não executados nesta revisão:**
+- **Cancelamento autorizado:** operador identifica S1 e sua branch específica, confirma o cancelamento e compreende as alterações não integradas; a aplicação tenta excluir **somente a branch exclusiva de S1** e registra o resultado, mantendo todo o histórico de decisões, contextos e custos sob acesso protegido.
+- **Exclusão negada:** branch sem correspondência inequívoca com a sessão, `main`, `develop`, ref protegida ou alheia, autorização ausente, conflito relevante ou PR ainda sem tratamento definido **impedem exclusão insegura**, com explicação ao operador. Não considerar a branch deletada sem evidência de sucesso; nenhum force-push/reset pode contornar o bloqueio.
+- **Encerramento aprovado:** proposta final validada estrutural, normativa e independentemente; operador aprova expressamente o encerramento e conjunto de mudanças; a aplicação futura abre **uma PR da branch `feature/doc/{session-id}` para `develop`**. A criação é auditável e **não realiza merge**.
+- **Checks e merge separados:** falha, ausência ou indeterminação de check obrigatório bloqueia integração; mesmo com checks aprovados, exigir autorização humana específica para integrar, distinta da aprovação de encerramento. Não excluir a branch apenas por abrir a PR.
+- **Cenário sem entrega:** nenhuma alteração documental validada publicável e cancelamentos expressos de tarefas permitem **concluir sem publicação, sem criar PR** (decisão 31); cancelamento integral da sessão é decisão distinta e condiciona a eventual exclusão segura da branch.
+- **Sessão suspensa:** suspensão preserva a possibilidade de retomada e não exclui sua branch. Sessão cancelada/concluída permanece terminal para novos trabalhos, mantendo auditoria.
+
+Nenhum teste comprova execução atual, pois operações de branches de sessão, PR e merges continuam **proibidas pela norma vigente** conforme [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md). Relações: [OBJ-003](OBJ-003-propostas-de-alteracoes-verificaveis.md) e [OBJ-008](OBJ-008-historico-local-de-inferencias.md).

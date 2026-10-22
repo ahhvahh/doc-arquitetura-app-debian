@@ -20,3 +20,10 @@ O operador poderá, no fluxo pretendido, aprovar o **encerramento de uma sessão
 A **criação da PR não integra alterações** em `develop`. A integração depende de checks bem-sucedidos, proteção efetiva da branch e **aprovação humana final distinta**. A solução não permitirá ao LLM aprovar PRs, contornar verificações ou escolher comandos Git arbitrários.
 
 Esse comportamento é apenas projetado e permanece impedido pela norma externa atual, conforme [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md).
+
+## Cancelamento de sessão versus encerramento aprovado — decisão 33
+A aplicação não poderá interpretar **cancelamento expresso de sessão** como aprovação de conteúdo ou autorização para publicação. No cancelamento, a **exclusão futura da branch exclusiva da sessão** requer confirmação humana específica, vínculo inequívoco e checagem de segurança das refs, com registro de sucesso ou bloqueio; nunca permitir excluir `develop`, `main`, refs protegidas ou de terceiros. O histórico local permanece sujeito à retenção até exclusão manual autorizada.
+
+Na outra alternativa, **somente após aprovação expressa do operador ao encerramento e conjunto documental validado** a aplicação deverá criar **PR da branch da sessão para `develop`**. Essa PR **não mescla automaticamente**. Checks obrigatórios, proteção real da `develop` e **autorização humana posterior e separada para integração** continuam necessários. Sem mudanças publicáveis, não abrir PR.
+
+A decisão funcional pertence à [OPEN-003](../open-questions/OPEN-003-politica-de-branches.md), e as operações de criação/exclusão de branch, PR e merge permanecem **impedidas pela norma vigente**. O conteúdo está **DOCUMENTED**, não `IMPLEMENTED`.
