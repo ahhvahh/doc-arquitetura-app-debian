@@ -149,3 +149,14 @@ Legenda: **● Revisão pendente**, **○ Não verificado — pendente**, **✓ 
 - **Badge de tipo DSC:** já publicado em `docs/charter/assets/documentation-style/badges/badge-type-dsc.svg` (blob `387f0ffd90422c127dd1bf85aa38ec8ed424b57f`), com referências relativas nos cinco Markdown Discovery; a pendência antiga está superada pelo commit `a512f36fdbf9f9c6776bf214e8c25a5c3d50d93a`.
 - **Próxima ação:** homologar conta, projeto, custo e proteção remota de cada provedor; manter ambos DSC em `refinement` até evidência suficiente. A manutenção editorial do mapa e do README não amplia autorizações operacionais.
 - **Gate:** `GATE_NOT_EVALUATED` nesta rodada pontual; auditoria histórica continua `BLOCKED`.
+
+## Revisão de 2026-10-23 — regularização pontual de D-002
+
+- Pedido: revisão do projeto solicitada explicitamente pelo usuário.
+- Baseline: 9367a81153e02115456178ec0311d6a4ee703d64.
+- Norma main: 20b49b182ea529f8b809e8e009132ab0fd5fe267.
+- Evidência: PCH-001 apresenta a escolha AWS como pendente; OPEN-005, decisão 23, já selecionou AgentCore.
+- Escolha A: alinhar a referência de PCH-001 à decisão existente.
+- Autorização: seleção expressa da alternativa A apresentada nesta revisão.
+- Resultado: correção documental; D-002 permanece aberta para homologação.
+- Próxima ação: retomar D-001 para verificar evidências financeiras; nenhuma operação paga foi autorizada.

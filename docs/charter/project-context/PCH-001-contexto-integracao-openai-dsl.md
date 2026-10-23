@@ -116,7 +116,7 @@ O contexto da sessão prevê uma única branch `feature/doc/{session-id}`, commi
 ## Delimitação das duas integrações iniciais — decisão 22
 O ator externo **ACT-002** passa a abranger exclusivamente as duas integrações planejadas para a primeira entrega: **OpenAI direta** e **agentes Amazon Bedrock (AWS)**. Anthropic e Gemini deixam de ser integrações diretas previstas para esta entrega, conforme [NOBJ-004](../non-objectives/NOBJ-004-nao-integrar-outros-provedores-na-primeira-entrega.md).
 
-Não confundir o **agente AWS** com um **modelo de fundação específico**: identificação, disponibilidade do agente e modelo subjacente deverão ser verificadas na modalidade AWS agora selecionada, **Amazon Bedrock AgentCore**, ainda sem homologação. Nenhum ator externo recebe autorização para modificar Git, contornar a referência normativa ou gastar recursos de outro usuário. A escolha da oferta concreta AWS está pendente em [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).
+Não confundir o **agente AWS** com um **modelo de fundação específico**: identificação, disponibilidade do agente e modelo subjacente deverão ser verificadas na modalidade AWS agora selecionada, **Amazon Bedrock AgentCore**, ainda sem homologação. Nenhum ator externo recebe autorização para modificar Git, contornar a referência normativa ou gastar recursos de outro usuário. A oferta AWS escolhida é Amazon Bedrock AgentCore, conforme a decisão 23 de [OPEN-005](../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md); sua viabilidade e homologação permanecem pendentes.
 
 ## Delimitação de atores — cofre administrado e serviço autônomo (2026-10-22)
 
