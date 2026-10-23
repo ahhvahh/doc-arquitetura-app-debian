@@ -68,3 +68,10 @@ A combinação de isolamento por projeto AWS elegível, limite remoto aplicável
 - [OBJ-005 — consumo previsível](../../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md)
 - [CON-004 — exigências cumulativas](../../conditions/CON-004-orcamento-obrigatorio.md)
 - **PENDING — contratos/fluxos de integração em Scope:** depende do gate do Charter.
+
+## Sequenciamento da homologação — D-001, alternativa B (2026-10-23)
+
+- **Priorização:** a equipe verificará primeiro a proteção financeira dos quatro projetos OpenAI previstos em [DSC-001](../openai-api/DSC-001-viabilidade-openai-api.md). Esta decisão não cancela a integração AWS AgentCore planejada em [OPEN-005](../../open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).
+- **Estado AWS:** `UNKNOWN` para elegibilidade administrativa, bloqueio remoto e cobertura integral dos custos do AgentCore e recursos associados. Toda chamada remunerada via AWS permanece bloqueada; nenhum resultado obtido na OpenAI é evidência transferível.
+- **Retomada independente:** após ou em paralelo à conclusão documental da OpenAI, verificar conta/região/projeto AWS, serviços faturados, condições de suspensão, custos residuais e evidência de proteção remota suficiente segundo [CON-004](../../conditions/CON-004-orcamento-obrigatorio.md). Pesquisa sem cobrança pode continuar, mas não comprova eficácia por si só.
+- **Resultado:** permanecer em `refinement`, com D-001/D-002 abertas e sem autorização para chamadas pagas ou testes de cobrança.

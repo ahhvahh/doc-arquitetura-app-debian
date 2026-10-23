@@ -70,3 +70,16 @@ O limite de **1.000.000 tokens por inferência** e o teto local de **US$ 10 por 
 - [OBJ-005 — limites e previsibilidade](../../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md)
 - [CON-004 — restrição financeira cumulativa](../../conditions/CON-004-orcamento-obrigatorio.md)
 - **PENDING — INT/contratos de integração e orçamento em Scope**: somente após gate; sem antecipação técnica.
+
+## Homologação prioritária — D-001, alternativa B (2026-10-23)
+
+A OpenAI é o **primeiro provedor a ser avaliado**, não o primeiro autorizado a cobrar. Os quatro projetos são uma intenção documental, não projetos já comprovadamente criados. Para cada especialização, registrar as evidências administrativas reais sem incluir chaves ou dados sensíveis:
+
+| Especialização | Situação das evidências de bloqueio remoto | Próxima verificação |
+|---|---|---|
+| `charter` | `UNKNOWN` — não homologado | Organização/projeto, limite, modo bloqueante e abrangência |
+| `scope` | `UNKNOWN` — não homologado | Organização/projeto, limite, modo bloqueante e abrangência |
+| `implementation` | `UNKNOWN` — não homologado | Organização/projeto, limite, modo bloqueante e abrangência |
+| `source` | `UNKNOWN` — não homologado | Organização/projeto, limite, modo bloqueante e abrangência |
+
+**Condição de aceite:** evidência datada por projeto, responsável, alcance dos custos, efeito sobre novas requisições, atraso e eventual excedente residual avaliados contra [CON-004](../../conditions/CON-004-orcamento-obrigatorio.md). Controles locais e autorizações individuais continuam obrigatórios; comprovação documental genérica ou simulação gratuita não habilita pagamentos. Qualquer teste remunerado depende de autorização separada e prévia comprovação das proteções exigidas. [OPEN-004](../../open-questions/OPEN-004-projeto-openai-e-hard-limit.md) e D-001 permanecem abertas, e este DSC permanece em `refinement`.

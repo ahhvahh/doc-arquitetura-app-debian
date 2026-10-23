@@ -113,3 +113,12 @@ Nenhuma chamada paga está liberada. A D-001 permanece aberta até Discovery con
 - [DSC-002 — AWS AgentCore](../discovery/aws-agentcore/DSC-002-viabilidade-aws-agentcore.md): AWS Settings possui spend limits por projeto em liberação limitada e AWS Budgets tradicional tem atraso; elegibilidade, cobertura e efeito sobre custos totais do AgentCore não comprovados.
 
 O teto de US$ 10 por sessão e o limite de 1.000.000 de tokens por inferência continuam controles **locais**, distintos dos tetos mensais dos fornecedores. A política de bloquear chamadas pagas sem controle remoto suficiente não foi alterada. D-001 permanece aberta para homologação administrativa.
+
+## Encaminhamento D-001 — homologação OpenAI primeiro (alternativa B, 2026-10-23)
+
+- **Ordem aprovada de análise:** iniciar a homologação administrativa pela OpenAI, distinguindo os quatro projetos previstos (`charter`, `scope`, `implementation`, `source`); não presumir que estejam criados nem configurados.
+- **Evidência mínima por projeto:** identidade administrativa não secreta, organização de faturamento, responsável e data; limite mensal efetivamente configurado, opção de bloqueio habilitada e abrangência; evidência auditável de impedimento de novas chamadas pagas, riscos de latência/excedente residual e avaliação da suficiência da proteção segundo o risco autorizado.
+- **Controles cumulativos:** preservar orçamento local configurável, reserva preventiva, limite padrão de 1.000.000 tokens por inferência, teto padrão de US$ 10 acumulados por sessão e autorização financeira individual por chamada paga; nenhum deles prova bloqueio remoto.
+- **AWS AgentCore:** continua prevista no escopo inicial de [OPEN-005](OPEN-005-estrategia-de-provedores-e-modelos.md), sem operação remunerada até homologação financeira independente em [DSC-002](../discovery/aws-agentcore/DSC-002-viabilidade-aws-agentcore.md). A liberação eventual da OpenAI não equivale à liberação da AWS.
+- **Critério de encerramento da D-001:** somente evidência suficiente da proteção remota efetiva no provedor/projeto habilitado e validação dos controles cumulativos; casos sem evidência permanecem bloqueados. Não encerrar a pendência global ou liberar Scope apenas pela escolha da ordem.
+- **Limite da análise:** não acessar credenciais, não ativar cobrança nem realizar testes pagos; simulações sem custo não comprovam sozinhas a eficácia remota. Qualquer ensaio remunerado exigiria autorização separada e as salvaguardas prévias já obrigatórias.
