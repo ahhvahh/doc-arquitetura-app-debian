@@ -119,6 +119,8 @@ Legenda: **● Revisão pendente**, **○ Não verificado — pendente**, **✓ 
 | 2026-10-22 — execução automática | D-007 | Opção B aceita: tarefas elegíveis são executadas sem aprovação geral do plano; chamadas pagas continuam individualmente autorizadas | Objetivo novo OBJ-009, índice e OBJ-005; sem homologação financeira ou serviço implantado | Commit `75d0c1d0c9bfe0ff4c53d912a21ef6665d244c2b` confirmado em develop |
 | 2026-10-22 — limites de consumo da sessão | D-001, D-007 | Padrões de 1.000.000 tokens por inferência e US$ 10,00 acumulados por sessão, configuráveis; preservadas autorizações financeiras por chamada e proteção remota | OBJ-005, OBJ-009, CON-004 e painel; requisito `DOCUMENTED`, homologação `UNKNOWN` | Escrita aprovada nesta rodada, confirmação externa após commit |
 
+| 2026-10-22 — pesquisa financeira | D-001 | Identificados hard spend limits OpenAI e spend limits AWS Settings | Evidência documental oficial, sem acesso administrativo ou teste de bloqueio | Proposta pendente de commit |
+
 ## Identificação, baseline e autorização
 
 - **Repositório-alvo:** https://github.com/ahhvahh/doc-arquitetura-app-debian

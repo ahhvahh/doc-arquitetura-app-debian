@@ -75,3 +75,34 @@ O registro de Anthropic/Gemini nas decisões históricas não obriga implementar
 **Evidências pendentes:** capacidade real de corte de gastos remoto por projeto e escopo, elegibilidade/viabilidade AgentCore, modelos efetivos, custos dos recursos AWS associados, autorização administrativa verificável. Nada disso foi comprovado por esta decisão (`UNKNOWN` quanto à homologação).
 
 **Resultado documental:** escolha `DOCUMENTED`, não `IMPLEMENTED`; manter badge `refinement` e versão `v1`. Inferências pagas continuam **bloqueadas sem evidência suficiente**, conforme [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md). Relações: [OPEN-005](OPEN-005-estrategia-de-provedores-e-modelos.md), [OPEN-002](OPEN-002-fidelidade-e-custo.md).
+
+## Evidências financeiras oficiais — D-001 (2026-10-22)
+
+A pesquisa documental identificou mecanismos remotos novos, mas não comprova sua habilitação nas contas do projeto.
+
+### OpenAI
+- Desde 2026-07-22, há hard spend limits mensais por organização e projeto.
+- O limite atingido interrompe chamadas afetadas com HTTP 429.
+- A aplicação do bloqueio não é instantânea; pode ocorrer pequeno excedente.
+- Pendente verificar configuração, abrangência e efetividade nos quatro projetos: charter, scope, implementation e source.
+
+Fonte: https://developers.openai.com/api/docs/guides/spend-limits
+
+### AWS
+- AWS Settings documenta spend limits por projeto, em disponibilização limitada.
+- Exige conta elegível e plano pago; o valor mínimo é US$ 20 ou uma estimativa conservadora superior.
+- O limite prevê suspensão do projeto; controles antecipados incluem ações sobre Bedrock.
+- AWS Budgets tradicional apresenta atraso de atualização e não equivale isoladamente a bloqueio imediato.
+- Pendentes elegibilidade da conta, cobertura de AgentCore, serviços associados e confirmação operacional.
+
+Fontes:
+- https://docs.aws.amazon.com/accounts/latest/reference/create-spend-limit.html
+- https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-controls.html
+
+### Resultado
+Pesquisa oficial: DOCUMENTED.
+Homologação administrativa: UNKNOWN.
+
+Permanecem obrigatórios os controles locais aprovados, a autorização individual por chamada e a evidência de proteção remota suficiente.
+
+Nenhuma chamada paga está liberada. A D-001 permanece aberta até Discovery conclusivo e homologação das identidades de cobrança aplicáveis.
