@@ -148,3 +148,10 @@ A escolha de motor, modelo, tamanho de contexto admissível e prompt a cada infe
 **Comprovação pendente:** disponibilidade de contas/modelos, capacidade dos mecanismos financeiros remotos e independência dos modelos; todos dependem de evidência real e não são declarados `IMPLEMENTED` por registro documental.
 
 **Resultado:** `DOCUMENTED`, status documental `refinement` / `v1`. Relações: [OPEN-004](OPEN-004-projeto-openai-e-hard-limit.md), [OPEN-002](OPEN-002-fidelidade-e-custo.md), [CON-004](../conditions/CON-004-orcamento-obrigatorio.md) e [OBJ-007](../objectives/OBJ-007-comparacao-controlada-de-modelos.md).
+
+## Discovery das duas integrações previstas — D-002 (2026-10-22)
+
+- [DSC-001 — API OpenAI](../discovery/openai-api/DSC-001-viabilidade-openai-api.md): viabilidade documental identificada para projetos e controle mensal; ainda falta verificar modelos, limites, quatro identidades de cobrança e bloqueio aplicável.
+- [DSC-002 — Amazon Bedrock AgentCore](../discovery/aws-agentcore/DSC-002-viabilidade-aws-agentcore.md): custos múltiplos e controles de execução identificados; falta validar elegibilidade, serviço/região, modelos e proteção financeira integral.
+
+Os estudos são evidências do Charter; não substituem a decisão de integração já aprovada, não selecionam novos provedores e não autorizam funcionalidades de Scope ou Implementation. Provedores sem homologação continuam indisponíveis para chamadas remuneradas.

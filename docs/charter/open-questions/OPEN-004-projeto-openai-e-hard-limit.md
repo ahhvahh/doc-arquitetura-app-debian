@@ -106,3 +106,10 @@ Homologação administrativa: UNKNOWN.
 Permanecem obrigatórios os controles locais aprovados, a autorização individual por chamada e a evidência de proteção remota suficiente.
 
 Nenhuma chamada paga está liberada. A D-001 permanece aberta até Discovery conclusivo e homologação das identidades de cobrança aplicáveis.
+
+## Discovery por provedor — avaliação documental D-001 (2026-10-22)
+
+- [DSC-001 — OpenAI API](../discovery/openai-api/DSC-001-viabilidade-openai-api.md): há hard spend limits mensais de organização/projeto, com possível excedente de propagação; projetos reais e eficácia ainda não homologados.
+- [DSC-002 — AWS AgentCore](../discovery/aws-agentcore/DSC-002-viabilidade-aws-agentcore.md): AWS Settings possui spend limits por projeto em liberação limitada e AWS Budgets tradicional tem atraso; elegibilidade, cobertura e efeito sobre custos totais do AgentCore não comprovados.
+
+O teto de US$ 10 por sessão e o limite de 1.000.000 de tokens por inferência continuam controles **locais**, distintos dos tetos mensais dos fornecedores. A política de bloquear chamadas pagas sem controle remoto suficiente não foi alterada. D-001 permanece aberta para homologação administrativa.

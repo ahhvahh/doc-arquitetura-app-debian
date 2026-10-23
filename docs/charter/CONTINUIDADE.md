@@ -136,3 +136,13 @@ Legenda: **● Revisão pendente**, **○ Não verificado — pendente**, **✓ 
 ## Gate Charter → Scope
 
 **BLOCKED** para a baseline `84c58183848fcdb3dce0ebdd4963bfa09d9c027c`, conforme auditoria histórica do Charter (sem nova auditoria integral nesta rodada D-007): OPEN-004/005 sem homologação financeira e de provedor; OPEN-002 sem comprovação de fidelidade DSL; OPEN-003 mantém automação Git planejada incompatível com a norma (fora do MVP reduzido); ausência de Discovery conclusiva pertinente; documentos em `refinement`. O gate não é liberado por esta regularização editorial. A avaliação do escopo **reduzido** exige validação própria das dependências necessárias, sem presumir que decisões `DOCUMENTED` comprovem implementação.
+
+## Complemento de continuidade — Discoveries D-001/D-002 (proposta 2026-10-22)
+
+- **Baseline de leitura:** `develop` `5ac41c79111f5c2273650d86faa1cc85e35e0335`; norma `ahhvahh/doc-arquitetura/main` `20b49b182ea529f8b809e8e009132ab0fd5fe267`.
+- **Documentos candidatos ao mapa:** [DSC-001](discovery/openai-api/DSC-001-viabilidade-openai-api.md) e [DSC-002](discovery/aws-agentcore/DSC-002-viabilidade-aws-agentcore.md), ambos `refinement`, vinculados a D-001 e D-002, sem homologação de contas.
+- **D-001 (P0):** capacidade de bloqueio mensal OpenAI documentada; AWS Settings com spend limit condicionado; comprovação de ativação, abrangência e eficácia pendente. Não liberar operação remunerada.
+- **D-002 (P0):** estudo de capacidades dos dois fornecedores preparado; modelos, regiões, conta/projetos, preços efetivos, identidade do revisor e custos remotos ainda dependem de evidência administrativa.
+- **Interferência documental:** a baseline não possui badge do tipo DSC. A proposta inclui cópia literal do SVG oficial para `docs/charter/assets/documentation-style/badges/badge-type-dsc.svg`, com caminhos relativos dos cinco documentos Discovery corrigidos, sem escrever fora de Charter; solução ainda não gravada.
+- **Próxima ação:** obter aprovação específica para gravar o conjunto proposto de 11 arquivos do Charter; após persistência, homologação de conta por provedor e projeto; manter ambos DSC em `refinement` até evidência suficiente.
+- **Gate:** `GATE_NOT_EVALUATED` nesta rodada pontual; auditoria histórica continua `BLOCKED`.

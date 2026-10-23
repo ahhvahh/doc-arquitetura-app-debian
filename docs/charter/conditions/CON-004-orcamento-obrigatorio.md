@@ -53,3 +53,10 @@ Para **as integrações vigentes OpenAI e agentes Amazon Bedrock (AWS)** — e q
 - Negar inferências pagas sem **autorização financeira individual específica**, preço/câmbio válidos, demais orçamentos aplicáveis e **proteção remota efetivamente bloqueante e comprovada**. O teto monetário local não substitui a proteção remota nem assegura teto absoluto na fatura externa.
 
 **Origem:** decisão expressa do responsável em 2026-10-22, vinculada a [OBJ-005](../objectives/OBJ-005-orcamento-previsivel-e-bloqueio.md) e [OBJ-009](../objectives/OBJ-009-execucao-automatica-de-tarefas-elegiveis.md). Situação `DOCUMENTED`, sem implementação ou homologação demonstradas; o documento permanece em `refinement`.
+
+## Evidências de Discovery para homologação por provedor — D-001
+
+- [DSC-001 — OpenAI API](../discovery/openai-api/DSC-001-viabilidade-openai-api.md): hard spend limits mensais documentados, mas configuração e eficácia não verificadas na organização e nos quatro projetos.
+- [DSC-002 — AWS AgentCore](../discovery/aws-agentcore/DSC-002-viabilidade-aws-agentcore.md): orçamento controlado na AWS Settings está em oferta limitada; cobertura dos recursos e custos adicionais não comprovada; Budgets tradicional insuficiente sozinho.
+
+A viabilidade documental não constitui aceite de risco ou autorização de cobrança. Toda chamada paga permanece bloqueada sem proteção remota suficiente e comprovada, autorização individual, preços válidos, reservas preventivas e limites locais por inferência e por sessão.

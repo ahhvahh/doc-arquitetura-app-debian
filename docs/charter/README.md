@@ -403,3 +403,11 @@ A manutenção das exigências de proteção financeira e segregação de projet
 **Documentos canônicos:** [OPEN-002](open-questions/OPEN-002-fidelidade-e-custo.md) e [OBJ-007](objectives/OBJ-007-comparacao-controlada-de-modelos.md). Os critérios de teste já previstos em [OBJ-004](objectives/OBJ-004-evidencias-de-testes-automatizados.md) permanecem inalterados.
 
 **Resultado:** escolhas funcionais `DOCUMENTED`, não `IMPLEMENTED`. Permanecem pendentes evidências de fidelidade e verificação independente; os documentos mantêm `refinement` / `v1`. Não declarar o gate Charter → Scope pronto em razão desta decisão.
+
+## Discovery de provedores (proposta D-001/D-002)
+
+- [Índice de Discovery](discovery/README.md).
+- [DSC-001 — Viabilidade e proteção financeira OpenAI](discovery/openai-api/DSC-001-viabilidade-openai-api.md): capacidade documentada; homologação de conta PENDING.
+- [DSC-002 — Viabilidade AWS AgentCore](discovery/aws-agentcore/DSC-002-viabilidade-aws-agentcore.md): elegibilidade/abrangência financeira PENDING.
+
+Os estudos não liberam chamadas pagas nem substituem a validação das [OPEN-004](open-questions/OPEN-004-projeto-openai-e-hard-limit.md) e [OPEN-005](open-questions/OPEN-005-estrategia-de-provedores-e-modelos.md).
