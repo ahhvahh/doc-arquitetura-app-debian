@@ -66,10 +66,13 @@ A DSL normativa é atualizada no Vector Store somente por comando explícito do 
 - [OBJ-006 — Publicação manual da base normativa](objectives/OBJ-006-publicacao-manual-base-normativa.md)
 - [OBJ-007 — Comparação entre modelos](objectives/OBJ-007-comparacao-controlada-de-modelos.md)
 - [OBJ-008 — Histórico de inferências](objectives/OBJ-008-historico-local-de-inferencias.md)
+- [OBJ-009 — Execução automática de tarefas elegíveis](objectives/OBJ-009-execucao-automatica-de-tarefas-elegiveis.md)
 
 ## Fora do escopo
 - [NOBJ-001 — Sem integração autônoma à develop](non-objectives/NOBJ-001-nao-publicar-sem-aprovacao.md)
 - [NOBJ-002 — Sem inferência local na primeira entrega](non-objectives/NOBJ-002-sem-inferencia-local-na-primeira-entrega.md)
+- [NOBJ-003 — Sem conciliação de concorrência externa na branch da sessão](non-objectives/NOBJ-003-nao-gerenciar-concorrencia-na-branch-da-sessao.md)
+- [NOBJ-004 — Sem provedores adicionais na primeira entrega](non-objectives/NOBJ-004-nao-integrar-outros-provedores-na-primeira-entrega.md)
 
 ## Condições e premissas
 - [CON-001 — Referência normativa versionada](conditions/CON-001-referencia-normativa-main.md)
